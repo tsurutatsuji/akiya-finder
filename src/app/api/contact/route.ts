@@ -1,4 +1,12 @@
 import { NextRequest, NextResponse } from "next/server";
+import { promises as fs } from "fs";
+import path from "path";
+
+function generateRefCode(): string {
+  const date = new Date().toISOString().slice(0, 10).replace(/-/g, "");
+  const rand = Math.random().toString(36).substring(2, 6).toUpperCase();
+  return `AKF-${date}-${rand}`;
+}
 
 export async function POST(req: NextRequest) {
   const body = await req.json();
@@ -11,13 +19,52 @@ export async function POST(req: NextRequest) {
     );
   }
 
-  const webhookUrl = process.env.DISCORD_WEBHOOK_URL;
+  const refCode = generateRefCode();
+  const timestamp = new Date().toISOString();
 
+  // Save inquiry data
+  const inquiry = {
+    refCode,
+    name,
+    email,
+    country: country || "",
+    budget: budget || "",
+    message,
+    property: property || "",
+    timestamp,
+    status: "new",
+    followUp1Sent: false,
+    followUp2Sent: false,
+    buyerFeedback: null,
+  };
+
+  // Save to JSON file (data/inquiries.json)
+  try {
+    const dataDir = path.join(process.cwd(), "data");
+    const filePath = path.join(dataDir, "inquiries.json");
+    await fs.mkdir(dataDir, { recursive: true });
+
+    let inquiries: typeof inquiry[] = [];
+    try {
+      const existing = await fs.readFile(filePath, "utf-8");
+      inquiries = JSON.parse(existing);
+    } catch {
+      // File doesn't exist yet
+    }
+    inquiries.push(inquiry);
+    await fs.writeFile(filePath, JSON.stringify(inquiries, null, 2));
+  } catch (e) {
+    console.error("Failed to save inquiry:", e);
+  }
+
+  // Discord notification
+  const webhookUrl = process.env.DISCORD_WEBHOOK_URL;
   if (webhookUrl) {
     const embed = {
-      title: "🏠 New Inquiry from AkiyaFinder",
+      title: `🏠 New Inquiry — ${refCode}`,
       color: 0x22c55e,
       fields: [
+        { name: "Ref Code", value: `\`${refCode}\``, inline: true },
         { name: "Name", value: name, inline: true },
         { name: "Email", value: email, inline: true },
         { name: "Country", value: country || "Not specified", inline: true },
@@ -27,7 +74,7 @@ export async function POST(req: NextRequest) {
           : []),
         { name: "Message", value: message, inline: false },
       ],
-      timestamp: new Date().toISOString(),
+      timestamp,
     };
 
     try {
@@ -41,5 +88,5 @@ export async function POST(req: NextRequest) {
     }
   }
 
-  return NextResponse.json({ success: true });
+  return NextResponse.json({ success: true, refCode });
 }
