@@ -22,6 +22,7 @@ interface MapProperty {
   id: string;
   price: number;
   priceFormatted: string;
+  priceUsdFormatted?: string;
   location: string;
   prefectureEn: string;
   propertyType: string;
@@ -36,6 +37,14 @@ interface MapProperty {
   access?: string;
   metrics?: InvestmentMetrics;
   investmentTags?: string[];
+  pricePerSqm?: number;
+  pricePerSqmUsd?: number;
+  buildingAge?: number;
+  estimatedRenovationUsd?: { low: number; high: number };
+  estimatedAirbnbRevenueUsd?: { gross: number; net: number };
+  estimatedRoi?: number;
+  areaDescription?: string;
+  remarksEnglish?: string;
 }
 
 interface Props {
@@ -108,11 +117,13 @@ export default function PropertyMap({ properties }: Props) {
                   {m.price === 0 ? (
                     <span className="text-green-600">FREE</span>
                   ) : (
-                    <span>{m.priceFormatted}</span>
+                    <>
+                      <span>{m.priceUsdFormatted || priceToUsd(m.price)}</span>
+                      <span className="text-gray-400 font-normal ml-1 text-xs">
+                        ({m.priceFormatted})
+                      </span>
+                    </>
                   )}
-                  <span className="text-gray-400 font-normal ml-1">
-                    ({priceToUsd(m.price)})
-                  </span>
                 </p>
 
                 {/* 場所 */}
@@ -126,56 +137,86 @@ export default function PropertyMap({ properties }: Props) {
                 </p>
 
                 {/* 投資指標セクション */}
-                {m.metrics && (
-                  <div className="bg-amber-50 border-l-2 border-amber-400 p-2 my-2 rounded-r">
-                    <p className="font-semibold text-amber-800 text-xs mb-1">
-                      Investment Metrics
-                    </p>
-                    <div className="space-y-0.5 text-xs text-amber-700">
-                      {m.metrics.pricePerSqm !== null && (
-                        <p>
-                          ¥{m.metrics.pricePerSqm.toLocaleString()}/㎡{" "}
-                          <span className="text-amber-500">
-                            (${m.metrics.pricePerSqmUsd?.toLocaleString()}/㎡)
-                          </span>
-                        </p>
-                      )}
-                      {m.metrics.age !== null && (
-                        <p>{m.metrics.age} years old</p>
-                      )}
-                      {m.metrics.walkingMinutes !== null && (
-                        <p>
-                          {m.metrics.walkingMinutes <= 10 ? "🚉" : "🚶"}{" "}
-                          {m.metrics.walkingMinutes} min walk
-                        </p>
-                      )}
-                      {m.access &&
-                        m.metrics.walkingMinutes === null && (
-                          <p className="text-amber-500">{m.access}</p>
-                        )}
-                    </div>
-
-                    {/* 投資タグバッジ */}
-                    {m.investmentTags && m.investmentTags.length > 0 && (
-                      <div className="flex flex-wrap gap-1 mt-1.5">
-                        {m.investmentTags.map((tagId) => {
-                          const cat = INVESTMENT_CATEGORIES.find(
-                            (c) => c.id === tagId
-                          );
-                          if (!cat) return null;
-                          return (
-                            <span
-                              key={tagId}
-                              className="text-[10px] bg-amber-200 text-amber-800 px-1.5 py-0.5 rounded font-medium"
-                            >
-                              {cat.emoji} {cat.label}
-                            </span>
-                          );
-                        })}
-                      </div>
+                <div className="bg-amber-50 border-l-2 border-amber-400 p-2 my-2 rounded-r">
+                  <p className="font-semibold text-amber-800 text-xs mb-1">
+                    Investment Metrics
+                  </p>
+                  <div className="space-y-0.5 text-xs text-amber-700">
+                    {m.pricePerSqmUsd && (
+                      <p>
+                        <span className="text-amber-500">$/㎡:</span>{" "}
+                        <strong>${m.pricePerSqmUsd.toLocaleString()}</strong>
+                      </p>
+                    )}
+                    {m.buildingAge != null && (
+                      <p>
+                        <span className="text-amber-500">Age:</span>{" "}
+                        {m.buildingAge} years
+                      </p>
+                    )}
+                    {m.metrics?.walkingMinutes != null && (
+                      <p>
+                        {m.metrics.walkingMinutes <= 10 ? "🚉" : "🚶"}{" "}
+                        {m.metrics.walkingMinutes} min walk
+                      </p>
+                    )}
+                    {m.access && m.metrics?.walkingMinutes == null && (
+                      <p className="text-amber-500 truncate max-w-[220px]">{m.access}</p>
+                    )}
+                    {m.estimatedRenovationUsd && (
+                      <p>
+                        <span className="text-amber-500">Reno est.:</span>{" "}
+                        ${m.estimatedRenovationUsd.low.toLocaleString()}–${m.estimatedRenovationUsd.high.toLocaleString()}
+                      </p>
+                    )}
+                    {m.estimatedAirbnbRevenueUsd && (
+                      <p>
+                        <span className="text-amber-500">Airbnb est.:</span>{" "}
+                        ${m.estimatedAirbnbRevenueUsd.net.toLocaleString()}/yr net
+                      </p>
+                    )}
+                    {m.estimatedRoi && (
+                      <p>
+                        <span className="text-amber-500">Est. ROI:</span>{" "}
+                        <strong className={m.estimatedRoi >= 10 ? "text-green-700" : ""}>{m.estimatedRoi}%</strong>
+                      </p>
                     )}
                   </div>
-                )}
+
+                  {/* エリア説明 */}
+                  {m.areaDescription && (
+                    <p className="text-[10px] text-amber-600 mt-1 leading-tight">
+                      {m.areaDescription}
+                    </p>
+                  )}
+
+                  {/* 備考（英語） */}
+                  {m.remarksEnglish && m.remarksEnglish.length > 0 && (
+                    <p className="text-[10px] text-amber-500 mt-1 italic truncate max-w-[220px]">
+                      Note: {m.remarksEnglish}
+                    </p>
+                  )}
+
+                  {/* 投資タグバッジ */}
+                  {m.investmentTags && m.investmentTags.length > 0 && (
+                    <div className="flex flex-wrap gap-1 mt-1.5">
+                      {m.investmentTags.map((tagId) => {
+                        const cat = INVESTMENT_CATEGORIES.find(
+                          (c) => c.id === tagId
+                        );
+                        if (!cat) return null;
+                        return (
+                          <span
+                            key={tagId}
+                            className="text-[10px] bg-amber-200 text-amber-800 px-1.5 py-0.5 rounded font-medium"
+                          >
+                            {cat.emoji} {cat.label}
+                          </span>
+                        );
+                      })}
+                    </div>
+                  )}
+                </div>
 
                 {/* アクションボタン */}
                 <div className="flex gap-1 mt-2">
