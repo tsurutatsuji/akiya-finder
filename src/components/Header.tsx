@@ -48,6 +48,12 @@ export default function Header() {
             Blog
           </Link>
           <Link
+            href="/about"
+            className="text-gray-600 hover:text-primary transition"
+          >
+            About
+          </Link>
+          <Link
             href="/contact"
             className="bg-accent text-white px-4 py-2 rounded-lg hover:bg-red-600 transition text-sm font-medium"
           >

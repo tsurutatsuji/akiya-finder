@@ -16,6 +16,22 @@ export const metadata: Metadata = {
   },
 };
 
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "RealEstateAgent",
+  name: "AkiyaFinder",
+  url: "https://akiya-finder.vercel.app",
+  description:
+    "Japan's akiya (vacant house) search platform for international buyers. 901+ properties across all 47 prefectures in English and Chinese.",
+  areaServed: {
+    "@type": "Country",
+    name: "Japan",
+  },
+  serviceType: "Real Estate Referral",
+  availableLanguage: ["English", "Chinese", "Japanese"],
+  priceRange: "Free – ¥50,000,000+",
+};
+
 export default function RootLayout({
   children,
 }: {
@@ -23,6 +39,12 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
+      <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
+      </head>
       <body>{children}</body>
     </html>
   );
