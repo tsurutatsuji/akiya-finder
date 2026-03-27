@@ -28,7 +28,7 @@ Hey everyone. I've been going deep into the akiya (abandoned house) rabbit hole 
 
 **The real challenge** is access to information. Akiya banks are run by individual municipalities, each with their own website (usually janky), their own application process, and everything in Japanese. I've been working on translating and aggregating this info into English to make it more accessible.
 
-If you want a more detailed breakdown with specific listings and cost estimates, I put together a guide at [akiya-finder.vercel.app](https://akiya-finder.vercel.app). But honestly, the info above should get you started. Happy to answer any questions.
+I built a free site that aggregates 901 akiya listings from across all 47 prefectures, with an investment-focused map where you can filter by things like price per ㎡, station proximity, Airbnb potential, and more. Each listing has photos, access info, and building details: [akiya-finder.vercel.app](https://akiya-finder.vercel.app/map). Happy to answer any questions.
 
 ---
 
@@ -40,7 +40,7 @@ If you want a more detailed breakdown with specific listings and cost estimates,
 
 So this started as a personal project because I was frustrated trying to navigate akiya banks (空き家バンク) across different municipalities. If you've ever tried to use one, you know the pain — every town has their own website, different formats, half the listings have broken images, and of course everything is in Japanese only.
 
-I started translating listings and aggregating them into a single searchable site in English (and Chinese). Right now I'm covering properties from multiple prefectures, with filters for price range, location, property type, and condition.
+I started translating listings and aggregating them into a single searchable site in English (and Chinese). Right now I've got 901 properties from all 47 prefectures, with an investment-focused map that lets you filter by price per ㎡, station proximity, Airbnb potential, and more.
 
 **What I'm translating for each listing:**
 
@@ -62,7 +62,7 @@ I started translating listings and aggregating them into a single searchable sit
 
 I'm not trying to sell anything — the site is free and I don't make money from it. I'm genuinely just trying to make this info accessible because I think there's a real gap.
 
-The site is at [akiya-finder.vercel.app](https://akiya-finder.vercel.app) if you want to check it out.
+The site is at [akiya-finder.vercel.app](https://akiya-finder.vercel.app/map) if you want to check it out — 901 listings with photos, investment metrics, and an interactive map.
 
 **What I'd love feedback on:**
 
@@ -77,7 +77,7 @@ Appreciate any feedback. This is still very much a work in progress.
 
 ## 3. r/JapanFinance
 
-**Title:** Cost breakdown and ROI analysis for akiya (abandoned house) investment in Japan — 2024/2025 numbers
+**Title:** Cost breakdown and ROI analysis for akiya (abandoned house) investment in Japan — 2026 numbers
 
 **Body:**
 
@@ -142,7 +142,7 @@ For comparison, if you buy a more turnkey property at 5-10M JPY and skip major r
 - Depreciation on wooden structures (22 years useful life for residential) can offset income
 - Capital gains tax applies on sale (30% for short-term, 15% for holdings over 5 years)
 
-I'm building a tool that aggregates akiya listings with estimated renovation costs and ROI projections at [akiya-finder.vercel.app](https://akiya-finder.vercel.app). Still early stage but the cost data might be useful if you're evaluating specific areas.
+I built a free tool that aggregates 901 akiya listings across all 47 prefectures with investment metrics (price per ㎡, station proximity, Airbnb potential) at [akiya-finder.vercel.app](https://akiya-finder.vercel.app/map). Might be useful if you're evaluating specific areas.
 
 Happy to discuss methodology or specific scenarios.
 
@@ -195,6 +195,6 @@ There's a growing community of foreigners who've bought akiya in places like Nag
 
 Compare that to paying $1,500/month for a 25m2 apartment in Tokyo. The math speaks for itself if you're staying more than 2 years.
 
-I've been aggregating akiya listings translated into English at [akiya-finder.vercel.app](https://akiya-finder.vercel.app) — it's free, mostly for my own use but figured others might find it useful. You can filter by price and area.
+I've been aggregating akiya listings translated into English at [akiya-finder.vercel.app](https://akiya-finder.vercel.app/map) — 901 properties across all 47 prefectures, with an investment map, photos, and filters for price, station proximity, and Airbnb potential. It's free.
 
 Anyone here done this or seriously considering it? Would love to hear experiences.
