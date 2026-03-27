@@ -4,15 +4,29 @@ import "./globals.css";
 export const metadata: Metadata = {
   title: "AkiyaFinder — Find Cheap Houses in Japan | From $0",
   description:
-    "Discover affordable akiya (vacant houses) and cheap properties across Japan. Traditional homes from $0. Updated weekly. Your gateway to owning a house in Japan.",
+    "Discover 901+ affordable akiya (vacant houses) across all 47 prefectures. Investment map with price per ㎡, station access, Airbnb potential. Free agent matching for foreign buyers.",
   keywords:
-    "akiya, japan houses, cheap houses japan, abandoned houses japan, buy house japan, japan real estate, kominka, machiya, japanese property",
+    "akiya, japan houses, cheap houses japan, abandoned houses japan, buy house japan, japan real estate, kominka, machiya, japanese property, akiya investment, japan property investment, free houses japan, akiya airbnb",
   openGraph: {
-    title: "AkiyaFinder — Find Cheap Houses in Japan",
+    title: "AkiyaFinder — 901+ Cheap Houses in Japan | From $0",
     description:
-      "Discover affordable akiya and cheap properties across Japan. Traditional homes from $0.",
+      "Investment-focused akiya search platform. 901+ properties across 47 prefectures with photos, investment metrics, and free agent matching.",
     type: "website",
     locale: "en_US",
+    siteName: "AkiyaFinder",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "AkiyaFinder — 901+ Cheap Houses in Japan",
+    description:
+      "Investment-focused akiya search. Price per ㎡, station access, Airbnb potential. Free agent matching.",
+  },
+  alternates: {
+    canonical: "https://akiya-finder.vercel.app",
+  },
+  robots: {
+    index: true,
+    follow: true,
   },
 };
 
