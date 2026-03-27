@@ -1,9 +1,14 @@
 "use client";
 
 import { useState, useMemo } from "react";
+import Image from "next/image";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import scrapedData from "../../../data/scraped-properties.json";
+import {
+  getInvestmentTags,
+  INVESTMENT_CATEGORIES,
+} from "@/lib/investment-tags";
 
 interface ScrapedProperty {
   id: string;
@@ -19,9 +24,24 @@ interface ScrapedProperty {
   yearBuilt: string;
   layout: string;
   sourceUrl: string;
+  thumbnailUrl?: string;
+  access?: string;
+  structure?: string;
+  priceUsdFormatted?: string;
+  pricePerSqmUsd?: number;
+  buildingAge?: number;
+  estimatedRenovationUsd?: { low: number; high: number };
+  estimatedAirbnbRevenueUsd?: { gross: number; net: number };
+  estimatedRoi?: number;
+  areaDescription?: string;
+  remarksEnglish?: string;
 }
 
 const properties = scrapedData as ScrapedProperty[];
+
+const TAG_MAP = Object.fromEntries(
+  INVESTMENT_CATEGORIES.map((c) => [c.id, c])
+);
 
 const PREF_LIST = [...new Set(properties.map((p) => p.prefectureEn))].sort();
 
@@ -33,7 +53,7 @@ export default function AkiyaBankPage() {
   const [prefFilter, setPrefFilter] = useState("");
   const [priceRange, setPriceRange] = useState("");
   const [search, setSearch] = useState("");
-  const [sortBy, setSortBy] = useState<"price-asc" | "price-desc" | "newest">("price-asc");
+  const [sortBy, setSortBy] = useState<"price-asc" | "price-desc" | "roi-desc" | "newest">("price-asc");
 
   const filtered = useMemo(() => {
     let result = properties.filter((p) => {
@@ -57,6 +77,7 @@ export default function AkiyaBankPage() {
 
     if (sortBy === "price-asc") result.sort((a, b) => a.price - b.price);
     if (sortBy === "price-desc") result.sort((a, b) => b.price - a.price);
+    if (sortBy === "roi-desc") result.sort((a, b) => (b.estimatedRoi ?? 0) - (a.estimatedRoi ?? 0));
 
     return result;
   }, [prefFilter, priceRange, search, sortBy]);
@@ -116,6 +137,7 @@ export default function AkiyaBankPage() {
             >
               <option value="price-asc">Price: Low to High</option>
               <option value="price-desc">Price: High to Low</option>
+              <option value="roi-desc">ROI: High to Low</option>
             </select>
           </div>
           <p className="text-xs text-gray-400">
@@ -125,18 +147,29 @@ export default function AkiyaBankPage() {
 
         {/* Results */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {filtered.map((p) => (
+          {filtered.map((p) => {
+            const tags = getInvestmentTags(p);
+            return (
             <div
               key={p.id}
-              className="bg-white rounded-xl overflow-hidden shadow-sm border border-gray-100 hover:shadow-md transition"
+              className="bg-white rounded-xl overflow-hidden shadow-sm border border-gray-100 hover:shadow-md transition flex flex-col"
             >
-              {/* Header */}
-              <div className="h-32 bg-gradient-to-br from-gray-50 to-gray-100 relative flex items-center justify-center">
-                <div className="text-center">
-                  <span className="text-3xl">🏡</span>
-                  <p className="text-xs text-gray-400 mt-1">{p.prefectureEn}</p>
-                </div>
-                <span className="absolute top-2 right-2 bg-white/90 text-xs px-2 py-0.5 rounded-full text-gray-500">
+              {/* Thumbnail / Header */}
+              <div className="h-40 relative bg-gradient-to-br from-gray-50 to-gray-100">
+                {p.thumbnailUrl ? (
+                  <Image
+                    src={p.thumbnailUrl}
+                    alt={p.location}
+                    fill
+                    className="object-cover"
+                    sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                  />
+                ) : (
+                  <div className="flex items-center justify-center h-full">
+                    <span className="text-4xl">🏡</span>
+                  </div>
+                )}
+                <span className="absolute top-2 right-2 bg-white/90 backdrop-blur-sm text-xs px-2 py-0.5 rounded-full text-gray-600 font-medium">
                   {p.propertyType}
                 </span>
                 {p.price === 0 && (
@@ -144,53 +177,103 @@ export default function AkiyaBankPage() {
                     FREE
                   </span>
                 )}
+                {p.estimatedRoi != null && p.estimatedRoi > 0 && (
+                  <span className={`absolute bottom-2 left-2 text-white text-xs font-bold px-2 py-0.5 rounded-full ${
+                    p.estimatedRoi >= 15 ? "bg-green-600" : p.estimatedRoi >= 8 ? "bg-emerald-500" : "bg-gray-500"
+                  }`}>
+                    ROI {p.estimatedRoi}%
+                  </span>
+                )}
               </div>
 
               {/* Content */}
-              <div className="p-4">
-                <p className="text-xs text-gray-500 mb-2">📍 {p.location}</p>
+              <div className="p-4 flex-1 flex flex-col">
+                <p className="text-xs text-gray-500 mb-1 truncate">📍 {p.location}</p>
 
-                <div className="flex items-end justify-between mb-3">
-                  <div>
-                    <p className="text-lg font-bold text-accent">
-                      {p.price === 0 ? "FREE" : p.priceFormatted}
-                    </p>
-                    {p.price > 0 && (
-                      <p className="text-xs text-gray-400">
-                        ~${priceToUsd(p.price).toLocaleString()} USD
-                      </p>
-                    )}
-                  </div>
+                {/* Price — USD primary, JPY secondary */}
+                <div className="mb-2">
+                  <p className="text-xl font-bold text-primary">
+                    {p.price === 0 ? "FREE" : (p.priceUsdFormatted || `$${priceToUsd(p.price).toLocaleString()}`)}
+                  </p>
+                  {p.price > 0 && (
+                    <p className="text-xs text-gray-400">{p.priceFormatted}</p>
+                  )}
                 </div>
 
+                {/* Investment Tags */}
+                {tags.length > 0 && (
+                  <div className="flex flex-wrap gap-1 mb-2">
+                    {tags.map((tagId) => {
+                      const cat = TAG_MAP[tagId];
+                      if (!cat) return null;
+                      return (
+                        <span
+                          key={tagId}
+                          title={cat.description}
+                          className="inline-flex items-center gap-0.5 text-[10px] bg-accent/10 text-accent px-1.5 py-0.5 rounded-full font-medium"
+                        >
+                          {cat.emoji} {cat.label}
+                        </span>
+                      );
+                    })}
+                  </div>
+                )}
+
+                {/* Airbnb Revenue Estimate */}
+                {p.estimatedAirbnbRevenueUsd && p.estimatedAirbnbRevenueUsd.net > 0 && (
+                  <div className="bg-emerald-50 border border-emerald-100 rounded-lg px-3 py-1.5 mb-2">
+                    <p className="text-[10px] text-emerald-600 font-medium uppercase tracking-wide">Est. Airbnb Revenue / yr</p>
+                    <p className="text-sm font-bold text-emerald-700">
+                      ${p.estimatedAirbnbRevenueUsd.net.toLocaleString()} <span className="font-normal text-[10px] text-emerald-500">net</span>
+                    </p>
+                  </div>
+                )}
+
                 {/* Details */}
-                <div className="grid grid-cols-2 gap-1 text-xs text-gray-500 mb-3">
+                <div className="grid grid-cols-2 gap-1 text-xs text-gray-500 mb-2">
                   {p.layout !== "-" && <span>🏠 {p.layout}</span>}
                   {p.buildingArea !== "-" && <span>📐 {p.buildingArea}</span>}
                   {p.landArea !== "-" && <span>🌿 Land: {p.landArea}</span>}
                   {p.yearBuilt !== "-" && <span>📅 Built: {p.yearBuilt}</span>}
+                  {p.pricePerSqmUsd != null && <span>💰 ${p.pricePerSqmUsd}/㎡</span>}
+                  {p.buildingAge != null && <span>🏗️ {p.buildingAge}yr old</span>}
                 </div>
 
-                {/* Actions */}
-                <div className="flex gap-2">
+                {/* Area Description */}
+                {p.areaDescription && (
+                  <p className="text-[11px] text-gray-400 italic mb-2 line-clamp-2">
+                    {p.areaDescription}
+                  </p>
+                )}
+
+                {/* Remarks */}
+                {p.remarksEnglish && (
+                  <p className="text-[11px] text-amber-600 mb-2">
+                    💡 {p.remarksEnglish}
+                  </p>
+                )}
+
+                {/* Actions — pushed to bottom */}
+                <div className="flex gap-2 mt-auto pt-2">
                   <a
                     href={p.sourceUrl}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="flex-1 text-center text-xs bg-gray-100 text-gray-600 px-3 py-2 rounded-lg hover:bg-gray-200 transition"
                   >
-                    View Original (Japanese)
+                    View Original
                   </a>
                   <a
-                    href={`/contact?property=${encodeURIComponent(`${p.location} - ${p.priceFormatted}`)}`}
+                    href={`/contact?property=${encodeURIComponent(`${p.location} - ${p.priceUsdFormatted || p.priceFormatted}`)}`}
                     className="flex-1 text-center text-xs bg-accent text-white px-3 py-2 rounded-lg hover:bg-red-600 transition"
                   >
-                    Inquire in English
+                    Inquire
                   </a>
                 </div>
               </div>
             </div>
-          ))}
+            );
+          })}
         </div>
 
         {filtered.length === 0 && (

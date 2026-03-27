@@ -1,62 +1,92 @@
 # Agent Introduction Emails
 
+---
+
 ## 1. Arrows International Realty (Kyoto)
 
 **To:** Contact Form / 0120-987-136
-**Subject:** Connecting Foreign Buyers Interested in Kyoto Machiya
+**Subject:** Free buyer referrals for Kyoto machiya — AkiyaFinder (901 listings)
 
 Dear Arrows International Realty Team,
 
-I run AkiyaFinder (https://akiya-finder.vercel.app), a platform that helps foreign buyers discover akiya properties across Japan in English and Chinese.
+My name is Tatsuji Tsuru. I run AkiyaFinder (https://akiya-finder.vercel.app), an English/Chinese property search platform for foreign buyers interested in Japanese akiya.
 
-We are seeing growing interest from overseas buyers specifically searching for Kyoto machiya -- and your 15 years of experience guiding foreign clients through machiya purchases is exactly what these buyers need.
+We currently list 901 properties across all 47 prefectures, with an investment-focused map that helps overseas buyers filter by price, location, and property type. We're seeing strong interest in Kyoto machiya from buyers in the US, UK, and Australia.
 
-I would love to refer interested buyers your way when they are looking for properties in Kyoto. No strings attached -- simply connecting serious buyers with the right expert.
+Your 15 years of experience guiding foreign clients through machiya purchases is exactly what these buyers need — but they can't find you because they're searching in English, not Japanese.
 
-Would you be open to receiving referrals from us?
+**Here's my proposal:**
+- I refer interested Kyoto buyers directly to you — completely free
+- Each referral comes with a tracking code so we can both see the results
+- No contract, no obligations. Let's start with 5 referrals and see how it goes
+
+If even one of those referrals turns into a sale, we can discuss a referral arrangement. If not, you've lost nothing.
+
+Would you be open to a quick call or email exchange to set this up?
 
 Best regards,
-[Your Name]
-AkiyaFinder - https://akiya-finder.vercel.app
+Tatsuji Tsuru
+AkiyaFinder — https://akiya-finder.vercel.app
 
 ---
 
 ## 2. Heritage Homes Japan (Kyoto)
 
 **To:** Contact Form
-**Subject:** Partnering to Help Remote Buyers Find Kyoto Kominka
+**Subject:** Overseas buyers looking for Kyoto kominka — free referrals from AkiyaFinder
 
 Dear Heritage Homes Japan Team,
 
-I run AkiyaFinder (https://akiya-finder.vercel.app), a platform helping foreign buyers find akiya properties in Japan, available in English and Chinese.
+My name is Tatsuji Tsuru. I run AkiyaFinder (https://akiya-finder.vercel.app), an English/Chinese property platform listing 901 akiya properties across Japan.
 
-I was impressed by your end-to-end remote purchase support -- many of our users are overseas investors who want to buy without traveling to Japan, and that is exactly the service they ask about.
+Many of our users are overseas investors who want to purchase and renovate without traveling to Japan — exactly the kind of client your end-to-end remote purchase support is built for. The problem is, these buyers search in English and never discover your service.
 
-I would like to refer buyers interested in Kyoto kominka and renovated properties to your team. No obligations -- just connecting the right buyers with the right specialists.
+**I'd like to bridge that gap:**
+- I'll refer Kyoto kominka buyers to you — completely free for the first 5 referrals
+- Each referral includes a tracking code (e.g., AKF-20260327-XXXX) for transparency
+- No contract needed. If the referrals lead to business, we can talk about a simple arrangement later
 
-Would you be open to that?
+Your team's renovation expertise + our English-speaking buyer traffic = a natural fit.
+
+Interested?
 
 Best regards,
-[Your Name]
-AkiyaFinder - https://akiya-finder.vercel.app
+Tatsuji Tsuru
+AkiyaFinder — https://akiya-finder.vercel.app
 
 ---
 
 ## 3. ResCom Hokkaido (Sapporo)
 
-**To:** Contact Form
-**Subject:** Referring Foreign Buyers Looking at Hokkaido Properties
+**To:** Contact Form (https://www.rescomhokkaido.com/english/)
+**Subject:** Foreign buyers searching for Hokkaido properties — free referrals
 
 Dear ResCom Hokkaido Team,
 
-I run AkiyaFinder (https://akiya-finder.vercel.app), a platform that introduces akiya properties across Japan to foreign buyers in English and Chinese.
+My name is Tatsuji Tsuru. I run AkiyaFinder (https://akiya-finder.vercel.app), an English/Chinese property search platform with 901 akiya listings covering all 47 prefectures.
 
-Your full support for non-resident foreign owners -- from property management to mail handling and bill payment -- is precisely what our buyers are looking for. Purchasing is only half the challenge; ongoing support is what makes ownership viable from abroad.
+We're seeing consistent interest in Hokkaido from overseas buyers — especially for investment properties and vacation homes. Your non-resident support services (mail handling, bill payment, property management) solve the exact problems these buyers ask about.
 
-I would love to send interested Hokkaido buyers your way when they come through our platform. No strings attached.
+**My proposal:**
+- I send Hokkaido-interested buyers directly to you — free of charge
+- Each referral has a unique tracking code for full transparency
+- No contract, no obligations. First 5 referrals are on me
+- If they convert, we discuss a simple referral fee. If not, you've lost nothing
 
-Would you be open to receiving referrals from us?
+Foreign buyers are searching for Hokkaido properties in English right now, but most can't find local agents who support non-residents. You're one of the few who do.
+
+Would you be open to receiving referrals?
 
 Best regards,
-[Your Name]
-AkiyaFinder - https://akiya-finder.vercel.app
+Tatsuji Tsuru
+AkiyaFinder — https://akiya-finder.vercel.app
+
+---
+
+## 送信チェックリスト
+
+- [ ] Arrows — Contact Form or 電話 0120-987-136
+- [ ] Heritage Homes — Contact Form (heritagehomesjapan.com)
+- [ ] ResCom — Contact Form (rescomhokkaido.com/english/)
+- [ ] 送信後、Discord/Obsidianに記録
+- [ ] 1週間返事なし → フォローアップメール送信
