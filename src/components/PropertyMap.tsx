@@ -4,11 +4,16 @@ import "leaflet/dist/leaflet.css";
 import { MapContainer, TileLayer, CircleMarker, Popup } from "react-leaflet";
 import L from "leaflet";
 import { PREFECTURE_COORDS, jitterCoord } from "@/lib/prefecture-coords";
+import {
+  INVESTMENT_CATEGORIES,
+  type InvestmentMetrics,
+} from "@/lib/investment-tags";
 
 // Fix default marker icon issue
 delete (L.Icon.Default.prototype as any)._getIconUrl;
 L.Icon.Default.mergeOptions({
-  iconRetinaUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png",
+  iconRetinaUrl:
+    "https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png",
   iconUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png",
   shadowUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png",
 });
@@ -27,6 +32,10 @@ interface MapProperty {
   sourceUrl: string;
   lat?: number;
   lng?: number;
+  thumbnailUrl?: string;
+  access?: string;
+  metrics?: InvestmentMetrics;
+  investmentTags?: string[];
 }
 
 interface Props {
@@ -82,8 +91,19 @@ export default function PropertyMap({ properties }: Props) {
             opacity={1}
             fillOpacity={0.85}
           >
-            <Popup>
-              <div className="text-xs min-w-[200px]">
+            <Popup maxWidth={280}>
+              <div className="text-xs min-w-[240px]">
+                {/* サムネイル画像 */}
+                {m.thumbnailUrl && (
+                  <img
+                    src={m.thumbnailUrl}
+                    alt={m.location}
+                    className="w-full h-28 object-cover rounded mb-2"
+                    loading="lazy"
+                  />
+                )}
+
+                {/* 価格 */}
                 <p className="font-bold text-sm mb-1">
                   {m.price === 0 ? (
                     <span className="text-green-600">FREE</span>
@@ -94,15 +114,70 @@ export default function PropertyMap({ properties }: Props) {
                     ({priceToUsd(m.price)})
                   </span>
                 </p>
-                <p className="text-gray-600 mb-1">📍 {m.location}</p>
+
+                {/* 場所 */}
+                <p className="text-gray-600 mb-1">{m.location}</p>
+
+                {/* 基本情報 */}
                 <p className="text-gray-500">
                   {m.propertyType}
                   {m.layout !== "-" && ` · ${m.layout}`}
                   {m.buildingArea !== "-" && ` · ${m.buildingArea}`}
                 </p>
-                {m.yearBuilt !== "-" && (
-                  <p className="text-gray-400">Built: {m.yearBuilt}</p>
+
+                {/* 投資指標セクション */}
+                {m.metrics && (
+                  <div className="bg-amber-50 border-l-2 border-amber-400 p-2 my-2 rounded-r">
+                    <p className="font-semibold text-amber-800 text-xs mb-1">
+                      Investment Metrics
+                    </p>
+                    <div className="space-y-0.5 text-xs text-amber-700">
+                      {m.metrics.pricePerSqm !== null && (
+                        <p>
+                          ¥{m.metrics.pricePerSqm.toLocaleString()}/㎡{" "}
+                          <span className="text-amber-500">
+                            (${m.metrics.pricePerSqmUsd?.toLocaleString()}/㎡)
+                          </span>
+                        </p>
+                      )}
+                      {m.metrics.age !== null && (
+                        <p>{m.metrics.age} years old</p>
+                      )}
+                      {m.metrics.walkingMinutes !== null && (
+                        <p>
+                          {m.metrics.walkingMinutes <= 10 ? "🚉" : "🚶"}{" "}
+                          {m.metrics.walkingMinutes} min walk
+                        </p>
+                      )}
+                      {m.access &&
+                        m.metrics.walkingMinutes === null && (
+                          <p className="text-amber-500">{m.access}</p>
+                        )}
+                    </div>
+
+                    {/* 投資タグバッジ */}
+                    {m.investmentTags && m.investmentTags.length > 0 && (
+                      <div className="flex flex-wrap gap-1 mt-1.5">
+                        {m.investmentTags.map((tagId) => {
+                          const cat = INVESTMENT_CATEGORIES.find(
+                            (c) => c.id === tagId
+                          );
+                          if (!cat) return null;
+                          return (
+                            <span
+                              key={tagId}
+                              className="text-[10px] bg-amber-200 text-amber-800 px-1.5 py-0.5 rounded font-medium"
+                            >
+                              {cat.emoji} {cat.label}
+                            </span>
+                          );
+                        })}
+                      </div>
+                    )}
+                  </div>
                 )}
+
+                {/* アクションボタン */}
                 <div className="flex gap-1 mt-2">
                   <a
                     href={m.sourceUrl}
@@ -113,7 +188,9 @@ export default function PropertyMap({ properties }: Props) {
                     Original
                   </a>
                   <a
-                    href={`/contact?property=${encodeURIComponent(`${m.location} - ${m.priceFormatted}`)}`}
+                    href={`/contact?property=${encodeURIComponent(
+                      `${m.location} - ${m.priceFormatted}`
+                    )}`}
                     className="bg-red-500 text-white px-2 py-1 rounded text-xs hover:bg-red-600"
                   >
                     Inquire

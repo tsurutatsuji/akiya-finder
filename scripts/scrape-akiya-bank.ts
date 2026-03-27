@@ -11,6 +11,7 @@ import * as path from "path";
 
 const BASE_URL = "https://www.akiya-athome.jp";
 const DELAY_MS = 2000;
+const BACKOFF_DELAYS = [10000, 30000, 90000]; // exponential backoff on 429/503
 
 const PREFECTURES: Record<string, string> = {
   "01": "Hokkaido", "02": "Aomori", "03": "Iwate", "04": "Miyagi",
@@ -27,8 +28,21 @@ const PREFECTURES: Record<string, string> = {
   "45": "Miyazaki", "46": "Kagoshima", "47": "Okinawa",
 };
 
-// 外国人に人気のエリアを優先
+// 外国人に人気のエリアを優先（ディープページネーション対象）
 const PRIORITY_PREFS = ["26", "20", "01", "22", "12", "14", "34", "15", "44", "38", "31", "33", "05", "40"];
+
+// 需要エリアの優先県 → maxPages 100（その他は20）
+const DEEP_PREF_PAGES: Record<string, number> = {
+  "01": 100, // Hokkaido（ニセコ）
+  "14": 100, // Kanagawa（箱根・湘南）
+  "15": 100, // Niigata（湯沢）
+  "19": 100, // Yamanashi（富士山周辺）
+  "20": 100, // Nagano（白馬・軽井沢・野沢）
+  "22": 100, // Shizuoka（熱海・伊豆）
+  "26": 100, // Kyoto
+  "44": 100, // Oita（別府・由布院）
+  "47": 100, // Okinawa
+};
 
 export interface ScrapedProperty {
   id: string;
@@ -51,16 +65,26 @@ function sleep(ms: number): Promise<void> {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
-async function fetchPage(url: string): Promise<string | null> {
+async function fetchPage(url: string, retryCount = 0): Promise<string | null> {
   try {
     const res = await fetch(url, {
       headers: {
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
-        "Accept": "text/html,application/xhtml+xml",
-        "Accept-Language": "ja,en;q=0.9",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+        "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+        "Accept-Language": "ja,en-US;q=0.9,en;q=0.8",
         "Referer": BASE_URL,
       },
     });
+    if (res.status === 429 || res.status === 503) {
+      if (retryCount < BACKOFF_DELAYS.length) {
+        const wait = BACKOFF_DELAYS[retryCount];
+        console.warn(`  HTTP ${res.status} — backoff ${wait / 1000}s (retry ${retryCount + 1})`);
+        await sleep(wait);
+        return fetchPage(url, retryCount + 1);
+      }
+      console.error(`  HTTP ${res.status} — max retries exceeded, skipping`);
+      return null;
+    }
     if (!res.ok) {
       console.error(`  HTTP ${res.status} for ${url}`);
       return null;
@@ -187,7 +211,7 @@ async function scrapePrefecture(prefCode: string, maxPages: number = 5): Promise
 }
 
 async function main() {
-  const maxPagesPerPref = parseInt(process.argv[2] || "20");
+  const defaultMax = parseInt(process.argv[2] || "20");
 
   // 全47都道府県をスクレイプ（優先県を先に）
   const allPrefCodes = Object.keys(PREFECTURES);
@@ -196,14 +220,16 @@ async function main() {
 
   console.log("=== AkiyaFinder Scraper ===");
   console.log(`Prefectures: ${orderedPrefs.length} (ALL)`);
-  console.log(`Max pages per prefecture: ${maxPagesPerPref}`);
+  console.log(`Default max pages: ${defaultMax}`);
+  console.log(`Deep scrape prefectures: ${Object.keys(DEEP_PREF_PAGES).map(c => PREFECTURES[c]).join(", ")}`);
   console.log("");
 
   const allProperties: ScrapedProperty[] = [];
 
   for (const prefCode of orderedPrefs) {
-    console.log(`\n[${PREFECTURES[prefCode]}] (${prefCode})`);
-    const properties = await scrapePrefecture(prefCode, maxPagesPerPref);
+    const maxPages = DEEP_PREF_PAGES[prefCode] || defaultMax;
+    console.log(`\n[${PREFECTURES[prefCode]}] (${prefCode}) — max ${maxPages} pages`);
+    const properties = await scrapePrefecture(prefCode, maxPages);
     allProperties.push(...properties);
   }
 

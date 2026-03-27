@@ -4,7 +4,11 @@ import { useState, useMemo } from "react";
 import dynamic from "next/dynamic";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import { LIFESTYLE_CATEGORIES, getLifestyleTags } from "@/lib/lifestyle-tags";
+import {
+  INVESTMENT_CATEGORIES,
+  getInvestmentTags,
+  calculateInvestmentMetrics,
+} from "@/lib/investment-tags";
 import scrapedData from "../../../data/scraped-properties.json";
 
 const PropertyMap = dynamic(() => import("@/components/PropertyMap"), {
@@ -32,38 +36,50 @@ interface ScrapedProperty {
   sourceUrl: string;
   lat?: number;
   lng?: number;
+  thumbnailUrl?: string;
+  access?: string;
+  structure?: string;
+  remarks?: string;
 }
 
-// 物件にタグを付与
+// 物件に投資タグ＋メトリクスを付与
 const properties = (scrapedData as ScrapedProperty[]).map((p) => ({
   ...p,
-  lifestyleTags: getLifestyleTags(p.locationJa, p.prefectureEn, p.price),
+  investmentTags: getInvestmentTags(p),
+  metrics: calculateInvestmentMetrics(p),
 }));
 
 const PREF_LIST = [...new Set(properties.map((p) => p.prefectureEn))].sort();
 
 export default function MapPage() {
-  const [lifestyle, setLifestyle] = useState("");
+  const [category, setCategory] = useState("");
   const [prefFilter, setPrefFilter] = useState("");
   const [priceRange, setPriceRange] = useState("");
 
   const filtered = useMemo(() => {
     return properties.filter((p) => {
-      if (lifestyle && !p.lifestyleTags.includes(lifestyle)) return false;
+      if (category && !p.investmentTags.includes(category)) return false;
       if (prefFilter && p.prefectureEn !== prefFilter) return false;
       if (priceRange === "free" && p.price !== 0) return false;
-      if (priceRange === "under1m" && (p.price === 0 || p.price > 1000000)) return false;
-      if (priceRange === "1m-5m" && (p.price < 1000000 || p.price > 5000000)) return false;
+      if (priceRange === "under1m" && (p.price === 0 || p.price > 1000000))
+        return false;
+      if (
+        priceRange === "1m-5m" &&
+        (p.price < 1000000 || p.price > 5000000)
+      )
+        return false;
       if (priceRange === "5m+" && p.price < 5000000) return false;
       return true;
     });
-  }, [lifestyle, prefFilter, priceRange]);
+  }, [category, prefFilter, priceRange]);
 
   // 各カテゴリの件数
   const categoryCounts = useMemo(() => {
     const counts: Record<string, number> = {};
-    for (const cat of LIFESTYLE_CATEGORIES) {
-      counts[cat.id] = properties.filter((p) => p.lifestyleTags.includes(cat.id)).length;
+    for (const cat of INVESTMENT_CATEGORIES) {
+      counts[cat.id] = properties.filter((p) =>
+        p.investmentTags.includes(cat.id)
+      ).length;
     }
     return counts;
   }, []);
@@ -73,43 +89,48 @@ export default function MapPage() {
       <Header />
       <div className="max-w-6xl mx-auto px-4 py-10">
         <h1 className="text-3xl font-bold text-primary mb-2">
-          Find Your Dream Home in Japan
+          Invest in Japan&apos;s Hidden Real Estate
         </h1>
         <p className="text-gray-500 mb-8">
-          {properties.length} properties across all 47 prefectures. What are you looking for?
+          {properties.length} properties across 47 prefectures. What&apos;s your
+          investment goal?
         </p>
 
-        {/* Lifestyle Cards */}
+        {/* Investment Category Cards */}
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3 mb-8">
-          {LIFESTYLE_CATEGORIES.map((cat) => (
+          {INVESTMENT_CATEGORIES.map((cat) => (
             <button
               key={cat.id}
-              onClick={() => setLifestyle(lifestyle === cat.id ? "" : cat.id)}
+              onClick={() => setCategory(category === cat.id ? "" : cat.id)}
               className={`p-4 rounded-xl border-2 text-left transition-all ${
-                lifestyle === cat.id
+                category === cat.id
                   ? "border-accent bg-accent/5 shadow-md"
                   : "border-gray-200 hover:border-gray-300 hover:shadow-sm"
               }`}
             >
               <span className="text-2xl block mb-1">{cat.emoji}</span>
-              <span className="font-semibold text-sm text-primary block">{cat.label}</span>
-              <span className="text-xs text-gray-400">{categoryCounts[cat.id]} homes</span>
+              <span className="font-semibold text-sm text-primary block">
+                {cat.label}
+              </span>
+              <span className="text-xs text-gray-400">
+                {categoryCounts[cat.id]} homes
+              </span>
             </button>
           ))}
         </div>
 
         {/* Active filter indicator */}
-        {lifestyle && (
+        {category && (
           <div className="flex items-center gap-2 mb-4 text-sm">
             <span className="bg-accent/10 text-accent px-3 py-1 rounded-full font-medium">
-              {LIFESTYLE_CATEGORIES.find((c) => c.id === lifestyle)?.emoji}{" "}
-              {LIFESTYLE_CATEGORIES.find((c) => c.id === lifestyle)?.label}
+              {INVESTMENT_CATEGORIES.find((c) => c.id === category)?.emoji}{" "}
+              {INVESTMENT_CATEGORIES.find((c) => c.id === category)?.label}
             </span>
             <span className="text-gray-400">
-              {LIFESTYLE_CATEGORIES.find((c) => c.id === lifestyle)?.description}
+              {INVESTMENT_CATEGORIES.find((c) => c.id === category)?.description}
             </span>
             <button
-              onClick={() => setLifestyle("")}
+              onClick={() => setCategory("")}
               className="text-gray-400 hover:text-gray-600 ml-auto"
             >
               Clear
@@ -126,7 +147,9 @@ export default function MapPage() {
           >
             <option value="">All Prefectures</option>
             {PREF_LIST.map((p) => (
-              <option key={p} value={p}>{p}</option>
+              <option key={p} value={p}>
+                {p}
+              </option>
             ))}
           </select>
           <select
@@ -148,16 +171,20 @@ export default function MapPage() {
         {/* Legend */}
         <div className="flex flex-wrap gap-4 mb-4 text-xs text-gray-500">
           <span className="flex items-center gap-1">
-            <span className="w-3 h-3 rounded-full bg-green-500 inline-block"></span> Free
+            <span className="w-3 h-3 rounded-full bg-green-500 inline-block"></span>{" "}
+            Free
           </span>
           <span className="flex items-center gap-1">
-            <span className="w-3 h-3 rounded-full bg-blue-500 inline-block"></span> Under ¥1M
+            <span className="w-3 h-3 rounded-full bg-blue-500 inline-block"></span>{" "}
+            Under ¥1M
           </span>
           <span className="flex items-center gap-1">
-            <span className="w-3 h-3 rounded-full bg-amber-500 inline-block"></span> ¥1M–5M
+            <span className="w-3 h-3 rounded-full bg-amber-500 inline-block"></span>{" "}
+            ¥1M–5M
           </span>
           <span className="flex items-center gap-1">
-            <span className="w-3 h-3 rounded-full bg-red-500 inline-block"></span> Over ¥5M
+            <span className="w-3 h-3 rounded-full bg-red-500 inline-block"></span>{" "}
+            Over ¥5M
           </span>
         </div>
 
@@ -167,10 +194,11 @@ export default function MapPage() {
         {/* CTA */}
         <div className="mt-8 p-6 bg-accent/5 border border-accent/20 rounded-lg text-center">
           <h3 className="font-semibold text-primary mb-2">
-            Found something interesting?
+            Found a promising investment?
           </h3>
           <p className="text-gray-500 text-sm mb-4">
-            We&apos;ll connect you with a licensed local agent who can help with the purchase process.
+            We&apos;ll connect you with a licensed local agent who speaks
+            English and handles the entire purchase process.
           </p>
           <a
             href="/contact"
