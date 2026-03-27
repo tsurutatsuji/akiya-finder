@@ -20,6 +20,12 @@ export default function Header() {
             Browse Properties
           </Link>
           <Link
+            href="/akiya-bank"
+            className="text-gray-600 hover:text-primary transition"
+          >
+            Akiya Bank Search
+          </Link>
+          <Link
             href="/how-it-works"
             className="text-gray-600 hover:text-primary transition"
           >
