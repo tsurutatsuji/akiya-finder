@@ -187,16 +187,21 @@ async function scrapePrefecture(prefCode: string, maxPages: number = 5): Promise
 }
 
 async function main() {
-  const maxPagesPerPref = parseInt(process.argv[2] || "10");
+  const maxPagesPerPref = parseInt(process.argv[2] || "20");
+
+  // 全47都道府県をスクレイプ（優先県を先に）
+  const allPrefCodes = Object.keys(PREFECTURES);
+  const remaining = allPrefCodes.filter((c) => !PRIORITY_PREFS.includes(c));
+  const orderedPrefs = [...PRIORITY_PREFS, ...remaining];
 
   console.log("=== AkiyaFinder Scraper ===");
-  console.log(`Prefectures: ${PRIORITY_PREFS.length}`);
+  console.log(`Prefectures: ${orderedPrefs.length} (ALL)`);
   console.log(`Max pages per prefecture: ${maxPagesPerPref}`);
   console.log("");
 
   const allProperties: ScrapedProperty[] = [];
 
-  for (const prefCode of PRIORITY_PREFS) {
+  for (const prefCode of orderedPrefs) {
     console.log(`\n[${PREFECTURES[prefCode]}] (${prefCode})`);
     const properties = await scrapePrefecture(prefCode, maxPagesPerPref);
     allProperties.push(...properties);

@@ -26,6 +26,12 @@ export default function Header() {
             Akiya Bank Search
           </Link>
           <Link
+            href="/map"
+            className="text-gray-600 hover:text-primary transition"
+          >
+            Map
+          </Link>
+          <Link
             href="/how-it-works"
             className="text-gray-600 hover:text-primary transition"
           >
