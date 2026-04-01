@@ -118,6 +118,109 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Browse by Prefecture */}
+      <section className="py-16 bg-gray-50">
+        <div className="max-w-6xl mx-auto px-4">
+          <div className="flex items-center justify-between mb-8">
+            <h2 className="text-3xl font-bold text-primary">
+              Browse by Prefecture
+            </h2>
+            <Link
+              href="/prefecture"
+              className="text-accent hover:underline text-sm font-medium"
+            >
+              All 47 Prefectures →
+            </Link>
+          </div>
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3">
+            {[
+              "Hokkaido",
+              "Tokyo",
+              "Kyoto",
+              "Osaka",
+              "Nagano",
+              "Okinawa",
+              "Chiba",
+              "Shizuoka",
+              "Fukuoka",
+              "Kanagawa",
+              "Niigata",
+              "Hiroshima",
+            ].map((name) => (
+              <Link
+                key={name}
+                href={`/prefecture/${name.toLowerCase()}`}
+                className="bg-white rounded-lg p-3 text-center border border-gray-100 hover:border-accent hover:shadow-sm transition text-sm font-medium text-primary"
+              >
+                {name}
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Browse by Price */}
+      <section className="py-16 bg-white">
+        <div className="max-w-6xl mx-auto px-4">
+          <h2 className="text-3xl font-bold text-primary mb-8 text-center">
+            Browse by Budget
+          </h2>
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+            {[
+              { href: "/price/free", label: "FREE (¥0)", accent: true },
+              { href: "/price/under-100k", label: "Under ¥100K", accent: false },
+              { href: "/price/under-500k", label: "Under ¥500K", accent: false },
+              { href: "/price/under-1m", label: "Under ¥1M", accent: false },
+              { href: "/price/under-5m", label: "Under ¥5M", accent: false },
+              { href: "/price/under-10m", label: "Under ¥10M", accent: false },
+            ].map((item) => (
+              <Link
+                key={item.href}
+                href={item.href}
+                className={`rounded-lg p-4 text-center border transition font-semibold text-sm ${
+                  item.accent
+                    ? "bg-accent text-white border-accent hover:bg-red-600"
+                    : "bg-gray-50 text-primary border-gray-200 hover:border-accent"
+                }`}
+              >
+                {item.label}
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Investment Categories */}
+      <section className="py-16 bg-gray-50">
+        <div className="max-w-6xl mx-auto px-4">
+          <h2 className="text-3xl font-bold text-primary mb-8 text-center">
+            Browse by Investment Type
+          </h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            {[
+              { slug: "high-value", emoji: "📈", label: "High Value", desc: "Best price per sqm" },
+              { slug: "station-close", emoji: "🚉", label: "Station Close", desc: "Walk to train station" },
+              { slug: "airbnb-ready", emoji: "🏨", label: "Airbnb Ready", desc: "Tourist area + spacious" },
+              { slug: "free-near-free", emoji: "🆓", label: "Free / Near-Free", desc: "¥0 to ¥150,000" },
+              { slug: "move-in-ready", emoji: "🏗️", label: "Move-in Ready", desc: "Low renovation cost" },
+              { slug: "cultural-gem", emoji: "🏯", label: "Cultural Gem", desc: "Machiya & kominka" },
+            ].map((tag) => (
+              <Link
+                key={tag.slug}
+                href={`/tag/${tag.slug}`}
+                className="bg-white rounded-xl p-5 border border-gray-100 card-hover flex items-start gap-4"
+              >
+                <span className="text-3xl">{tag.emoji}</span>
+                <div>
+                  <h3 className="font-bold text-primary">{tag.label}</h3>
+                  <p className="text-sm text-gray-500">{tag.desc}</p>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* How It Works CTA */}
       <section className="py-16 bg-white">
         <div className="max-w-4xl mx-auto px-4 text-center">

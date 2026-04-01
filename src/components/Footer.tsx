@@ -1,3 +1,18 @@
+const POPULAR_PREFECTURES = [
+  "Hokkaido",
+  "Tokyo",
+  "Kyoto",
+  "Osaka",
+  "Nagano",
+  "Okinawa",
+  "Chiba",
+  "Shizuoka",
+  "Fukuoka",
+  "Kanagawa",
+  "Niigata",
+  "Hiroshima",
+];
+
 export default function Footer() {
   return (
     <footer className="bg-primary text-gray-300 py-12">
@@ -37,6 +52,16 @@ export default function Footer() {
               <li>
                 <a href="/properties" className="hover:text-white transition">
                   Browse Properties
+                </a>
+              </li>
+              <li>
+                <a href="/prefecture" className="hover:text-white transition">
+                  Browse by Prefecture
+                </a>
+              </li>
+              <li>
+                <a href="/price/free" className="hover:text-white transition">
+                  Free Properties (¥0)
                 </a>
               </li>
               <li>
@@ -81,7 +106,32 @@ export default function Footer() {
             </p>
           </div>
         </div>
-        <div className="border-t border-gray-700 mt-8 pt-6 text-center text-sm">
+
+        {/* Prefecture Links for SEO */}
+        <div className="border-t border-gray-700 mt-8 pt-6">
+          <h4 className="text-white font-semibold mb-3 text-sm">
+            Popular Prefectures
+          </h4>
+          <div className="flex flex-wrap gap-x-4 gap-y-1 text-xs">
+            {POPULAR_PREFECTURES.map((name) => (
+              <a
+                key={name}
+                href={`/prefecture/${name.toLowerCase()}`}
+                className="hover:text-white transition"
+              >
+                Akiya in {name}
+              </a>
+            ))}
+            <a
+              href="/prefecture"
+              className="text-accent hover:text-red-400 transition"
+            >
+              All 47 Prefectures →
+            </a>
+          </div>
+        </div>
+
+        <div className="border-t border-gray-700 mt-4 pt-6 text-center text-sm">
           <p>&copy; 2026 AkiyaFinder. All rights reserved.</p>
         </div>
       </div>
