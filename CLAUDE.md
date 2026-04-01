@@ -41,6 +41,7 @@
 ## 技術スタック
 
 - Next.js 14 (App Router) + React 18 + TypeScript
+- **next-intl 4.x**（多言語対応: zh/en/ja）
 - Tailwind CSS 3.4（primary: #1a1a2e, accent: #e94560, warm: #f5f0eb）
 - React-Leaflet + Leaflet（地図）
 - Nominatim/OSM（ジオコーディング）
@@ -60,12 +61,25 @@
 
 ## 主要ファイル
 
-### ページ
-- `src/app/page.tsx` — ホーム
-- `src/app/map/page.tsx` — 投資マップ（メイン機能）
-- `src/app/akiya-bank/page.tsx` — 物件検索一覧
-- `src/app/contact/page.tsx` — リファラルコード付き問い合わせ
-- `src/app/blog/[slug]/page.tsx` — ブログ記事
+### ページ（全て `src/app/[locale]/` 配下）
+- `[locale]/page.tsx` — ホーム
+- `[locale]/map/page.tsx` — 投資マップ（メイン機能）
+- `[locale]/akiya-bank/page.tsx` — 物件検索一覧
+- `[locale]/contact/page.tsx` — リファラルコード付き問い合わせ
+- `[locale]/blog/[slug]/page.tsx` — ブログ記事
+- `[locale]/properties/[id]/page.tsx` — 物件詳細
+- `[locale]/prefecture/[slug]/page.tsx` — 都道府県別
+- `[locale]/price/[slug]/page.tsx` — 価格帯別
+- `[locale]/tag/[slug]/page.tsx` — 投資タグ別
+
+### i18n
+- `src/i18n/routing.ts` — ルーティング設定（zh/en/ja、デフォルトzh）
+- `src/i18n/request.ts` — next-intl設定
+- `src/i18n/navigation.ts` — 多言語Link/useRouter等
+- `src/middleware.ts` — ロケール検出・リダイレクト
+- `src/messages/zh.json` — 中国語翻訳
+- `src/messages/en.json` — 英語翻訳
+- `src/messages/ja.json` — 日本語翻訳
 
 ### コンポーネント
 - `src/components/PropertyMap.tsx` — Leafletマップ（投資指標付きPopup）

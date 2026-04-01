@@ -8,72 +8,101 @@ import {
 import { properties } from "@/data/properties";
 
 const BASE_URL = "https://akiya-finder.vercel.app";
+const LOCALES = ["zh", "en", "ja"];
+
+function localizedUrls(path: string): MetadataRoute.Sitemap[number]["alternates"] {
+  return {
+    languages: Object.fromEntries(
+      LOCALES.map((locale) => [locale, `${BASE_URL}/${locale}${path}`])
+    ),
+  };
+}
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const now = new Date().toISOString();
+  const entries: MetadataRoute.Sitemap = [];
 
-  // 静的ページ
-  const staticPages: MetadataRoute.Sitemap = [
-    { url: BASE_URL, lastModified: now, changeFrequency: "weekly", priority: 1 },
-    { url: `${BASE_URL}/properties`, lastModified: now, changeFrequency: "weekly", priority: 0.9 },
-    { url: `${BASE_URL}/map`, lastModified: now, changeFrequency: "weekly", priority: 0.9 },
-    { url: `${BASE_URL}/akiya-bank`, lastModified: now, changeFrequency: "weekly", priority: 0.8 },
-    { url: `${BASE_URL}/how-it-works`, lastModified: now, changeFrequency: "monthly", priority: 0.7 },
-    { url: `${BASE_URL}/about`, lastModified: now, changeFrequency: "monthly", priority: 0.5 },
-    { url: `${BASE_URL}/contact`, lastModified: now, changeFrequency: "monthly", priority: 0.7 },
-    { url: `${BASE_URL}/blog`, lastModified: now, changeFrequency: "weekly", priority: 0.7 },
+  // Static pages
+  const staticPaths = [
+    { path: "", priority: 1, freq: "weekly" as const },
+    { path: "/properties", priority: 0.9, freq: "weekly" as const },
+    { path: "/map", priority: 0.9, freq: "weekly" as const },
+    { path: "/akiya-bank", priority: 0.8, freq: "weekly" as const },
+    { path: "/how-it-works", priority: 0.7, freq: "monthly" as const },
+    { path: "/about", priority: 0.5, freq: "monthly" as const },
+    { path: "/contact", priority: 0.7, freq: "monthly" as const },
+    { path: "/blog", priority: 0.7, freq: "weekly" as const },
+    { path: "/prefecture", priority: 0.9, freq: "weekly" as const },
   ];
 
-  // 都道府県インデックス
-  const prefectureIndex: MetadataRoute.Sitemap = [
-    {
-      url: `${BASE_URL}/prefecture`,
-      lastModified: now,
-      changeFrequency: "weekly",
-      priority: 0.9,
-    },
+  for (const page of staticPaths) {
+    for (const locale of LOCALES) {
+      entries.push({
+        url: `${BASE_URL}/${locale}${page.path}`,
+        lastModified: now,
+        changeFrequency: page.freq,
+        priority: page.priority,
+        alternates: localizedUrls(page.path),
+      });
+    }
+  }
+
+  // Prefecture pages
+  for (const slug of getAllPrefectureSlugs()) {
+    for (const locale of LOCALES) {
+      entries.push({
+        url: `${BASE_URL}/${locale}/prefecture/${slug}`,
+        lastModified: now,
+        changeFrequency: "weekly",
+        priority: 0.8,
+        alternates: localizedUrls(`/prefecture/${slug}`),
+      });
+    }
+  }
+
+  // Price range pages
+  for (const r of PRICE_RANGES) {
+    for (const locale of LOCALES) {
+      entries.push({
+        url: `${BASE_URL}/${locale}/price/${r.slug}`,
+        lastModified: now,
+        changeFrequency: "weekly",
+        priority: 0.8,
+        alternates: localizedUrls(`/price/${r.slug}`),
+      });
+    }
+  }
+
+  // Tag pages
+  for (const t of INVESTMENT_TAG_PAGES) {
+    for (const locale of LOCALES) {
+      entries.push({
+        url: `${BASE_URL}/${locale}/tag/${t.slug}`,
+        lastModified: now,
+        changeFrequency: "weekly",
+        priority: 0.7,
+        alternates: localizedUrls(`/tag/${t.slug}`),
+      });
+    }
+  }
+
+  // Property detail pages
+  const allPropertyIds = [
+    ...properties.map((p) => p.id),
+    ...scrapedProperties.map((p) => p.id),
   ];
 
-  // 都道府県別ページ
-  const prefecturePages: MetadataRoute.Sitemap = getAllPrefectureSlugs().map(
-    (slug) => ({
-      url: `${BASE_URL}/prefecture/${slug}`,
-      lastModified: now,
-      changeFrequency: "weekly" as const,
-      priority: 0.8,
-    })
-  );
+  for (const id of allPropertyIds) {
+    for (const locale of LOCALES) {
+      entries.push({
+        url: `${BASE_URL}/${locale}/properties/${id}`,
+        lastModified: now,
+        changeFrequency: "monthly",
+        priority: 0.6,
+        alternates: localizedUrls(`/properties/${id}`),
+      });
+    }
+  }
 
-  // 価格帯ページ
-  const pricePages: MetadataRoute.Sitemap = PRICE_RANGES.map((r) => ({
-    url: `${BASE_URL}/price/${r.slug}`,
-    lastModified: now,
-    changeFrequency: "weekly" as const,
-    priority: 0.8,
-  }));
-
-  // 投資タグページ
-  const tagPages: MetadataRoute.Sitemap = INVESTMENT_TAG_PAGES.map((t) => ({
-    url: `${BASE_URL}/tag/${t.slug}`,
-    lastModified: now,
-    changeFrequency: "weekly" as const,
-    priority: 0.7,
-  }));
-
-  // 物件詳細ページ（staticデータ）
-  const propertyPages: MetadataRoute.Sitemap = properties.map((p) => ({
-    url: `${BASE_URL}/properties/${p.id}`,
-    lastModified: now,
-    changeFrequency: "monthly" as const,
-    priority: 0.6,
-  }));
-
-  return [
-    ...staticPages,
-    ...prefectureIndex,
-    ...prefecturePages,
-    ...pricePages,
-    ...tagPages,
-    ...propertyPages,
-  ];
+  return entries;
 }

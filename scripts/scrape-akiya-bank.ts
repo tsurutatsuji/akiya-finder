@@ -174,12 +174,24 @@ function extractProperties(html: string, prefCode: string): ScrapedProperty[] {
 }
 
 function countTotalPages(html: string): number {
-  // ページネーションから総ページ数を抽出
+  // パターン1: data-page属性から最大ページ数を取得（JS駆動のページネーション）
+  const dataPageNums = [...html.matchAll(/data-page="(\d+)"/g)].map((m) => parseInt(m[1]));
+  if (dataPageNums.length > 0) return Math.max(...dataPageNums);
+
+  // パターン2: 「N件中」テキストから総件数を計算（20件/ページ）
+  const totalMatch = html.match(/(\d[\d,]*)件中/);
+  if (totalMatch) {
+    const total = parseInt(totalMatch[1].replace(/,/g, ""));
+    return Math.ceil(total / 20);
+  }
+
+  // パターン3: 旧パターン — page=N のURLリンク
   const match = html.match(/page=(\d+)[^>]*>\s*(?:最後|>&gt;)/);
   if (match) return parseInt(match[1]);
-  // 別パターン: 数字のリンクから最大値を取得
   const pageNums = [...html.matchAll(/page=(\d+)/g)].map((m) => parseInt(m[1]));
-  return pageNums.length > 0 ? Math.max(...pageNums) : 1;
+  if (pageNums.length > 0) return Math.max(...pageNums);
+
+  return 1;
 }
 
 async function scrapePrefecture(prefCode: string, maxPages: number = 5): Promise<ScrapedProperty[]> {
@@ -211,7 +223,7 @@ async function scrapePrefecture(prefCode: string, maxPages: number = 5): Promise
 }
 
 async function main() {
-  const defaultMax = parseInt(process.argv[2] || "20");
+  const defaultMax = parseInt(process.argv[2] || "100");
 
   // 全47都道府県をスクレイプ（優先県を先に）
   const allPrefCodes = Object.keys(PREFECTURES);
@@ -233,16 +245,36 @@ async function main() {
     allProperties.push(...properties);
   }
 
+  // 既存データとマージ
+  const outDir = path.join(process.cwd(), "data");
+  if (!fs.existsSync(outDir)) fs.mkdirSync(outDir, { recursive: true });
+  const outPath = path.join(outDir, "scraped-properties.json");
+
+  let existingProperties: ScrapedProperty[] = [];
+  if (fs.existsSync(outPath)) {
+    try {
+      existingProperties = JSON.parse(fs.readFileSync(outPath, "utf-8"));
+      console.log(`\nLoaded ${existingProperties.length} existing properties for merge`);
+    } catch (e) {
+      console.warn("Could not load existing data, starting fresh");
+    }
+  }
+
+  // 新規データを優先（同一IDは新データで上書き）、既存のみのデータは保持
+  const merged = [...allProperties];
+  const newIds = new Set(allProperties.map(p => p.id));
+  for (const existing of existingProperties) {
+    if (!newIds.has(existing.id)) {
+      merged.push(existing);
+    }
+  }
+
   // 重複除去
-  const unique = allProperties.filter(
+  const unique = merged.filter(
     (p, i, arr) => arr.findIndex((q) => q.id === p.id) === i
   );
 
   // 保存
-  const outDir = path.join(process.cwd(), "data");
-  if (!fs.existsSync(outDir)) fs.mkdirSync(outDir, { recursive: true });
-
-  const outPath = path.join(outDir, "scraped-properties.json");
   fs.writeFileSync(outPath, JSON.stringify(unique, null, 2));
 
   console.log(`\n=== Done ===`);
