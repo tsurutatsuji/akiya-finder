@@ -15,6 +15,7 @@ import {
   INVESTMENT_CATEGORIES,
 } from "@/lib/investment-tags";
 import { Link } from "@/i18n/navigation";
+import { getAllDisplayImages, getDisplayImageUrl } from "@/lib/image-utils";
 
 // --- 統合型 ---
 type UnifiedProperty =
@@ -547,16 +548,13 @@ function ScrapedPropertyPage({ property: p }: { property: ScrapedProperty }) {
                   className="bg-white rounded-xl overflow-hidden shadow-sm border border-gray-100 hover:shadow-md transition group"
                 >
                   <div className="h-36 bg-gradient-to-br from-gray-100 to-gray-200 relative">
-                    {rp.thumbnailUrl ? (
-                      <>
-                        {/* eslint-disable-next-line @next/next/no-img-element */}
-                        <img
-                          src={rp.thumbnailUrl}
-                          alt={rp.locationJa}
-                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                          loading="lazy"
-                        />
-                      </>
+                    {getDisplayImageUrl(rp) ? (
+                      <img
+                        src={getDisplayImageUrl(rp)!}
+                        alt={rp.locationJa}
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                        loading="lazy"
+                      />
                     ) : (
                       <div className="flex items-center justify-center h-full text-3xl">
                         🏡
@@ -602,8 +600,7 @@ function ScrapedPropertyPage({ property: p }: { property: ScrapedProperty }) {
 
 // --- 画像ギャラリー ---
 function ImageGallery({ property: p }: { property: ScrapedProperty }) {
-  const allImages: string[] = (p as any).allImages || [];
-  const images = allImages.length > 0 ? allImages : p.thumbnailUrl ? [p.thumbnailUrl] : [];
+  const images = getAllDisplayImages(p);
 
   if (images.length === 0) {
     return (

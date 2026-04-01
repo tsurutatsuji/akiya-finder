@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { ScrapedProperty } from "@/lib/scraped-properties";
+import { getDisplayImageUrl } from "@/lib/image-utils";
 
 export default function SeoPropertyCard({
   property,
@@ -12,6 +13,7 @@ export default function SeoPropertyCard({
 }) {
   const [imgError, setImgError] = useState(false);
   const t = useTranslations("property");
+  const displayImage = getDisplayImageUrl(property);
   const priceUsd = property.priceUsd || Math.round(property.price / 150);
   const priceCny = property.price > 0 ? Math.round(property.price / 20) : 0;
 
@@ -20,19 +22,14 @@ export default function SeoPropertyCard({
       <div className="bg-white rounded-xl overflow-hidden shadow-sm border border-gray-100 card-hover cursor-pointer">
         {/* Image - h-56 for larger display */}
         <div className="h-56 bg-gradient-to-br from-gray-100 to-gray-200 relative flex items-center justify-center">
-          {property.thumbnailUrl && !imgError ? (
-            <>
-              <img
-                src={property.thumbnailUrl}
-                alt={`Akiya house in ${property.prefectureEn}`}
-                className="w-full h-full object-cover"
-                loading="lazy"
-                onError={() => setImgError(true)}
-              />
-              <span className="absolute bottom-1 right-1 text-[10px] text-white/70 bg-black/30 px-1 rounded">
-                {t("sourceAtHome")}
-              </span>
-            </>
+          {displayImage && !imgError ? (
+            <img
+              src={displayImage}
+              alt={`Akiya house in ${property.prefectureEn}`}
+              className="w-full h-full object-cover"
+              loading="lazy"
+              onError={() => setImgError(true)}
+            />
           ) : (
             <div className="text-center">
               <span className="text-4xl">🏡</span>

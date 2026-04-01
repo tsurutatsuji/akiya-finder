@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { Property } from "@/data/properties";
+import { isRealPropertyPhoto } from "@/lib/image-utils";
 
 export default function PropertyCard({ property }: { property: Property }) {
   const [imgError, setImgError] = useState(false);
@@ -20,11 +21,12 @@ export default function PropertyCard({ property }: { property: Property }) {
   const price = formatPrice(property.price, property.priceUsd);
   const priceCny = property.price > 0 ? Math.round(property.price / 20) : 0;
 
-  const imageUrl =
+  const rawImageUrl =
     (property as Property & { thumbnailUrl?: string }).thumbnailUrl ||
     (property.images?.[0] && !property.images[0].includes("placeholder")
       ? property.images[0]
       : null);
+  const imageUrl = rawImageUrl && isRealPropertyPhoto(rawImageUrl) ? rawImageUrl : null;
 
   return (
     <Link href={`/properties/${property.id}`}>
