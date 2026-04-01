@@ -330,42 +330,16 @@ function ScrapedPropertyPage({ property: p }: { property: ScrapedProperty }) {
           <span className="text-gray-600">{p.location}</span>
         </nav>
 
-        {/* Image */}
-        <div className="h-64 md:h-96 bg-gradient-to-br from-gray-100 to-gray-200 rounded-xl overflow-hidden relative mb-8">
-          {p.thumbnailUrl ? (
-            <>
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src={p.thumbnailUrl}
-                alt={`Akiya property in ${p.location}`}
-                className="w-full h-full object-cover"
-              />
-              <span className="absolute bottom-2 right-2 text-xs text-white/80 bg-black/40 px-2 py-1 rounded">
-                Source: @home空き家バンク
-              </span>
-            </>
-          ) : (
-            <div className="flex items-center justify-center h-full">
-              <div className="text-center">
-                <span className="text-6xl">🏡</span>
-                <p className="text-gray-400 mt-2">Photo not available</p>
-              </div>
-            </div>
-          )}
-          {p.price === 0 && (
-            <span className="absolute top-4 left-4 bg-accent text-white text-sm font-bold px-4 py-1.5 rounded-full">
-              FREE
-            </span>
-          )}
-        </div>
+        {/* 画像ギャラリー */}
+        <ImageGallery property={p} />
 
-        {/* Investment Tags */}
+        {/* 投資タグ */}
         {tagCategories.length > 0 && (
           <div className="flex flex-wrap gap-2 mb-6">
             {tagCategories.map((cat) => (
               <Link
                 key={cat.id}
-                href={`/akiya/investment/${cat.id === "free-entry" ? "free-near-free" : cat.id}`}
+                href={`/tag/${cat.id === "free-entry" ? "free-near-free" : cat.id}`}
                 className="inline-flex items-center gap-1.5 bg-accent/10 text-accent border border-accent/20 px-3 py-1.5 rounded-full text-sm font-medium hover:bg-accent/20 transition"
               >
                 <span>{cat.emoji}</span>
@@ -375,16 +349,15 @@ function ScrapedPropertyPage({ property: p }: { property: ScrapedProperty }) {
           </div>
         )}
 
-        {/* Title & Price */}
+        {/* タイトル・価格 */}
         <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-4 mb-8">
           <div>
             <h1 className="text-2xl md:text-3xl font-bold text-primary mb-2">
-              {p.layout ? `${p.layout} ` : ""}
-              {p.propertyType === "売土地" ? "Land" : "House"} in {p.location}
+              {p.locationJa}
             </h1>
-            <p className="text-gray-500">📍 {p.locationJa}</p>
+            <p className="text-gray-500">📍 {p.location}, {p.prefectureEn}</p>
             <p className="text-xs text-gray-400 mt-1">
-              {p.propertyType} · Listed {new Date(p.scrapedAt).toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric" })}
+              {p.propertyType} · {p.layout || ""} · 掲載日: {new Date(p.scrapedAt).toLocaleDateString("ja-JP")}
             </p>
           </div>
           <div className="text-right shrink-0">
@@ -393,44 +366,44 @@ function ScrapedPropertyPage({ property: p }: { property: ScrapedProperty }) {
           </div>
         </div>
 
-        {/* Details Grid */}
+        {/* 物件概要 */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
           {p.layout && p.layout !== "-" && (
             <div className="bg-white p-4 rounded-lg border border-gray-100 text-center">
               <p className="text-2xl font-bold text-primary">{p.layout}</p>
-              <p className="text-xs text-gray-400">Layout</p>
+              <p className="text-xs text-gray-400">間取り</p>
             </div>
           )}
           <div className="bg-white p-4 rounded-lg border border-gray-100 text-center">
             <p className="text-2xl font-bold text-primary">
               {p.buildingArea || "-"}
             </p>
-            <p className="text-xs text-gray-400">Building Area</p>
+            <p className="text-xs text-gray-400">建物面積</p>
           </div>
           <div className="bg-white p-4 rounded-lg border border-gray-100 text-center">
             <p className="text-2xl font-bold text-primary">
               {p.landArea || "-"}
             </p>
-            <p className="text-xs text-gray-400">Land Area</p>
+            <p className="text-xs text-gray-400">土地面積</p>
           </div>
           <div className="bg-white p-4 rounded-lg border border-gray-100 text-center">
             <p className="text-2xl font-bold text-primary">
               {p.yearBuilt || "-"}
             </p>
-            <p className="text-xs text-gray-400">Year Built</p>
+            <p className="text-xs text-gray-400">築年月</p>
           </div>
         </div>
 
-        {/* Investment Metrics */}
+        {/* 投資指標 */}
         {(pricePerSqm || age !== null || walkMin !== null || p.estimatedRoi) && (
           <div className="bg-primary/5 border border-primary/10 rounded-xl p-6 mb-8">
             <h2 className="font-bold text-lg text-primary mb-4">
-              Investment Metrics
+              投資指標
             </h2>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
               {pricePerSqm && (
                 <div>
-                  <p className="text-sm text-gray-500">Price / m²</p>
+                  <p className="text-sm text-gray-500">㎡単価</p>
                   <p className="text-lg font-bold text-primary">
                     ¥{pricePerSqm.toLocaleString()}
                   </p>
@@ -443,23 +416,23 @@ function ScrapedPropertyPage({ property: p }: { property: ScrapedProperty }) {
               )}
               {age !== null && (
                 <div>
-                  <p className="text-sm text-gray-500">Building Age</p>
+                  <p className="text-sm text-gray-500">築年数</p>
                   <p className="text-lg font-bold text-primary">
-                    {age} years
+                    {age}年
                   </p>
                 </div>
               )}
               {walkMin !== null && (
                 <div>
-                  <p className="text-sm text-gray-500">Station Walk</p>
+                  <p className="text-sm text-gray-500">最寄り駅</p>
                   <p className="text-lg font-bold text-primary">
-                    {walkMin} min
+                    徒歩{walkMin}分
                   </p>
                 </div>
               )}
               {p.estimatedRoi && (
                 <div>
-                  <p className="text-sm text-gray-500">Est. ROI (Airbnb)</p>
+                  <p className="text-sm text-gray-500">想定利回り</p>
                   <p className="text-lg font-bold text-accent">
                     {p.estimatedRoi}%
                   </p>
@@ -469,53 +442,53 @@ function ScrapedPropertyPage({ property: p }: { property: ScrapedProperty }) {
           </div>
         )}
 
-        {/* Property Details */}
+        {/* 物件詳細 */}
         <div className="bg-white p-6 rounded-xl border border-gray-100 mb-8">
-          <h2 className="font-bold text-lg mb-4">Property Details</h2>
+          <h2 className="font-bold text-lg mb-4">物件詳細</h2>
           <dl className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-3">
-            <DetailRow label="Property Type" value={p.propertyType} />
-            <DetailRow label="Layout" value={p.layout} />
-            <DetailRow label="Building Area" value={p.buildingArea} />
-            <DetailRow label="Land Area" value={p.landArea} />
-            <DetailRow label="Year Built" value={p.yearBuilt} />
-            <DetailRow label="Structure" value={p.structure} />
-            <DetailRow label="Land Rights" value={p.landRights} />
-            <DetailRow label="Zoning" value={p.zoning} />
-            <DetailRow label="Prefecture" value={p.prefectureEn} />
+            <DetailRow label="物件種別" value={p.propertyType} />
+            <DetailRow label="間取り" value={p.layout} />
+            <DetailRow label="建物面積" value={p.buildingArea} />
+            <DetailRow label="土地面積" value={p.landArea} />
+            <DetailRow label="築年月" value={p.yearBuilt} />
+            <DetailRow label="構造" value={p.structure} />
+            <DetailRow label="土地権利" value={p.landRights} />
+            <DetailRow label="用途地域" value={p.zoning} />
+            <DetailRow label="都道府県" value={p.prefectureEn} />
           </dl>
         </div>
 
-        {/* Access */}
+        {/* アクセス */}
         {p.access && (
           <div className="bg-white p-6 rounded-xl border border-gray-100 mb-8">
-            <h2 className="font-bold text-lg mb-3">Access</h2>
+            <h2 className="font-bold text-lg mb-3">アクセス</h2>
             <p className="text-gray-600">{p.access}</p>
           </div>
         )}
 
-        {/* Area Description */}
+        {/* エリア情報 */}
         {p.areaDescription && (
           <div className="bg-white p-6 rounded-xl border border-gray-100 mb-8">
-            <h2 className="font-bold text-lg mb-3">About This Area</h2>
+            <h2 className="font-bold text-lg mb-3">エリア情報</h2>
             <p className="text-gray-600 leading-relaxed">
               {p.areaDescription}
             </p>
           </div>
         )}
 
-        {/* Remarks */}
+        {/* 備考 */}
         {remarksText && (
           <div className="bg-white p-6 rounded-xl border border-gray-100 mb-8">
-            <h2 className="font-bold text-lg mb-3">Remarks</h2>
+            <h2 className="font-bold text-lg mb-3">備考</h2>
             <p className="text-gray-600">{remarksText}</p>
           </div>
         )}
 
-        {/* Source Link */}
+        {/* 出典 */}
         <div className="bg-gray-50 border border-gray-200 rounded-xl p-4 mb-8 flex items-center justify-between">
           <div>
             <p className="text-xs text-gray-400 mb-1">
-              Source: @home空き家バンク (at-home Akiya Bank)
+              出典: @home空き家バンク
             </p>
             <a
               href={p.sourceUrl}
@@ -523,7 +496,7 @@ function ScrapedPropertyPage({ property: p }: { property: ScrapedProperty }) {
               rel="noopener noreferrer"
               className="text-sm text-blue-600 hover:underline break-all"
             >
-              View original listing
+              元の掲載ページを見る
             </a>
           </div>
           <svg
@@ -541,32 +514,30 @@ function ScrapedPropertyPage({ property: p }: { property: ScrapedProperty }) {
           </svg>
         </div>
 
-        {/* CTA */}
+        {/* お問い合わせ */}
         <div className="bg-accent/5 border border-accent/20 rounded-xl p-8 text-center mb-12">
           <h2 className="text-xl font-bold text-primary mb-2">
-            Interested in This Property?
+            この物件に興味がありますか？
           </h2>
           <p className="text-gray-600 mb-6">
-            We&apos;ll connect you with a licensed English-speaking real estate
-            agent in {p.prefectureEn} who can help you with viewings,
-            negotiations, and the purchase process.
+            {p.prefectureEn}エリアの不動産会社をご紹介します。内見・交渉・購入手続きをサポートいたします。
           </p>
           <Link
             href={`/contact?property=${p.id}`}
             className="inline-block bg-accent text-white px-8 py-3 rounded-lg font-semibold hover:bg-red-600 transition"
           >
-            Inquire About This Property
+            この物件について問い合わせる
           </Link>
           <p className="text-xs text-gray-400 mt-3">
-            Free consultation · No obligation · Response within 48 hours
+            無料相談 · 義務なし · 48時間以内に返信
           </p>
         </div>
 
-        {/* Related Properties */}
+        {/* 同エリアの物件 */}
         {relatedProperties.length > 0 && (
           <div className="mb-12">
             <h2 className="text-xl font-bold text-primary mb-6">
-              More Properties in {p.prefectureEn}
+              {p.prefectureEn}の他の物件
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
               {relatedProperties.map((rp) => (
@@ -581,13 +552,10 @@ function ScrapedPropertyPage({ property: p }: { property: ScrapedProperty }) {
                         {/* eslint-disable-next-line @next/next/no-img-element */}
                         <img
                           src={rp.thumbnailUrl}
-                          alt={`Akiya in ${rp.location}`}
+                          alt={rp.locationJa}
                           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                           loading="lazy"
                         />
-                        <span className="absolute bottom-1 right-1 text-[10px] text-white/70 bg-black/30 px-1 rounded">
-                          @home空き家バンク
-                        </span>
                       </>
                     ) : (
                       <div className="flex items-center justify-center h-full text-3xl">
@@ -596,23 +564,21 @@ function ScrapedPropertyPage({ property: p }: { property: ScrapedProperty }) {
                     )}
                     {rp.price === 0 && (
                       <span className="absolute top-2 left-2 bg-accent text-white text-xs font-bold px-2 py-0.5 rounded-full">
-                        FREE
+                        無料
                       </span>
                     )}
                   </div>
                   <div className="p-3">
                     <p className="text-sm font-semibold text-primary truncate">
-                      {rp.layout ? `${rp.layout} ` : ""}
-                      {rp.propertyType === "売土地" ? "Land" : "House"} in{" "}
-                      {rp.location}
+                      {rp.locationJa}
                     </p>
                     <p className="text-accent font-bold mt-1">
                       {rp.price === 0
-                        ? "FREE"
+                        ? "無料"
                         : `¥${rp.price.toLocaleString()}`}
                     </p>
                     <p className="text-xs text-gray-400">
-                      {rp.buildingArea} · {rp.landArea}
+                      {rp.propertyType} · {rp.buildingArea} · {rp.landArea}
                     </p>
                   </div>
                 </Link>
@@ -620,10 +586,10 @@ function ScrapedPropertyPage({ property: p }: { property: ScrapedProperty }) {
             </div>
             <div className="text-center mt-6">
               <Link
-                href={`/akiya/${p.prefectureEn?.toLowerCase()}`}
+                href={`/prefecture/${p.prefectureEn?.toLowerCase()}`}
                 className="text-accent hover:underline text-sm font-medium"
               >
-                View all properties in {p.prefectureEn} →
+                {p.prefectureEn}の物件をもっと見る →
               </Link>
             </div>
           </div>
@@ -631,6 +597,81 @@ function ScrapedPropertyPage({ property: p }: { property: ScrapedProperty }) {
       </div>
       <Footer />
     </>
+  );
+}
+
+// --- 画像ギャラリー ---
+function ImageGallery({ property: p }: { property: ScrapedProperty }) {
+  const allImages: string[] = (p as any).allImages || [];
+  const images = allImages.length > 0 ? allImages : p.thumbnailUrl ? [p.thumbnailUrl] : [];
+
+  if (images.length === 0) {
+    return (
+      <div className="h-64 md:h-96 bg-gradient-to-br from-gray-100 to-gray-200 rounded-xl flex items-center justify-center mb-8">
+        <div className="text-center">
+          <span className="text-6xl">🏡</span>
+          <p className="text-gray-400 mt-2">写真はまだありません</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (images.length === 1) {
+    return (
+      <div className="h-64 md:h-96 bg-gradient-to-br from-gray-100 to-gray-200 rounded-xl overflow-hidden relative mb-8">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src={images[0]}
+          alt={p.locationJa || p.location}
+          className="w-full h-full object-cover"
+        />
+        {p.price === 0 && (
+          <span className="absolute top-4 left-4 bg-accent text-white text-sm font-bold px-4 py-1.5 rounded-full">
+            無料
+          </span>
+        )}
+        <span className="absolute bottom-2 right-2 text-xs text-white/80 bg-black/40 px-2 py-1 rounded">
+          1 / 1
+        </span>
+      </div>
+    );
+  }
+
+  // 複数画像: メイン + サムネイルグリッド
+  return (
+    <div className="mb-8">
+      {/* メイン画像 */}
+      <div className="h-64 md:h-96 bg-gradient-to-br from-gray-100 to-gray-200 rounded-t-xl overflow-hidden relative">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src={images[0]}
+          alt={p.locationJa || p.location}
+          className="w-full h-full object-cover"
+        />
+        {p.price === 0 && (
+          <span className="absolute top-4 left-4 bg-accent text-white text-sm font-bold px-4 py-1.5 rounded-full">
+            無料
+          </span>
+        )}
+        <span className="absolute bottom-2 right-2 text-xs text-white/80 bg-black/40 px-2 py-1 rounded">
+          全{images.length}枚
+        </span>
+      </div>
+      {/* サムネイル一覧 */}
+      <div className="grid grid-cols-4 md:grid-cols-6 gap-1 mt-1">
+        {images.slice(0, 6).map((img, i) => (
+          <div key={i} className="h-20 md:h-24 bg-gray-100 rounded-lg overflow-hidden">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={img}
+              alt={`写真 ${i + 1}`}
+              className="w-full h-full object-cover hover:opacity-80 transition cursor-pointer"
+              loading="lazy"
+            />
+          </div>
+        ))}
+      </div>
+    </div>
   );
 }
 
