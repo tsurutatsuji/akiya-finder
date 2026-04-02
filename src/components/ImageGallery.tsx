@@ -83,6 +83,20 @@ export default function ImageGallery({ property: p, images: propImages, captions
           className="fixed inset-0 z-50 bg-black/90 flex items-center justify-center"
           onClick={closeLightbox}
         >
+          {/* 左上: キャプション */}
+          {captions[lightboxIndex] && (
+            <div className="absolute top-4 left-4 z-50 bg-black/70 text-white px-4 py-2 rounded-lg max-w-[60vw]">
+              <p className="font-medium text-base">{captions[lightboxIndex]}</p>
+              <p className="text-white/60 text-xs mt-0.5">{lightboxIndex + 1} / {images.length}</p>
+            </div>
+          )}
+          {!captions[lightboxIndex] && (
+            <div className="absolute top-4 left-4 z-50 bg-black/70 text-white px-4 py-2 rounded-lg">
+              <p className="text-white/60 text-xs">{lightboxIndex + 1} / {images.length}</p>
+            </div>
+          )}
+
+          {/* 右上: 閉じる */}
           <button
             className="absolute top-4 right-4 text-white text-3xl hover:text-gray-300 z-50"
             onClick={closeLightbox}
@@ -90,6 +104,7 @@ export default function ImageGallery({ property: p, images: propImages, captions
             ✕
           </button>
 
+          {/* 左: 前へ */}
           {images.length > 1 && (
             <button
               className="absolute left-4 top-1/2 -translate-y-1/2 text-white text-4xl hover:text-gray-300 z-50 bg-black/30 rounded-full w-12 h-12 flex items-center justify-center"
@@ -99,13 +114,15 @@ export default function ImageGallery({ property: p, images: propImages, captions
             </button>
           )}
 
+          {/* 画像 */}
           <img
             src={images[lightboxIndex]}
-            alt={`写真 ${lightboxIndex + 1}`}
+            alt={captions[lightboxIndex] || `写真 ${lightboxIndex + 1}`}
             className="max-w-[90vw] max-h-[85vh] object-contain"
             onClick={(e) => e.stopPropagation()}
           />
 
+          {/* 右: 次へ */}
           {images.length > 1 && (
             <button
               className="absolute right-4 top-1/2 -translate-y-1/2 text-white text-4xl hover:text-gray-300 z-50 bg-black/30 rounded-full w-12 h-12 flex items-center justify-center"
@@ -114,13 +131,6 @@ export default function ImageGallery({ property: p, images: propImages, captions
               ›
             </button>
           )}
-
-          <div className="absolute bottom-4 left-1/2 -translate-x-1/2 text-white text-sm bg-black/60 px-4 py-2 rounded-lg text-center">
-            {captions[lightboxIndex] && (
-              <p className="font-medium mb-1">{captions[lightboxIndex]}</p>
-            )}
-            <p className="text-white/70 text-xs">{lightboxIndex + 1} / {images.length}</p>
-          </div>
         </div>
       )}
     </div>

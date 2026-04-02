@@ -388,15 +388,8 @@ function ScrapedPropertyPage({ property: p }: { property: ScrapedProperty }) {
           <ShareButtons propertyId={p.id} title={`${p.locationJa} - ${priceDisplay} | AkiyaFinder`} />
         </div>
 
-        {/* === 2. Image + Map === */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-8">
-          <div>
-            <ImageGallery property={p} images={p.allImages || []} captions={p.imageCaptions || []} />
-          </div>
-          {p.lat && p.lng && (
-            <MapStreetViewTabs lat={p.lat} lng={p.lng} location={p.locationJa || p.location} />
-          )}
-        </div>
+        {/* === 2. 画像ギャラリー（全幅） === */}
+        <ImageGallery property={p} images={p.allImages || []} captions={p.imageCaptions || []} />
 
         {/* === 3. Property Overview === */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
@@ -548,6 +541,13 @@ function ScrapedPropertyPage({ property: p }: { property: ScrapedProperty }) {
             />
           </svg>
         </div>
+
+        {/* Map & Street View */}
+        {p.lat && p.lng && (
+          <div className="mb-8">
+            <MapStreetViewTabs lat={p.lat} lng={p.lng} location={p.locationJa || p.location} />
+          </div>
+        )}
 
         {/* Contact CTA */}
         <div className="bg-accent/5 border border-accent/20 rounded-2xl p-8 text-center mb-12">
