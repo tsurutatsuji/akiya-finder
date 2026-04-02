@@ -484,22 +484,47 @@ function ScrapedPropertyPage({ property: p, locale = "zh" }: { property: Scraped
         <div className="bg-white p-6 rounded-xl border border-gray-100 mb-8">
           <h2 className="font-bold text-lg mb-4">Property Details</h2>
           <dl className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-3">
-            <DetailRow label="Type" value={p.propertyType} />
-            <DetailRow label="Layout" value={p.layout} />
-            <DetailRow label="Building" value={p.buildingArea} />
-            <DetailRow label="Land" value={p.landArea} />
-            <DetailRow label="Year Built" value={p.yearBuilt} />
-            <DetailRow label="Structure" value={p.structure} />
-            <DetailRow label="Land Rights" value={p.landRights} />
-            <DetailRow label="Zoning" value={p.zoning} />
-            <DetailRow label="Prefecture" value={p.prefectureEn} />
+            <DetailRow label={locale === "zh" ? "物件类型" : locale === "ja" ? "物件種別" : "Type"} value={locale === "zh" ? (p.propertyTypeZh || p.propertyType) : p.propertyType} />
+            <DetailRow label={locale === "zh" ? "户型" : locale === "ja" ? "間取り" : "Layout"} value={p.layout} />
+            <DetailRow label={locale === "zh" ? "建筑面积" : locale === "ja" ? "建物面積" : "Building"} value={p.buildingArea} />
+            <DetailRow label={locale === "zh" ? "土地面积" : locale === "ja" ? "土地面積" : "Land"} value={p.landArea} />
+            <DetailRow label={locale === "zh" ? "建造年月" : locale === "ja" ? "築年月" : "Year Built"} value={p.yearBuilt} />
+            <DetailRow label={locale === "zh" ? "建筑结构" : locale === "ja" ? "構造" : "Structure"} value={p.structure} />
+            <DetailRow label={locale === "zh" ? "楼层" : locale === "ja" ? "階建" : "Floors"} value={p.floors} />
+            <DetailRow label={locale === "zh" ? "现状" : locale === "ja" ? "現況" : "Status"} value={p.currentStatus} />
+            <DetailRow label={locale === "zh" ? "建蔽率" : locale === "ja" ? "建ぺい率" : "Building Coverage"} value={p.buildingCoverageRatio} />
+            <DetailRow label={locale === "zh" ? "容积率" : locale === "ja" ? "容積率" : "Floor Area Ratio"} value={p.floorAreaRatio} />
+            <DetailRow label={locale === "zh" ? "土地权利" : locale === "ja" ? "土地権利" : "Land Rights"} value={p.landRights} />
+            <DetailRow label={locale === "zh" ? "地目" : locale === "ja" ? "地目" : "Land Category"} value={p.landCategory} />
+            <DetailRow label={locale === "zh" ? "城市规划" : locale === "ja" ? "都市計画" : "City Planning"} value={p.cityPlanning} />
+            <DetailRow label={locale === "zh" ? "用途地域" : locale === "ja" ? "用途地域" : "Zoning"} value={p.zoning} />
+            <DetailRow label={locale === "zh" ? "交付" : locale === "ja" ? "引渡し" : "Delivery"} value={p.delivery} />
+            <DetailRow label={locale === "zh" ? "所在都道府县" : locale === "ja" ? "都道府県" : "Prefecture"} value={locale === "zh" ? (p.prefectureZh || p.prefectureEn) : p.prefectureEn} />
           </dl>
         </div>
+
+        {/* Features / こだわり条件 */}
+        {p.kodawari && (
+          <div className="bg-white p-6 rounded-xl border border-gray-100 mb-8">
+            <h2 className="font-bold text-lg mb-3">
+              {locale === "zh" ? "特色条件" : locale === "ja" ? "こだわり条件" : "Features"}
+            </h2>
+            <div className="flex flex-wrap gap-2">
+              {p.kodawari.split(/\s+/).filter(Boolean).map((f, i) => (
+                <span key={i} className="bg-accent/5 text-accent border border-accent/20 px-3 py-1 rounded-full text-sm">
+                  {f}
+                </span>
+              ))}
+            </div>
+          </div>
+        )}
 
         {/* Access */}
         {p.access && (
           <div className="bg-white p-6 rounded-xl border border-gray-100 mb-8">
-            <h2 className="font-bold text-lg mb-3">Access</h2>
+            <h2 className="font-bold text-lg mb-3">
+              {locale === "zh" ? "交通" : locale === "ja" ? "アクセス" : "Access"}
+            </h2>
             <p className="text-gray-600">{p.access}</p>
           </div>
         )}

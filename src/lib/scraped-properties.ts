@@ -43,6 +43,15 @@ export interface ScrapedProperty {
   propertyTypeZh?: string;
   prefectureZh?: string;
   locationZh?: string;
+  floors?: string;
+  currentStatus?: string;
+  buildingCoverageRatio?: string;
+  floorAreaRatio?: string;
+  landCategory?: string;
+  cityPlanning?: string;
+  delivery?: string;
+  publishDate?: string;
+  kodawari?: string;
 }
 
 // 型アサーション付きでロード
