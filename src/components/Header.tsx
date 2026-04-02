@@ -36,7 +36,13 @@ export default function Header() {
           <Link href="/" className="flex items-center gap-2 group">
             <span className="text-2xl group-hover:scale-110 transition-transform">🏠</span>
             <span className="text-xl font-bold text-primary">
-              Akiya<span className="text-accent">Finder</span>
+              {locale === "zh" ? (
+                <>日本<span className="text-accent">空房网</span></>
+              ) : locale === "ja" ? (
+                <span className="tracking-wider">AKI<span className="text-accent">YA</span></span>
+              ) : (
+                <>Akiya<span className="text-accent">Finder</span></>
+              )}
             </span>
           </Link>
           <ViewerCount />

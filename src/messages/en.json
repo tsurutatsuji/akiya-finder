@@ -375,5 +375,10 @@
     "label": "Share",
     "copyUrl": "Copy URL",
     "weibo": "Weibo"
+  },
+  "site": {
+    "name": "AkiyaFinder",
+    "title": "AkiyaFinder — Find Cheap Houses in Japan | From $0",
+    "description": "Discover 4,335+ affordable akiya (vacant houses) across all 47 prefectures. Free agent matching for foreign buyers."
   }
 }
