@@ -20,6 +20,7 @@ import ImageGallery, { ShareButtons } from "@/components/ImageGallery";
 import MapStreetViewTabs from "@/components/MapStreetViewTabs";
 import ViewHistoryTracker from "@/components/ViewHistoryTracker";
 import StickyContactBar from "@/components/StickyContactBar";
+import WatchlistButton from "@/components/WatchlistButton";
 
 // --- Unified type ---
 type UnifiedProperty =
@@ -175,9 +176,19 @@ function ManualPropertyPage({ property }: { property: Property }) {
             </p>
             <p className="text-xs text-gray-400 mt-1">{property.titleJa}</p>
           </div>
-          <div className="text-right">
-            <p className="text-3xl font-bold text-accent">{priceDisplay}</p>
-            <p className="text-gray-400">{usdDisplay}</p>
+          <div className="text-right flex items-start gap-2">
+            <div>
+              <p className="text-3xl font-bold text-accent">{priceDisplay}</p>
+              <p className="text-gray-400">{usdDisplay}</p>
+            </div>
+            <WatchlistButton
+              id={property.id}
+              title={property.title}
+              price={property.price}
+              location={property.location}
+              thumbnailUrl={null}
+              size="md"
+            />
           </div>
         </div>
 
@@ -371,6 +382,14 @@ function ScrapedPropertyPage({ property: p, locale = "zh" }: { property: Scraped
                 <p key={i} className="text-sm text-gray-400 mt-0.5">{sp}</p>
               ))}
             </div>
+            <WatchlistButton
+              id={p.id}
+              title={p.locationJa || p.location}
+              price={p.price}
+              location={p.location}
+              thumbnailUrl={displayImageUrl}
+              size="md"
+            />
           </div>
           <h1 className="text-xl md:text-2xl font-bold text-primary mt-3 flex items-center gap-2">
             <svg className="w-5 h-5 text-accent flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">

@@ -6,6 +6,7 @@ import { useLocale } from "next-intl";
 import { useState } from "react";
 import ViewerCount from "./ViewerCount";
 import ViewHistory from "./ViewHistory";
+import WatchlistDropdown from "./WatchlistDropdown";
 
 export default function Header() {
   const t = useTranslations("nav");
@@ -93,6 +94,9 @@ export default function Header() {
           {/* View History */}
           <ViewHistory />
 
+          {/* Watchlist */}
+          <WatchlistDropdown />
+
           {/* Language Selector */}
           <div className="relative">
             <button
@@ -134,6 +138,7 @@ export default function Header() {
         {/* Mobile: View History + Menu button */}
         <div className="lg:hidden flex items-center gap-2">
           <ViewHistory />
+          <WatchlistDropdown />
           <button
             className="text-gray-600 hover:text-primary p-1.5"
             onClick={() => setMobileOpen(!mobileOpen)}

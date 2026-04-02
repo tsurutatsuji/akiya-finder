@@ -316,6 +316,12 @@
     "count": "Last {count}",
     "free": "FREE (¥0)"
   },
+  "watchlist": {
+    "title": "Favorites",
+    "empty": "No favorites yet",
+    "count": "{count} saved",
+    "free": "FREE (¥0)"
+  },
   "stickyContact": {
     "inquire": "Inquire Now",
     "freeConsultation": "Free consultation · Reply within 48h",

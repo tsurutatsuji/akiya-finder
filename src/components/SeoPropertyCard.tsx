@@ -5,6 +5,7 @@ import { useTranslations, useLocale } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { ScrapedProperty } from "@/lib/scraped-properties";
 import { getDisplayImageUrl } from "@/lib/image-utils";
+import WatchlistButton from "./WatchlistButton";
 
 export default function SeoPropertyCard({
   property,
@@ -59,6 +60,16 @@ export default function SeoPropertyCard({
           <span className="absolute top-3 right-3 bg-white/90 backdrop-blur-sm text-xs px-2.5 py-1 rounded-full text-gray-600 font-medium shadow-sm">
             {displayType}
           </span>
+          {/* Watchlist heart */}
+          <div className="absolute bottom-3 right-3 bg-white/90 backdrop-blur-sm rounded-full shadow-sm">
+            <WatchlistButton
+              id={property.id}
+              title={displayLocation}
+              price={property.price}
+              location={displayLocation}
+              thumbnailUrl={displayImage}
+            />
+          </div>
         </div>
 
         {/* Content */}

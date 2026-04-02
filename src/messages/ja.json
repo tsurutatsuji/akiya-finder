@@ -316,6 +316,12 @@
     "count": "最近 {count} 件",
     "free": "無料 (¥0)"
   },
+  "watchlist": {
+    "title": "お気に入り",
+    "empty": "お気に入りはまだありません",
+    "count": "{count} 件保存済み",
+    "free": "無料 (¥0)"
+  },
   "stickyContact": {
     "inquire": "今すぐ問い合わせ",
     "freeConsultation": "無料相談 · 48時間以内に返信",
