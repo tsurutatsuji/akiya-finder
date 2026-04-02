@@ -87,14 +87,18 @@ export default function SeoPropertyCard({
               <p className="text-xl font-bold text-accent leading-tight">
                 {property.price === 0
                   ? t("free")
+                  : locale === "zh" ? `¥${priceCny.toLocaleString()} CNY`
+                  : locale === "en" ? `$${priceUsd.toLocaleString()} USD`
                   : `¥${property.price.toLocaleString()}`}
               </p>
-              <p className="text-xs text-gray-400 mt-0.5">
-                ~${priceUsd.toLocaleString()} USD
-              </p>
-              {priceCny > 0 && (
-                <p className="text-xs text-orange-500 font-medium mt-0.5">
-                  {t("cny", { amount: priceCny.toLocaleString() })}
+              {locale === "zh" && priceCny > 0 && (
+                <p className="text-xs text-gray-400 mt-0.5">
+                  ≈ ¥{priceCny.toLocaleString()} CNY
+                </p>
+              )}
+              {locale === "en" && (
+                <p className="text-xs text-gray-400 mt-0.5">
+                  ~${priceUsd.toLocaleString()} USD
                 </p>
               )}
             </div>
