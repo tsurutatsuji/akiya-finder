@@ -1,13 +1,13 @@
 {
   "nav": {
     "home": "首页",
-    "properties": "浏览物件",
+    "properties": "所有房源",
     "akiyaBank": "空置房搜索",
-    "map": "地图",
-    "howItWorks": "购买流程",
+    "map": "地图找房",
+    "howItWorks": "购房指南",
     "blog": "资讯",
     "about": "关于我们",
-    "contact": "开始咨询",
+    "contact": "联系咨询",
     "getStarted": "免费咨询"
   },
   "hero": {
