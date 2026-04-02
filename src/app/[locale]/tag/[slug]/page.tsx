@@ -48,24 +48,24 @@ const TAG_LABELS: Record<string, { zh: string; ja: string; en: string }> = {
 
 const TAG_DESCRIPTIONS: Record<string, { zh: string; ja: string; en: string }> = {
   "high-value": {
-    zh: "每平米价格最低——最划算的投资选择",
-    ja: "㎡あたりの単価が低い——最もコスパの高い投資物件",
-    en: "Low price per sqm - best bang for your buck",
+    zh: "每平米价格最低——性价比最高",
+    ja: "㎡あたりの単価が低い——最もコスパの高い物件",
+    en: "Low price per sqm - best value for your budget",
   },
   "station-close": {
-    zh: "步行10分钟内可达车站",
-    ja: "駅から徒歩10分以内",
-    en: "Within 10 minute walk to a train station",
+    zh: "步行10分钟内可达车站——生活便利",
+    ja: "駅から徒歩10分以内——生活に便利",
+    en: "Within 10 minute walk to a train station - convenient daily life",
   },
   "airbnb-ready": {
-    zh: "位于旅游区＋面积宽敞——理想的民泊物件",
-    ja: "観光地＋広い面積——民泊に最適",
-    en: "Tourist area + spacious - ideal for vacation rental",
+    zh: "位于旅游区＋面积宽敞",
+    ja: "観光地＋広い面積",
+    en: "Tourist area + spacious",
   },
   "free-near-free": {
-    zh: "¥0~¥150,000（~$0-$1,000）——超低风险入门",
-    ja: "¥0〜¥150,000（~$0-$1,000）——超低リスクで参入",
-    en: "¥0 to ¥150,000 (~$0-$1,000) - ultra-low risk entry",
+    zh: "¥0~¥150,000（~$0-$1,000）——超低价格で手に入る",
+    ja: "¥0〜¥150,000（~$0-$1,000）——超低価格で手に入る",
+    en: "¥0 to ¥150,000 (~$0-$1,000) - incredibly affordable",
   },
   "move-in-ready": {
     zh: "筑30年以内或坚固结构——翻新成本低",
@@ -73,16 +73,21 @@ const TAG_DESCRIPTIONS: Record<string, { zh: string; ja: string; en: string }> =
     en: "Under 30 years old or solid structure - low renovation cost",
   },
   "cultural-gem": {
-    zh: "历史街区的町屋、古民家——高端民泊潜力",
-    ja: "歴史地区の町家・古民家——プレミアム民泊の可能性",
-    en: "Machiya, kominka in historic areas - premium Airbnb potential",
+    zh: "历史街区的町屋、古民家——日本传统建筑之美",
+    ja: "歴史地区の町家・古民家——日本の伝統建築",
+    en: "Machiya, kominka in historic areas - traditional Japanese architecture",
   },
 };
+
+// 自治体許可取得のため投資関連タグを非表示（将来復活可能）
+const HIDDEN_TAG_SLUGS = ["high-value", "airbnb-ready"];
 
 export default function TagPage({ params }: { params: { slug: string; locale: string } }) {
   const { slug, locale } = params;
   const tagInfo = INVESTMENT_TAG_PAGES.find((t) => t.slug === slug);
   if (!tagInfo) return notFound();
+  // 投資色の強いタグは非表示
+  if (HIDDEN_TAG_SLUGS.includes(slug)) return notFound();
 
   const properties = getPropertiesForTag(slug);
   const sorted = [...properties].sort((a, b) => a.price - b.price);
@@ -267,7 +272,7 @@ export default function TagPage({ params }: { params: { slug: string; locale: st
       <section className="py-12 bg-white">
         <div className="max-w-4xl mx-auto px-4 text-center">
           <h2 className="text-2xl font-bold text-primary mb-4">
-            {L(locale, "准备投资了吗？", "投資を始めますか？", "Ready to Invest?")}
+            {L(locale, "感兴趣吗？", "気になる物件はありましたか？", "Found Something You Like?")}
           </h2>
           <p className="text-gray-600 mb-6">
             {L(

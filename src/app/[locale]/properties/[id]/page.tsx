@@ -405,7 +405,7 @@ function ScrapedPropertyPage({ property: p, locale = "zh" }: { property: Scraped
             <span className="text-xs text-gray-400">
               {p.propertyType} · {p.layout || ""} · {new Date(p.scrapedAt).toLocaleDateString("ja-JP")}
             </span>
-            {/* Investment tags */}
+            {/* Investment tags — 自治体許可取得のため非表示（将来復活可能）
             {tagCategories.map((cat) => (
               <Link
                 key={cat.id}
@@ -416,6 +416,7 @@ function ScrapedPropertyPage({ property: p, locale = "zh" }: { property: Scraped
                 <span>{cat.label}</span>
               </Link>
             ))}
+            */}
           </div>
         </div>
 
@@ -455,7 +456,7 @@ function ScrapedPropertyPage({ property: p, locale = "zh" }: { property: Scraped
           </div>
         </div>
 
-        {/* Investment Metrics */}
+        {/* Investment Metrics — 自治体許可取得のため非表示（将来復活可能）
         {(pricePerSqm || age !== null || walkMin !== null || p.estimatedRoi) && (
           <div className="bg-primary/5 border border-primary/10 rounded-xl p-6 mb-8">
             <h2 className="font-bold text-lg text-primary mb-4 flex items-center gap-2">
@@ -505,6 +506,7 @@ function ScrapedPropertyPage({ property: p, locale = "zh" }: { property: Scraped
             </div>
           </div>
         )}
+        */}
 
         {/* Property Details */}
         <div className="bg-white p-6 rounded-xl border border-gray-100 mb-8">

@@ -155,7 +155,12 @@ export default function PrefecturePage({
             )}
           </h1>
           <p className="text-lg text-gray-300 max-w-3xl mb-6">
-            {seoData.description}
+            {L(
+              locale,
+              `${localeName}共有${properties.length}套空き家。${minPrice === 0 ? "含免费物件。" : `最低价¥${minPrice.toLocaleString()}起。`}我们为您对接当地持牌经纪人。`,
+              `${localeName}の空き家${properties.length}件を掲載中。${minPrice === 0 ? "無料物件あり。" : `最安値¥${minPrice.toLocaleString()}から。`}地元の宅建業者をご紹介します。`,
+              seoData.description
+            )}
           </p>
 
           {/* Stats */}
@@ -190,17 +195,13 @@ export default function PrefecturePage({
         </div>
       </section>
 
-      {/* Highlights & Investment Points */}
+      {/* Highlights (English only — SEOデータが英語のため) */}
+      {locale === "en" && (
       <section className="py-10 bg-white">
-        <div className="max-w-6xl mx-auto px-4 grid md:grid-cols-2 gap-8">
+        <div className="max-w-6xl mx-auto px-4">
           <div>
             <h2 className="text-xl font-bold text-primary mb-4">
-              {L(
-                locale,
-                `为什么选择${localeName}？`,
-                `なぜ${localeName}？`,
-                `Why ${displayName}?`
-              )}
+              Why {displayName}?
             </h2>
             <ul className="space-y-2">
               {seoData.highlights.map((h, i) => (
@@ -211,21 +212,10 @@ export default function PrefecturePage({
               ))}
             </ul>
           </div>
-          <div>
-            <h2 className="text-xl font-bold text-primary mb-4">
-              {L(locale, "投资要点", "投資ポイント", "Investment Points")}
-            </h2>
-            <ul className="space-y-2">
-              {seoData.investmentPoints.map((p, i) => (
-                <li key={i} className="flex items-start gap-2 text-gray-600">
-                  <span className="text-green-500 mt-0.5">💰</span>
-                  <span>{p}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
+          {/* Investment Points — 自治体許可取得のため非表示（将来復活可能） */}
         </div>
       </section>
+      )}
 
       {/* Property Grid */}
       <section className="py-12">

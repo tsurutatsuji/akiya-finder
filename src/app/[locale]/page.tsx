@@ -215,7 +215,8 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Investment Categories */}
+      {/* Investment Categories — 自治体許可取得のため非表示（将来復活可能） */}
+      {false && (
       <section className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4">
           <h2 className="text-3xl md:text-4xl font-bold text-primary mb-10 text-center">{t("browseInvestment.title")}</h2>
@@ -239,6 +240,7 @@ export default function Home() {
           </div>
         </div>
       </section>
+      )}
 
       {/* How It Works CTA */}
       <section className="py-20 bg-gray-50/50">

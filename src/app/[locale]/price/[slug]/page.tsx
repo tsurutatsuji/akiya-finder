@@ -39,6 +39,54 @@ export function generateMetadata({
   };
 }
 
+// 価格帯の3言語ラベル
+const PRICE_LABELS: Record<string, { zh: string; ja: string; en: string }> = {
+  "free": { zh: "免费 (¥0)", ja: "無料 (¥0)", en: "Free Akiya Houses (¥0)" },
+  "under-100k": { zh: "¥10万以下", ja: "¥10万以下", en: "Under ¥100,000 (~$670)" },
+  "under-500k": { zh: "¥50万以下", ja: "¥50万以下", en: "Under ¥500,000 (~$3,300)" },
+  "under-1m": { zh: "¥100万以下", ja: "¥100万以下", en: "Under ¥1,000,000 (~$6,700)" },
+  "under-5m": { zh: "¥500万以下", ja: "¥500万以下", en: "Under ¥5,000,000 (~$33,000)" },
+  "under-10m": { zh: "¥1000万以下", ja: "¥1000万以下", en: "Under ¥10,000,000 (~$67,000)" },
+};
+
+function getPriceDescription(slug: string, count: number, locale: string): string {
+  const descriptions: Record<string, { zh: string; ja: string; en: string }> = {
+    "free": {
+      zh: `日本全国${count}套完全免费的空き家。通过自治体的空き家バンク制度，0日元即可获得。`,
+      ja: `日本全国${count}件の無料空き家。自治体の空き家バンク制度で、¥0で取得可能です。`,
+      en: `Discover ${count} completely free abandoned houses (akiya) in Japan. These properties are offered at ¥0 through municipal akiya bank programs.`,
+    },
+    "under-100k": {
+      zh: `日本${count}套超低价空き家，价格低于¥100,000（约$670）。`,
+      ja: `日本全国${count}件の超低価格空き家。¥100,000（約$670）以下。`,
+      en: `Find ${count} ultra-cheap akiya houses in Japan under ¥100,000 (~$670 USD).`,
+    },
+    "under-500k": {
+      zh: `日本${count}套实惠空き家，价格低于¥500,000（约$3,300）。适合翻新项目。`,
+      ja: `日本全国${count}件のお手頃な空き家。¥500,000（約$3,300）以下。リノベーションにも最適。`,
+      en: `Browse ${count} affordable akiya houses in Japan under ¥500,000 (~$3,300 USD). Great value properties for renovation projects.`,
+    },
+    "under-1m": {
+      zh: `日本${count}套空き家，价格低于¥1,000,000（约$6,700）。`,
+      ja: `日本全国${count}件の空き家。¥1,000,000（約$6,700）以下。`,
+      en: `Find ${count} akiya houses in Japan under ¥1,000,000 (~$6,700 USD).`,
+    },
+    "under-5m": {
+      zh: `日本${count}套空き家，价格低于¥5,000,000（约$33,000）。`,
+      ja: `日本全国${count}件の空き家。¥5,000,000（約$33,000）以下。`,
+      en: `Find ${count} akiya houses in Japan under ¥5,000,000 (~$33,000 USD).`,
+    },
+    "under-10m": {
+      zh: `日本${count}套空き家，价格低于¥10,000,000（约$67,000）。`,
+      ja: `日本全国${count}件の空き家。¥10,000,000（約$67,000）以下。`,
+      en: `Find ${count} akiya houses in Japan under ¥10,000,000 (~$67,000 USD).`,
+    },
+  };
+  const desc = descriptions[slug];
+  if (!desc) return "";
+  return L(locale, desc.zh, desc.ja, desc.en);
+}
+
 export default function PricePage({ params }: { params: { slug: string; locale: string } }) {
   const { slug, locale } = params;
   const range = PRICE_RANGES.find((r) => r.slug === slug);
@@ -122,7 +170,7 @@ export default function PricePage({ params }: { params: { slug: string; locale: 
               {L(locale, "首页", "ホーム", "Home")}
             </Link>
             <span className="mx-2">/</span>
-            <span className="text-white">{range.label}</span>
+            <span className="text-white">{L(locale, (PRICE_LABELS[slug] || {}).zh || range.label, (PRICE_LABELS[slug] || {}).ja || range.label, range.label)}</span>
           </div>
 
           <h1 className="text-3xl md:text-5xl font-bold mb-4">
@@ -130,16 +178,13 @@ export default function PricePage({ params }: { params: { slug: string; locale: 
               ? L(locale, "日本免费空き家", "無料の空き家", "Free Akiya Houses in Japan")
               : L(
                   locale,
-                  `${range.label} 空き家`,
-                  `${range.label} の空き家`,
+                  `${(PRICE_LABELS[slug] || {}).zh || range.label} 空き家`,
+                  `${(PRICE_LABELS[slug] || {}).ja || range.label} の空き家`,
                   `Akiya Houses ${range.label}`
                 )}
           </h1>
           <p className="text-lg text-gray-300 max-w-3xl mb-6">
-            {range.descriptionTemplate.replace(
-              "{count}",
-              String(properties.length)
-            )}
+            {getPriceDescription(slug, properties.length, locale)}
           </p>
 
           <div className="flex flex-wrap gap-6">
