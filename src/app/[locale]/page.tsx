@@ -2,6 +2,7 @@ import { useTranslations } from "next-intl";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import PropertyCard from "@/components/PropertyCard";
+import SeoPropertyCard from "@/components/SeoPropertyCard";
 import NewsletterForm from "@/components/NewsletterForm";
 import { properties } from "@/data/properties";
 import { Link } from "@/i18n/navigation";
@@ -9,8 +10,16 @@ import { scrapedProperties } from "@/lib/scraped-properties";
 
 export default function Home() {
   const t = useTranslations();
-  const featured = properties.slice(0, 6);
-  const totalCount = scrapedProperties.length + properties.length;
+  // 写真あり+価格ありのスクレイプ物件から6件ピックアップ（異なる都道府県）
+  const seenPrefs = new Set<string>();
+  const featuredScraped = scrapedProperties.filter((p) => {
+    if (!p.allImages || p.allImages.length === 0) return false;
+    if (!p.price && p.price !== 0) return false;
+    if (seenPrefs.has(p.prefectureEn)) return false;
+    seenPrefs.add(p.prefectureEn);
+    return true;
+  }).slice(0, 6);
+  const totalCount = scrapedProperties.length;
 
   return (
     <>
@@ -150,8 +159,8 @@ export default function Home() {
             </Link>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {featured.map((property) => (
-              <PropertyCard key={property.id} property={property} />
+            {featuredScraped.map((property) => (
+              <SeoPropertyCard key={property.id} property={property} />
             ))}
           </div>
         </div>
@@ -167,9 +176,22 @@ export default function Home() {
             </Link>
           </div>
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3">
-            {["Hokkaido","Tokyo","Kyoto","Osaka","Nagano","Okinawa","Chiba","Shizuoka","Fukuoka","Kanagawa","Niigata","Hiroshima"].map((name) => (
-              <Link key={name} href={`/prefecture/${name.toLowerCase()}`} className="bg-gray-50 rounded-xl p-4 text-center border border-gray-100 hover:border-accent hover:shadow-md hover:bg-white transition-all text-sm font-semibold text-primary group">
-                <span className="group-hover:text-accent transition-colors">{name}</span>
+            {[
+              { en: "Hokkaido", ja: "北海道", zh: "北海道" },
+              { en: "Tokyo", ja: "東京都", zh: "东京都" },
+              { en: "Kyoto", ja: "京都府", zh: "京都府" },
+              { en: "Osaka", ja: "大阪府", zh: "大阪府" },
+              { en: "Nagano", ja: "長野県", zh: "长野县" },
+              { en: "Okinawa", ja: "沖縄県", zh: "冲绳县" },
+              { en: "Chiba", ja: "千葉県", zh: "千叶县" },
+              { en: "Shizuoka", ja: "静岡県", zh: "静冈县" },
+              { en: "Fukuoka", ja: "福岡県", zh: "福冈县" },
+              { en: "Kanagawa", ja: "神奈川県", zh: "神奈川县" },
+              { en: "Niigata", ja: "新潟県", zh: "新潟县" },
+              { en: "Hiroshima", ja: "広島県", zh: "广岛县" },
+            ].map((pref) => (
+              <Link key={pref.en} href={`/prefecture/${pref.en.toLowerCase()}`} className="bg-gray-50 rounded-xl p-4 text-center border border-gray-100 hover:border-accent hover:shadow-md hover:bg-white transition-all text-sm font-semibold text-primary group">
+                <span className="group-hover:text-accent transition-colors">{t("nav.home") === "首页" ? pref.zh : t("nav.home") === "ホーム" ? pref.ja : pref.en}</span>
               </Link>
             ))}
           </div>
