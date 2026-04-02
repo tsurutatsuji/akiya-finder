@@ -316,7 +316,7 @@ function ScrapedPropertyPage({ property: p, locale = "zh" }: { property: Scraped
     .slice(0, 6);
 
   // Remarks
-  const remarksText = p.remarksEnglish || p.remarks || null;
+  const remarksText = locale === "en" ? (p.remarksEnglish || p.remarks || null) : (p.remarks || null);
 
   const displayImageUrl = getDisplayImageUrl(p);
 
@@ -535,9 +535,9 @@ function ScrapedPropertyPage({ property: p, locale = "zh" }: { property: Scraped
         )}
 
         {/* Area Info */}
-        {p.areaDescription && (
+        {locale === "en" && p.areaDescription && (
           <div className="bg-white p-6 rounded-xl border border-gray-100 mb-8">
-            <h2 className="font-bold text-lg mb-3">{L(locale, "区域信息", "エリア情報", "Area Information")}</h2>
+            <h2 className="font-bold text-lg mb-3">Area Information</h2>
             <p className="text-gray-600 leading-relaxed">
               {p.areaDescription}
             </p>
