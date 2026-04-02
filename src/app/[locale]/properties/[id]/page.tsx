@@ -15,7 +15,8 @@ import {
   INVESTMENT_CATEGORIES,
 } from "@/lib/investment-tags";
 import { Link } from "@/i18n/navigation";
-import { getAllDisplayImages, getDisplayImageUrl } from "@/lib/image-utils";
+import { getDisplayImageUrl } from "@/lib/image-utils";
+import ImageGallery, { ShareButtons } from "@/components/ImageGallery";
 
 // --- 統合型 ---
 type UnifiedProperty =
@@ -367,6 +368,11 @@ function ScrapedPropertyPage({ property: p }: { property: ScrapedProperty }) {
           </div>
         </div>
 
+        {/* SNSシェア */}
+        <div className="mb-6">
+          <ShareButtons propertyId={p.id} title={`${p.locationJa} - ${priceDisplay} | AkiyaFinder`} />
+        </div>
+
         {/* 物件概要 */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
           {p.layout && p.layout !== "-" && (
@@ -595,80 +601,6 @@ function ScrapedPropertyPage({ property: p }: { property: ScrapedProperty }) {
       </div>
       <Footer />
     </>
-  );
-}
-
-// --- 画像ギャラリー ---
-function ImageGallery({ property: p }: { property: ScrapedProperty }) {
-  const images = getAllDisplayImages(p);
-
-  if (images.length === 0) {
-    return (
-      <div className="h-64 md:h-96 bg-gradient-to-br from-gray-100 to-gray-200 rounded-xl flex items-center justify-center mb-8">
-        <div className="text-center">
-          <span className="text-6xl">🏡</span>
-          <p className="text-gray-400 mt-2">写真はまだありません</p>
-        </div>
-      </div>
-    );
-  }
-
-  if (images.length === 1) {
-    return (
-      <div className="h-64 md:h-96 bg-gradient-to-br from-gray-100 to-gray-200 rounded-xl overflow-hidden relative mb-8">
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          src={images[0]}
-          alt={p.locationJa || p.location}
-          className="w-full h-full object-cover"
-        />
-        {p.price === 0 && (
-          <span className="absolute top-4 left-4 bg-accent text-white text-sm font-bold px-4 py-1.5 rounded-full">
-            無料
-          </span>
-        )}
-        <span className="absolute bottom-2 right-2 text-xs text-white/80 bg-black/40 px-2 py-1 rounded">
-          1 / 1
-        </span>
-      </div>
-    );
-  }
-
-  // 複数画像: メイン + サムネイルグリッド
-  return (
-    <div className="mb-8">
-      {/* メイン画像 */}
-      <div className="h-64 md:h-96 bg-gradient-to-br from-gray-100 to-gray-200 rounded-t-xl overflow-hidden relative">
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          src={images[0]}
-          alt={p.locationJa || p.location}
-          className="w-full h-full object-cover"
-        />
-        {p.price === 0 && (
-          <span className="absolute top-4 left-4 bg-accent text-white text-sm font-bold px-4 py-1.5 rounded-full">
-            無料
-          </span>
-        )}
-        <span className="absolute bottom-2 right-2 text-xs text-white/80 bg-black/40 px-2 py-1 rounded">
-          全{images.length}枚
-        </span>
-      </div>
-      {/* サムネイル一覧 */}
-      <div className="grid grid-cols-4 md:grid-cols-6 gap-1 mt-1">
-        {images.slice(0, 6).map((img, i) => (
-          <div key={i} className="h-20 md:h-24 bg-gray-100 rounded-lg overflow-hidden">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src={img}
-              alt={`写真 ${i + 1}`}
-              className="w-full h-full object-cover hover:opacity-80 transition cursor-pointer"
-              loading="lazy"
-            />
-          </div>
-        ))}
-      </div>
-    </div>
   );
 }
 
