@@ -2,7 +2,7 @@ import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import SeoPropertyCard from "@/components/SeoPropertyCard";
+import PaginatedPropertyList from "@/components/PaginatedPropertyList";
 import { Link } from "@/i18n/navigation";
 import {
   INVESTMENT_TAG_PAGES,
@@ -237,14 +237,6 @@ export default function TagPage({ params }: { params: { slug: string; locale: st
       {/* Property Grid */}
       <section className="py-12">
         <div className="max-w-6xl mx-auto px-4">
-          <h2 className="text-2xl font-bold text-primary mb-6">
-            {L(
-              locale,
-              `${properties.length} 套${displayLabel}物件`,
-              `${displayLabel}物件 ${properties.length} 件`,
-              `${properties.length} ${tagInfo.label} Properties`
-            )}
-          </h2>
           {sorted.length === 0 ? (
             <p className="text-gray-500 text-center py-10">
               {L(
@@ -259,11 +251,15 @@ export default function TagPage({ params }: { params: { slug: string; locale: st
               {L(locale, "", "", "instead.")}
             </p>
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {sorted.map((property) => (
-                <SeoPropertyCard key={property.id} property={property} />
-              ))}
-            </div>
+            <PaginatedPropertyList
+              properties={sorted}
+              heading={L(
+                locale,
+                `${properties.length} 套${displayLabel}物件`,
+                `${displayLabel}物件 ${properties.length} 件`,
+                `${properties.length} ${tagInfo.label} Properties`
+              )}
+            />
           )}
         </div>
       </section>

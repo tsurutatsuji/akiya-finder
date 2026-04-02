@@ -2,7 +2,7 @@ import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import SeoPropertyCard from "@/components/SeoPropertyCard";
+import PaginatedPropertyList from "@/components/PaginatedPropertyList";
 import { Link } from "@/i18n/navigation";
 import {
   PRICE_RANGES,
@@ -251,19 +251,15 @@ export default function PricePage({ params }: { params: { slug: string; locale: 
       {/* Property Grid */}
       <section className="py-12">
         <div className="max-w-6xl mx-auto px-4">
-          <h2 className="text-2xl font-bold text-primary mb-6">
-            {L(
+          <PaginatedPropertyList
+            properties={sorted}
+            heading={L(
               locale,
               `${properties.length} 套房产 — ${range.label}`,
               `${properties.length} 件の物件 — ${range.label}`,
               `${properties.length} Properties — ${range.label}`
             )}
-          </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {sorted.map((property) => (
-              <SeoPropertyCard key={property.id} property={property} />
-            ))}
-          </div>
+          />
         </div>
       </section>
 
