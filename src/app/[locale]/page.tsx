@@ -71,6 +71,37 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Yes, Yes, Yes — 障壁除去セクション */}
+      <section className="py-16 bg-gradient-to-b from-gray-50 to-white">
+        <div className="max-w-4xl mx-auto px-4">
+          <h2 className="text-3xl md:text-4xl font-bold text-center text-primary mb-12">
+            {t("yesSection.title")}
+          </h2>
+          <div className="space-y-6">
+            {(["q1", "q2", "q3", "q4", "q5"] as const).map((key) => (
+              <div key={key} className="bg-white rounded-2xl p-6 border border-gray-100 shadow-sm hover:shadow-md transition">
+                <div className="flex items-start gap-4">
+                  <div className="shrink-0 w-12 h-12 bg-accent/10 rounded-xl flex items-center justify-center">
+                    <span className="text-accent font-bold text-lg">Q</span>
+                  </div>
+                  <div className="flex-1">
+                    <p className="font-semibold text-primary text-lg mb-2">
+                      {t(`yesSection.${key}`)}
+                    </p>
+                    <p className="text-2xl font-bold text-accent mb-1">
+                      {t(`yesSection.${key.replace("q", "a")}`)}
+                    </p>
+                    <p className="text-gray-500 text-sm leading-relaxed">
+                      {t(`yesSection.${key.replace("q", "a")}detail`)}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* Why Japan */}
       <section className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4">

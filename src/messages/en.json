@@ -325,5 +325,23 @@
     "zh": "中文",
     "en": "English",
     "ja": "日本語"
+  },
+  "yesSection": {
+    "title": "Can foreigners buy property in Japan?",
+    "q1": "Can non-Japanese citizens buy?",
+    "a1": "Yes.",
+    "a1detail": "Japanese law places no restrictions on foreign property ownership. Full ownership rights for any nationality.",
+    "q2": "Do I need a visa or residency?",
+    "a2": "Yes, you can buy — even on a tourist visa.",
+    "a2detail": "No permanent residency or work visa required. You can purchase property on a tourist visa with full ownership rights.",
+    "q3": "Can I buy without speaking Japanese?",
+    "a3": "Yes.",
+    "a3detail": "AkiyaFinder provides full translation support — from property search to agent negotiation, all in English.",
+    "q4": "Are there really free ($0) houses?",
+    "a4": "Yes.",
+    "a4detail": "Japan has ~9 million vacant homes. Some municipalities offer them completely free through akiya bank programs.",
+    "q5": "Can I use it for investment (Airbnb, etc)?",
+    "a5": "Yes.",
+    "a5detail": "Akiya properties can be used for living, vacation homes, Airbnb (with proper registration), renovation projects, and more."
   }
 }
