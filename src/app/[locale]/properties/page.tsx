@@ -15,10 +15,13 @@ function L(locale: string, zh: string, ja: string, en: string) {
   return locale === "zh" ? zh : locale === "ja" ? ja : en;
 }
 
+const ITEMS_PER_PAGE = 20;
+
 export default function PropertiesPage() {
   const locale = useLocale();
   const [prefecture, setPrefecture] = useState("");
   const [priceRange, setPriceRange] = useState("");
+  const [page, setPage] = useState(1);
 
   const filtered = properties.filter((p) => {
     if (prefecture && p.prefectureEn !== prefecture) return false;
@@ -28,6 +31,11 @@ export default function PropertiesPage() {
     if (priceRange === "5m+" && p.price < 5000000) return false;
     return true;
   });
+
+  const totalPages = Math.ceil(filtered.length / ITEMS_PER_PAGE);
+  const paged = filtered.slice((page - 1) * ITEMS_PER_PAGE, page * ITEMS_PER_PAGE);
+
+  const handleFilterChange = () => setPage(1);
 
   return (
     <>
@@ -49,7 +57,7 @@ export default function PropertiesPage() {
         <div className="flex flex-wrap gap-3 mb-8">
           <select
             value={prefecture}
-            onChange={(e) => setPrefecture(e.target.value)}
+            onChange={(e) => { setPrefecture(e.target.value); setPage(1); }}
             className="border border-gray-200 rounded-lg px-3 py-2 text-sm bg-white"
           >
             <option value="">{L(locale, "全部都道府县", "全ての都道府県", "All Prefectures")}</option>
@@ -59,7 +67,7 @@ export default function PropertiesPage() {
           </select>
           <select
             value={priceRange}
-            onChange={(e) => setPriceRange(e.target.value)}
+            onChange={(e) => { setPriceRange(e.target.value); setPage(1); }}
             className="border border-gray-200 rounded-lg px-3 py-2 text-sm bg-white"
           >
             <option value="">{L(locale, "全部价格", "全ての価格", "All Prices")}</option>
@@ -70,21 +78,68 @@ export default function PropertiesPage() {
           </select>
         </div>
 
+        {/* Results count */}
+        <p className="text-sm text-gray-500 mb-4">
+          {L(locale,
+            `共 ${filtered.length} 套房产，第 ${page} / ${totalPages} 页`,
+            `全 ${filtered.length} 件中 ${page} / ${totalPages} ページ`,
+            `${filtered.length} properties — Page ${page} of ${totalPages}`
+          )}
+        </p>
+
         {/* Results */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filtered.map((property) => (
+          {paged.map((property) => (
             <SeoPropertyCard key={property.id} property={property} />
           ))}
         </div>
+
         {filtered.length === 0 && (
           <p className="text-center text-gray-400 py-12">
-            {L(
-              locale,
+            {L(locale,
               "没有匹配的房产，请调整搜索条件。",
               "条件に一致する物件がありません。検索条件を変更してください。",
               "No properties match your filters. Try adjusting your search."
             )}
           </p>
+        )}
+
+        {/* Pagination */}
+        {totalPages > 1 && (
+          <div className="flex items-center justify-center gap-2 mt-10">
+            <button
+              onClick={() => { setPage(Math.max(1, page - 1)); window.scrollTo(0, 0); }}
+              disabled={page === 1}
+              className="px-4 py-2 rounded-lg border border-gray-200 text-sm disabled:opacity-30 hover:bg-gray-50 transition"
+            >
+              ←
+            </button>
+            {Array.from({ length: Math.min(7, totalPages) }, (_, i) => {
+              let p: number;
+              if (totalPages <= 7) p = i + 1;
+              else if (page <= 4) p = i + 1;
+              else if (page >= totalPages - 3) p = totalPages - 6 + i;
+              else p = page - 3 + i;
+              return (
+                <button
+                  key={p}
+                  onClick={() => { setPage(p); window.scrollTo(0, 0); }}
+                  className={`w-10 h-10 rounded-lg text-sm font-medium transition ${
+                    p === page ? "bg-accent text-white" : "border border-gray-200 hover:bg-gray-50"
+                  }`}
+                >
+                  {p}
+                </button>
+              );
+            })}
+            <button
+              onClick={() => { setPage(Math.min(totalPages, page + 1)); window.scrollTo(0, 0); }}
+              disabled={page === totalPages}
+              className="px-4 py-2 rounded-lg border border-gray-200 text-sm disabled:opacity-30 hover:bg-gray-50 transition"
+            >
+              →
+            </button>
+          </div>
         )}
       </div>
       <Footer />
