@@ -2,6 +2,7 @@
 
 import { useState, useMemo } from "react";
 import dynamic from "next/dynamic";
+import { useLocale } from "next-intl";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import {
@@ -42,6 +43,10 @@ interface ScrapedProperty {
   remarks?: string;
 }
 
+function L(locale: string, zh: string, ja: string, en: string) {
+  return locale === "zh" ? zh : locale === "ja" ? ja : en;
+}
+
 // 物件に投資タグ＋メトリクスを付与
 const properties = (scrapedData as ScrapedProperty[]).map((p) => ({
   ...p,
@@ -52,6 +57,7 @@ const properties = (scrapedData as ScrapedProperty[]).map((p) => ({
 const PREF_LIST = [...new Set(properties.map((p) => p.prefectureEn))].sort();
 
 export default function MapPage() {
+  const locale = useLocale();
   const [category, setCategory] = useState("");
   const [prefFilter, setPrefFilter] = useState("");
   const [priceRange, setPriceRange] = useState("");
@@ -89,11 +95,15 @@ export default function MapPage() {
       <Header />
       <div className="max-w-6xl mx-auto px-4 py-10">
         <h1 className="text-3xl font-bold text-primary mb-2">
-          Invest in Japan&apos;s Hidden Real Estate
+          {L(locale, "投资日本隐藏的不动产", "日本の隠れた不動産に投資する", "Invest in Japan's Hidden Real Estate")}
         </h1>
         <p className="text-gray-500 mb-8">
-          {properties.length} properties across 47 prefectures. What&apos;s your
-          investment goal?
+          {L(
+            locale,
+            `全国47个都道府县 ${properties.length} 套房产。您的投资目标是什么？`,
+            `47都道府県 ${properties.length} 物件。あなたの投資目標は？`,
+            `${properties.length} properties across 47 prefectures. What's your investment goal?`
+          )}
         </p>
 
         {/* Investment Category Cards */}
@@ -113,7 +123,7 @@ export default function MapPage() {
                 {cat.label}
               </span>
               <span className="text-xs text-gray-400">
-                {categoryCounts[cat.id]} homes
+                {categoryCounts[cat.id]} {L(locale, "套", "件", "homes")}
               </span>
             </button>
           ))}
@@ -133,7 +143,7 @@ export default function MapPage() {
               onClick={() => setCategory("")}
               className="text-gray-400 hover:text-gray-600 ml-auto"
             >
-              Clear
+              {L(locale, "清除", "クリア", "Clear")}
             </button>
           </div>
         )}
@@ -145,7 +155,7 @@ export default function MapPage() {
             onChange={(e) => setPrefFilter(e.target.value)}
             className="border border-gray-200 rounded-lg px-3 py-2 text-sm bg-white"
           >
-            <option value="">All Prefectures</option>
+            <option value="">{L(locale, "全部都道府县", "全ての都道府県", "All Prefectures")}</option>
             {PREF_LIST.map((p) => (
               <option key={p} value={p}>
                 {p}
@@ -157,14 +167,14 @@ export default function MapPage() {
             onChange={(e) => setPriceRange(e.target.value)}
             className="border border-gray-200 rounded-lg px-3 py-2 text-sm bg-white"
           >
-            <option value="">All Prices</option>
-            <option value="free">Free (¥0)</option>
-            <option value="under1m">Under ¥1,000,000</option>
-            <option value="1m-5m">¥1M–5M</option>
-            <option value="5m+">Over ¥5,000,000</option>
+            <option value="">{L(locale, "全部价格", "全ての価格", "All Prices")}</option>
+            <option value="free">{L(locale, "免费（¥0）", "無料（¥0）", "Free (¥0)")}</option>
+            <option value="under1m">{L(locale, "100万日元以下", "¥100万以下", "Under ¥1,000,000")}</option>
+            <option value="1m-5m">{L(locale, "100万~500万日元", "¥100万–500万", "¥1M–5M")}</option>
+            <option value="5m+">{L(locale, "500万日元以上", "¥500万以上", "Over ¥5,000,000")}</option>
           </select>
           <span className="text-sm text-gray-400 self-center">
-            {filtered.length} properties
+            {filtered.length} {L(locale, "套房产", "物件", "properties")}
           </span>
         </div>
 
@@ -172,19 +182,19 @@ export default function MapPage() {
         <div className="flex flex-wrap gap-4 mb-4 text-xs text-gray-500">
           <span className="flex items-center gap-1">
             <span className="w-3 h-3 rounded-full bg-green-500 inline-block"></span>{" "}
-            Free
+            {L(locale, "免费", "無料", "Free")}
           </span>
           <span className="flex items-center gap-1">
             <span className="w-3 h-3 rounded-full bg-blue-500 inline-block"></span>{" "}
-            Under ¥1M
+            {L(locale, "100万日元以下", "¥100万以下", "Under ¥1M")}
           </span>
           <span className="flex items-center gap-1">
             <span className="w-3 h-3 rounded-full bg-amber-500 inline-block"></span>{" "}
-            ¥1M–5M
+            {L(locale, "100万~500万日元", "¥100万–500万", "¥1M–5M")}
           </span>
           <span className="flex items-center gap-1">
             <span className="w-3 h-3 rounded-full bg-red-500 inline-block"></span>{" "}
-            Over ¥5M
+            {L(locale, "500万日元以上", "¥500万以上", "Over ¥5M")}
           </span>
         </div>
 
@@ -194,17 +204,21 @@ export default function MapPage() {
         {/* CTA */}
         <div className="mt-8 p-6 bg-accent/5 border border-accent/20 rounded-lg text-center">
           <h3 className="font-semibold text-primary mb-2">
-            Found a promising investment?
+            {L(locale, "找到了理想的投资物件？", "良い投資物件が見つかりましたか？", "Found a promising investment?")}
           </h3>
           <p className="text-gray-500 text-sm mb-4">
-            We&apos;ll connect you with a licensed local agent who speaks
-            English and handles the entire purchase process.
+            {L(
+              locale,
+              "我们为您对接当地持牌经纪人，全程协助购买流程。",
+              "現地の認可不動産業者をご紹介し、購入手続きをサポートします。",
+              "We'll connect you with a licensed local agent who speaks English and handles the entire purchase process."
+            )}
           </p>
           <a
             href="/contact"
             className="inline-block bg-accent text-white px-6 py-2.5 rounded-lg font-medium hover:bg-red-600 transition"
           >
-            Get Matched with an Agent — Free
+            {L(locale, "免费匹配经纪人", "無料でエージェントを紹介", "Get Matched with an Agent — Free")}
           </a>
         </div>
       </div>

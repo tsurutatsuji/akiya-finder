@@ -2,6 +2,7 @@ import { Link } from "@/i18n/navigation";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { getAllPosts } from "@/lib/blog";
+import { L } from "@/lib/locale-utils";
 
 export const dynamic = "force-dynamic";
 
@@ -12,10 +13,13 @@ export const metadata = {
 };
 
 export default function BlogPage({
+  params,
   searchParams,
 }: {
+  params: { locale: string };
   searchParams: { lang?: string };
 }) {
+  const locale = params.locale;
   const allPosts = getAllPosts();
   const langFilter = searchParams.lang;
   const posts = langFilter
@@ -26,9 +30,16 @@ export default function BlogPage({
     <>
       <Header />
       <div className="max-w-4xl mx-auto px-4 py-16">
-        <h1 className="text-3xl font-bold text-primary mb-2">Blog</h1>
+        <h1 className="text-3xl font-bold text-primary mb-2">
+          {L(locale, "博客", "ブログ", "Blog")}
+        </h1>
         <p className="text-gray-500 mb-6">
-          Guides and insights for buying property in Japan.
+          {L(
+            locale,
+            "在日本购买房产的指南与见解。",
+            "日本で不動産を購入するためのガイドと情報。",
+            "Guides and insights for buying property in Japan."
+          )}
         </p>
 
         <div className="flex gap-2 mb-10">
@@ -40,7 +51,7 @@ export default function BlogPage({
                 : "bg-gray-100 text-gray-600 hover:bg-gray-200"
             }`}
           >
-            All
+            {L(locale, "全部", "すべて", "All")}
           </Link>
           <Link
             href="/blog?lang=en"
@@ -65,7 +76,7 @@ export default function BlogPage({
         </div>
 
         {posts.length === 0 ? (
-          <p className="text-gray-400">Coming soon...</p>
+          <p className="text-gray-400">{L(locale, "即将推出...", "近日公開...", "Coming soon...")}</p>
         ) : (
           <div className="space-y-8">
             {posts.map((post) => (

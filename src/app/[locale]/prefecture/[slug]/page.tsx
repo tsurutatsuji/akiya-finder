@@ -13,6 +13,7 @@ import {
   ScrapedProperty,
 } from "@/lib/scraped-properties";
 import { getPrefectureSeoData } from "@/lib/prefecture-seo";
+import { L, getPrefectureName } from "@/lib/locale-utils";
 
 export function generateStaticParams() {
   return getAllPrefectureSlugs().map((slug) => ({ slug }));
@@ -52,9 +53,9 @@ export function generateMetadata({
 export default function PrefecturePage({
   params,
 }: {
-  params: { slug: string };
+  params: { slug: string; locale: string };
 }) {
-  const { slug } = params;
+  const { slug, locale } = params;
   const displayName = getPrefectureDisplayName(slug);
   if (!displayName) return notFound();
 
@@ -65,6 +66,7 @@ export default function PrefecturePage({
   const minPrice = getMinPrice(properties);
   const minPriceUsd = getMinPriceUsd(properties);
   const freeCount = properties.filter((p) => p.price === 0).length;
+  const localeName = getPrefectureName(slug, locale);
 
   // 価格順でソート（安い順）
   const sorted = [...properties].sort((a, b) => a.price - b.price);
@@ -129,19 +131,24 @@ export default function PrefecturePage({
           {/* Breadcrumb */}
           <div className="text-sm text-gray-400 mb-4">
             <Link href="/" className="hover:text-white">
-              Home
+              {L(locale, "首页", "ホーム", "Home")}
             </Link>
             <span className="mx-2">/</span>
             <Link href="/prefecture" className="hover:text-white">
-              Prefectures
+              {L(locale, "都道府县", "都道府県", "Prefectures")}
             </Link>
             <span className="mx-2">/</span>
-            <span className="text-white">{displayName}</span>
+            <span className="text-white">{localeName}</span>
           </div>
 
           <h1 className="text-3xl md:text-5xl font-bold mb-4">
-            Akiya Houses in {displayName}
-            {seoData.nameJa && (
+            {L(
+              locale,
+              `${localeName}的空き家`,
+              `${localeName}の空き家`,
+              `Akiya Houses in ${displayName}`
+            )}
+            {locale === "en" && seoData.nameJa && (
               <span className="text-lg md:text-xl text-gray-400 ml-3">
                 ({seoData.nameJa})
               </span>
@@ -157,27 +164,27 @@ export default function PrefecturePage({
               <p className="text-2xl font-bold text-cyan-300">
                 {properties.length}
               </p>
-              <p className="text-sm text-gray-400">Properties</p>
+              <p className="text-sm text-gray-400">{L(locale, "套房产", "物件数", "Properties")}</p>
             </div>
             <div>
               <p className="text-2xl font-bold text-cyan-300">
                 {minPrice === 0
-                  ? "FREE"
+                  ? L(locale, "免费", "無料", "FREE")
                   : `¥${minPrice.toLocaleString()}`}
               </p>
-              <p className="text-sm text-gray-400">Starting Price</p>
+              <p className="text-sm text-gray-400">{L(locale, "最低价格", "最安価格", "Starting Price")}</p>
             </div>
             {freeCount > 0 && (
               <div>
                 <p className="text-2xl font-bold text-cyan-300">{freeCount}</p>
-                <p className="text-sm text-gray-400">Free Properties</p>
+                <p className="text-sm text-gray-400">{L(locale, "免费房产", "無料物件", "Free Properties")}</p>
               </div>
             )}
             <div>
               <p className="text-2xl font-bold text-cyan-300">
                 {seoData.region}
               </p>
-              <p className="text-sm text-gray-400">Region</p>
+              <p className="text-sm text-gray-400">{L(locale, "地区", "地方", "Region")}</p>
             </div>
           </div>
         </div>
@@ -188,7 +195,12 @@ export default function PrefecturePage({
         <div className="max-w-6xl mx-auto px-4 grid md:grid-cols-2 gap-8">
           <div>
             <h2 className="text-xl font-bold text-primary mb-4">
-              Why {displayName}?
+              {L(
+                locale,
+                `为什么选择${localeName}？`,
+                `なぜ${localeName}？`,
+                `Why ${displayName}?`
+              )}
             </h2>
             <ul className="space-y-2">
               {seoData.highlights.map((h, i) => (
@@ -201,7 +213,7 @@ export default function PrefecturePage({
           </div>
           <div>
             <h2 className="text-xl font-bold text-primary mb-4">
-              Investment Points
+              {L(locale, "投资要点", "投資ポイント", "Investment Points")}
             </h2>
             <ul className="space-y-2">
               {seoData.investmentPoints.map((p, i) => (
@@ -219,7 +231,12 @@ export default function PrefecturePage({
       <section className="py-12">
         <div className="max-w-6xl mx-auto px-4">
           <h2 className="text-2xl font-bold text-primary mb-6">
-            {properties.length} Properties in {displayName}
+            {L(
+              locale,
+              `${localeName} ${properties.length} 套房产`,
+              `${localeName}の物件 ${properties.length} 件`,
+              `${properties.length} Properties in ${displayName}`
+            )}
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {sorted.map((property) => (
@@ -233,25 +250,33 @@ export default function PrefecturePage({
       <section className="py-12 bg-white">
         <div className="max-w-4xl mx-auto px-4 text-center">
           <h2 className="text-2xl font-bold text-primary mb-4">
-            Interested in {displayName} Properties?
+            {L(
+              locale,
+              `对${localeName}的房产感兴趣？`,
+              `${localeName}の物件に興味がありますか？`,
+              `Interested in ${displayName} Properties?`
+            )}
           </h2>
           <p className="text-gray-600 mb-6">
-            We connect you with licensed English-speaking agents in{" "}
-            {displayName} who can arrange viewings, handle negotiations, and
-            guide you through the purchase process.
+            {L(
+              locale,
+              `我们为您对接当地持牌的房产经纪人，提供看房、谈判及购买全程支持。`,
+              `現地の認可不動産業者をご紹介します。内覧・交渉・購入手続きをサポートします。`,
+              `We connect you with licensed English-speaking agents in ${displayName} who can arrange viewings, handle negotiations, and guide you through the purchase process.`
+            )}
           </p>
           <div className="flex gap-4 justify-center flex-wrap">
             <Link
               href="/contact"
               className="bg-accent text-white px-6 py-3 rounded-lg font-semibold hover:bg-red-600 transition"
             >
-              Get Connected — Free
+              {L(locale, "免费咨询", "無料相談する", "Get Connected — Free")}
             </Link>
             <Link
               href="/prefecture"
               className="border border-gray-300 text-gray-600 px-6 py-3 rounded-lg font-semibold hover:bg-gray-50 transition"
             >
-              Browse Other Prefectures
+              {L(locale, "浏览其他都道府县", "他の都道府県を見る", "Browse Other Prefectures")}
             </Link>
           </div>
         </div>

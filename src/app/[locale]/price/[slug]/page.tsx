@@ -8,6 +8,7 @@ import {
   PRICE_RANGES,
   getPropertiesForPriceRange,
 } from "@/lib/scraped-properties";
+import { L, getPrefectureName } from "@/lib/locale-utils";
 
 export function generateStaticParams() {
   return PRICE_RANGES.map((r) => ({ slug: r.slug }));
@@ -38,11 +39,12 @@ export function generateMetadata({
   };
 }
 
-export default function PricePage({ params }: { params: { slug: string } }) {
-  const range = PRICE_RANGES.find((r) => r.slug === params.slug);
+export default function PricePage({ params }: { params: { slug: string; locale: string } }) {
+  const { slug, locale } = params;
+  const range = PRICE_RANGES.find((r) => r.slug === slug);
   if (!range) return notFound();
 
-  const properties = getPropertiesForPriceRange(params.slug);
+  const properties = getPropertiesForPriceRange(slug);
   const sorted = [...properties].sort((a, b) => a.price - b.price);
 
   // 都道府県別の集計
@@ -63,7 +65,7 @@ export default function PricePage({ params }: { params: { slug: string } }) {
       "{count}",
       String(properties.length)
     ),
-    url: `https://akiya-finder.vercel.app/price/${params.slug}`,
+    url: `https://akiya-finder.vercel.app/price/${slug}`,
     mainEntity: {
       "@type": "ItemList",
       numberOfItems: properties.length,
@@ -98,7 +100,7 @@ export default function PricePage({ params }: { params: { slug: string } }) {
           "@type": "ListItem",
           position: 3,
           name: range.label,
-          item: `https://akiya-finder.vercel.app/price/${params.slug}`,
+          item: `https://akiya-finder.vercel.app/price/${slug}`,
         },
       ],
     },
@@ -117,16 +119,21 @@ export default function PricePage({ params }: { params: { slug: string } }) {
         <div className="max-w-6xl mx-auto px-4">
           <div className="text-sm text-gray-400 mb-4">
             <Link href="/" className="hover:text-white">
-              Home
+              {L(locale, "首页", "ホーム", "Home")}
             </Link>
             <span className="mx-2">/</span>
             <span className="text-white">{range.label}</span>
           </div>
 
           <h1 className="text-3xl md:text-5xl font-bold mb-4">
-            {range.slug === "free"
-              ? "Free Akiya Houses in Japan"
-              : `Akiya Houses ${range.label}`}
+            {slug === "free"
+              ? L(locale, "日本免费空き家", "無料の空き家", "Free Akiya Houses in Japan")
+              : L(
+                  locale,
+                  `${range.label} 空き家`,
+                  `${range.label} の空き家`,
+                  `Akiya Houses ${range.label}`
+                )}
           </h1>
           <p className="text-lg text-gray-300 max-w-3xl mb-6">
             {range.descriptionTemplate.replace(
@@ -140,13 +147,13 @@ export default function PricePage({ params }: { params: { slug: string } }) {
               <p className="text-2xl font-bold text-cyan-300">
                 {properties.length}
               </p>
-              <p className="text-sm text-gray-400">Properties Found</p>
+              <p className="text-sm text-gray-400">{L(locale, "找到房产", "物件数", "Properties Found")}</p>
             </div>
             <div>
               <p className="text-2xl font-bold text-cyan-300">
                 {Object.keys(prefectureCounts).length}
               </p>
-              <p className="text-sm text-gray-400">Prefectures</p>
+              <p className="text-sm text-gray-400">{L(locale, "都道府县", "都道府県", "Prefectures")}</p>
             </div>
           </div>
         </div>
@@ -161,7 +168,7 @@ export default function PricePage({ params }: { params: { slug: string } }) {
                 key={r.slug}
                 href={`/price/${r.slug}`}
                 className={`text-sm px-4 py-2 rounded-full transition ${
-                  r.slug === params.slug
+                  r.slug === slug
                     ? "bg-accent text-white"
                     : "bg-gray-100 text-gray-600 hover:bg-gray-200"
                 }`}
@@ -178,7 +185,7 @@ export default function PricePage({ params }: { params: { slug: string } }) {
         <section className="py-8 bg-gray-50">
           <div className="max-w-6xl mx-auto px-4">
             <h2 className="text-lg font-bold text-primary mb-4">
-              Top Prefectures in This Price Range
+              {L(locale, "该价格区间热门都道府县", "この価格帯の人気都道府県", "Top Prefectures in This Price Range")}
             </h2>
             <div className="flex flex-wrap gap-2">
               {topPrefectures.map(([name, count]) => (
@@ -187,7 +194,7 @@ export default function PricePage({ params }: { params: { slug: string } }) {
                   href={`/prefecture/${name.toLowerCase()}`}
                   className="bg-white text-sm px-4 py-2 rounded-full border border-gray-200 hover:border-accent transition"
                 >
-                  {name}{" "}
+                  {getPrefectureName(name.toLowerCase(), locale)}{" "}
                   <span className="text-gray-400">({count})</span>
                 </Link>
               ))}
@@ -200,7 +207,12 @@ export default function PricePage({ params }: { params: { slug: string } }) {
       <section className="py-12">
         <div className="max-w-6xl mx-auto px-4">
           <h2 className="text-2xl font-bold text-primary mb-6">
-            {properties.length} Properties — {range.label}
+            {L(
+              locale,
+              `${properties.length} 套房产 — ${range.label}`,
+              `${properties.length} 件の物件 — ${range.label}`,
+              `${properties.length} Properties — ${range.label}`
+            )}
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {sorted.map((property) => (
@@ -214,18 +226,21 @@ export default function PricePage({ params }: { params: { slug: string } }) {
       <section className="py-12 bg-white">
         <div className="max-w-4xl mx-auto px-4 text-center">
           <h2 className="text-2xl font-bold text-primary mb-4">
-            Found Something Interesting?
+            {L(locale, "找到感兴趣的房产？", "気になる物件がありましたか？", "Found Something Interesting?")}
           </h2>
           <p className="text-gray-600 mb-6">
-            Contact us for a free consultation. We'll connect you with a
-            licensed agent who speaks English and can help you purchase any of
-            these properties.
+            {L(
+              locale,
+              "联系我们获取免费咨询。我们将为您对接持牌经纪人协助购买。",
+              "無料相談をご利用ください。認可不動産業者をご紹介し、購入をサポートします。",
+              "Contact us for a free consultation. We'll connect you with a licensed agent who speaks English and can help you purchase any of these properties."
+            )}
           </p>
           <Link
             href="/contact"
             className="inline-block bg-accent text-white px-8 py-3 rounded-lg font-semibold hover:bg-red-600 transition"
           >
-            Get Started — Free
+            {L(locale, "免费开始", "無料で始める", "Get Started — Free")}
           </Link>
         </div>
       </section>
