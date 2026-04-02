@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { ScrapedProperty } from "@/lib/scraped-properties";
 import { getDisplayImageUrl } from "@/lib/image-utils";
@@ -13,6 +13,14 @@ export default function SeoPropertyCard({
 }) {
   const [imgError, setImgError] = useState(false);
   const t = useTranslations("property");
+  const locale = useLocale();
+
+  // ロケールに応じた表示
+  const displayLocation = locale === "zh" ? (property.locationZh || property.location)
+    : locale === "ja" ? (property.locationJa || property.location)
+    : property.location;
+  const displayType = locale === "zh" ? (property.propertyTypeZh || property.propertyType)
+    : property.propertyType;
   const displayImage = getDisplayImageUrl(property);
   const priceUsd = property.priceUsd || Math.round(property.price / 150);
   const priceCny = property.price > 0 ? Math.round(property.price / 20) : 0;
@@ -49,7 +57,7 @@ export default function SeoPropertyCard({
             </span>
           )}
           <span className="absolute top-3 right-3 bg-white/90 backdrop-blur-sm text-xs px-2.5 py-1 rounded-full text-gray-600 font-medium shadow-sm">
-            {property.propertyType}
+            {displayType}
           </span>
         </div>
 
@@ -60,7 +68,7 @@ export default function SeoPropertyCard({
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
             </svg>
-            {property.location}
+            {displayLocation}
           </p>
 
           <div className="flex items-end justify-between mb-2">

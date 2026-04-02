@@ -40,6 +40,9 @@ export interface ScrapedProperty {
   imageCaptions?: string[];
   carouselPhotoCount?: number;
   municipalityUrl?: string;
+  propertyTypeZh?: string;
+  prefectureZh?: string;
+  locationZh?: string;
 }
 
 // 型アサーション付きでロード
