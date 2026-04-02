@@ -379,7 +379,9 @@ function ScrapedPropertyPage({ property: p, locale = "zh" }: { property: Scraped
             </svg>
             {p.locationJa}
           </h1>
-          <p className="text-sm text-gray-500 mt-1 ml-7">{p.location}, {p.prefectureEn}</p>
+          <p className="text-sm text-gray-500 mt-1 ml-7">
+            {locale === "zh" ? (p.locationZh || p.location) : locale === "ja" ? p.locationJa : p.location}
+          </p>
           <div className="flex flex-wrap items-center gap-3 mt-3">
             <span className="text-xs text-gray-400">
               {p.propertyType} · {p.layout || ""} · {new Date(p.scrapedAt).toLocaleDateString("ja-JP")}
@@ -504,7 +506,7 @@ function ScrapedPropertyPage({ property: p, locale = "zh" }: { property: Scraped
             <DetailRow label={locale === "zh" ? "城市规划" : locale === "ja" ? "都市計画" : "City Planning"} value={p.cityPlanning} />
             <DetailRow label={locale === "zh" ? "用途地域" : locale === "ja" ? "用途地域" : "Zoning"} value={p.zoning} />
             <DetailRow label={locale === "zh" ? "交付" : locale === "ja" ? "引渡し" : "Delivery"} value={p.delivery} />
-            <DetailRow label={locale === "zh" ? "所在都道府县" : locale === "ja" ? "都道府県" : "Prefecture"} value={locale === "zh" ? (p.prefectureZh || p.prefectureEn) : p.prefectureEn} />
+            <DetailRow label={locale === "zh" ? "所在都道府县" : locale === "ja" ? "都道府県" : "Prefecture"} value={locale === "zh" ? (p.prefectureZh || p.prefectureEn) : locale === "ja" ? (p.prefectureJa || p.prefectureEn) : p.prefectureEn} />
           </dl>
         </div>
 
@@ -597,7 +599,7 @@ function ScrapedPropertyPage({ property: p, locale = "zh" }: { property: Scraped
           <p className="text-gray-600 mb-6">
             {L(locale,
               `我们将为您介绍${p.prefectureZh || p.prefectureEn}地区的持牌不动产经纪人，协助看房、谈判及购买手续。`,
-              `${p.prefectureEn}エリアの不動産会社をご紹介します。内見・交渉・購入手続きをサポートいたします。`,
+              `${p.prefectureJa || p.prefectureEn}エリアの不動産会社をご紹介します。内見・交渉・購入手続きをサポートいたします。`,
               `We will connect you with a licensed real estate agent in ${p.prefectureEn} who can help with viewings, negotiations, and the purchase process.`
             )}
           </p>
@@ -624,7 +626,7 @@ function ScrapedPropertyPage({ property: p, locale = "zh" }: { property: Scraped
         {relatedProperties.length > 0 && (
           <div className="mb-12">
             <h2 className="text-xl font-bold text-primary mb-6">
-              {L(locale, `${p.prefectureZh || p.prefectureEn}的更多物件`, `${p.prefectureEn}の他の物件`, `More in ${p.prefectureEn}`)}
+              {L(locale, `${p.prefectureZh || p.prefectureEn}的更多物件`, `${p.prefectureJa || p.prefectureEn}の他の物件`, `More in ${p.prefectureEn}`)}
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
               {relatedProperties.map((rp) => (
@@ -676,7 +678,7 @@ function ScrapedPropertyPage({ property: p, locale = "zh" }: { property: Scraped
                 href={`/prefecture/${p.prefectureEn?.toLowerCase()}`}
                 className="text-accent hover:text-red-600 text-sm font-semibold transition"
               >
-                {L(locale, `查看${p.prefectureZh || p.prefectureEn}的更多物件 →`, `${p.prefectureEn}の物件をもっと見る →`, `View more in ${p.prefectureEn} →`)}
+                {L(locale, `查看${p.prefectureZh || p.prefectureEn}的更多物件 →`, `${p.prefectureJa || p.prefectureEn}の物件をもっと見る →`, `View more in ${p.prefectureEn} →`)}
               </Link>
             </div>
           </div>

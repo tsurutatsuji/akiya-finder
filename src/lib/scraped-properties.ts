@@ -42,6 +42,7 @@ export interface ScrapedProperty {
   municipalityUrl?: string;
   propertyTypeZh?: string;
   prefectureZh?: string;
+  prefectureJa?: string;
   locationZh?: string;
   floors?: string;
   currentStatus?: string;
