@@ -272,8 +272,8 @@ export default function PricePage({ params }: { params: { slug: string; locale: 
           <p className="text-gray-600 mb-6">
             {L(
               locale,
-              "联系我们获取免费咨询。我们将为您对接持牌经纪人协助购买。",
-              "無料相談をご利用ください。認可不動産業者をご紹介し、購入をサポートします。",
+              "联系我们获取免费咨询。我们将为您介绍当地不动产公司协助购买。",
+              "無料相談をご利用ください。現地の不動産会社をご紹介し、購入をサポートします。",
               "Contact us for a free consultation. We'll connect you with a licensed agent who speaks English and can help you purchase any of these properties."
             )}
           </p>

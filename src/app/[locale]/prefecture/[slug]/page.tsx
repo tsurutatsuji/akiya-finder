@@ -156,8 +156,8 @@ export default function PrefecturePage({
           <p className="text-lg text-gray-300 max-w-3xl mb-6">
             {L(
               locale,
-              `${localeName}共有${properties.length}套空き家。${minPrice === 0 ? "含免费物件。" : `最低价¥${minPrice.toLocaleString()}起。`}我们为您对接当地持牌经纪人。`,
-              `${localeName}の空き家${properties.length}件を掲載中。${minPrice === 0 ? "無料物件あり。" : `最安値¥${minPrice.toLocaleString()}から。`}地元の宅建業者をご紹介します。`,
+              `${localeName}共有${properties.length}套空き家。${minPrice === 0 ? "含免费物件。" : `最低价¥${minPrice.toLocaleString()}起。`}我们为您介绍当地的不动产公司。`,
+              `${localeName}の空き家${properties.length}件を掲載中。${minPrice === 0 ? "無料物件あり。" : `最安値¥${minPrice.toLocaleString()}から。`}現地の不動産会社をご紹介します。`,
               seoData.description
             )}
           </p>
@@ -246,7 +246,7 @@ export default function PrefecturePage({
             {L(
               locale,
               `我们为您对接当地持牌的房产经纪人，提供看房、谈判及购买全程支持。`,
-              `現地の認可不動産業者をご紹介します。内覧・交渉・購入手続きをサポートします。`,
+              `現地の不動産会社をご紹介します。内覧・交渉・購入手続きをサポートします。`,
               `We connect you with licensed English-speaking agents in ${displayName} who can arrange viewings, handle negotiations, and guide you through the purchase process.`
             )}
           </p>

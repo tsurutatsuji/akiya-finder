@@ -283,17 +283,18 @@ function ScrapedPropertyPage({ property: p, locale = "zh" }: { property: Scraped
   const priceUsd = p.priceUsd || Math.round(p.price / 150);
 
   // ロケール別: メイン価格（大きく赤文字）とサブ価格
+  // 日本語→JPYのみ、中国語→CNYのみ、英語→USDのみ
   const mainPrice = locale === "zh"
-    ? (p.price === 0 ? "免费" : `¥${priceCny.toLocaleString()} CNY`)
+    ? (p.price === 0 ? "免费（¥0）" : `约 ¥${priceCny.toLocaleString()} 人民币`)
     : locale === "ja"
     ? (p.price === 0 ? "無料（¥0）" : `¥${p.price.toLocaleString()}`)
-    : (p.price === 0 ? "FREE" : `$${priceUsd.toLocaleString()} USD`);
+    : (p.price === 0 ? "FREE ($0)" : `$${priceUsd.toLocaleString()} USD`);
 
   const subPrices = locale === "zh"
-    ? [`¥${p.price.toLocaleString()} JPY`, `$${priceUsd.toLocaleString()} USD`]
+    ? (p.price === 0 ? [] : [`¥${p.price.toLocaleString()} JPY`])
     : locale === "ja"
-    ? [`~$${priceUsd.toLocaleString()} USD`]
-    : [`¥${p.price.toLocaleString()} JPY`];
+    ? ([] as string[])
+    : (p.price === 0 ? [] : [`¥${p.price.toLocaleString()} JPY`]);
 
   // 互換性のため
   const priceDisplay = p.price === 0 ? "FREE (¥0)" : `¥${p.price.toLocaleString()}`;

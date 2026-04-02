@@ -17,7 +17,7 @@ export default function HowItWorks({
       desc: L(
         locale,
         "浏览我们精选的房源，全部翻译为中文。按价格、地区、物件类型筛选。",
-        "厳選された物件一覧をご覧ください。価格、地域、物件タイプで絞り込めます。",
+        "翻訳済みの物件一覧をご覧ください。価格、地域、物件タイプで絞り込みできます。",
         "Browse our curated listings, all translated into English. Filter by price, location, and property type."
       ),
     },
@@ -33,12 +33,12 @@ export default function HowItWorks({
     },
     {
       step: "3",
-      title: L(locale, "对接当地经纪人", "現地エージェントとマッチング", "Get Connected to a Local Agent"),
+      title: L(locale, "对接当地不动产公司", "現地の不動産会社をご紹介", "Get Connected to a Local Agent"),
       desc: L(
         locale,
-        "我们将为您对接当地持牌、会说中文/英文的不动产经纪人。后续全由经纪人处理。",
-        "現地の認可不動産業者（英語対応可）をご紹介します。以降はエージェントがサポートします。",
-        "We'll connect you with a licensed, English-speaking real estate agent in that area. They'll handle everything from here."
+        "我们将为您介绍当地的不动产公司。后续由不动产公司全程协助。",
+        "現地の不動産会社をご紹介します。以降は不動産会社がサポートします。",
+        "We'll connect you with a local real estate agent in that area. They'll handle everything from here."
       ),
     },
     {
@@ -46,8 +46,8 @@ export default function HowItWorks({
       title: L(locale, "看房与尽职调查", "内覧・物件調査", "Property Viewing & Due Diligence"),
       desc: L(
         locale,
-        "经纪人安排看房（现场或远程视频）。他们会确认物件状况、法律状态及潜在问题。",
-        "エージェントが内覧を手配（現地またはオンライン）。物件の状態・法的ステータス・問題点を確認します。",
+        "不动产公司安排看房（现场或远程视频）。他们会确认物件状况、法律状态及潜在问题。",
+        "不動産会社が内覧を手配（現地またはオンライン）。物件の状態・法的ステータス・問題点を確認します。",
         "Your agent arranges a viewing (in-person or virtual). They'll check the property condition, legal status, and any issues."
       ),
     },
@@ -56,8 +56,8 @@ export default function HowItWorks({
       title: L(locale, "出价与签约", "価格交渉・契約", "Make an Offer & Sign Contract"),
       desc: L(
         locale,
-        "经纪人代您议价并处理所有日语文件。您将收到关键文件的中文/英文翻译。",
-        "エージェントが価格交渉と日本語の書類手続きを代行。重要書類の翻訳を提供します。",
+        "不动产公司代您议价并处理所有日语文件。您将收到关键文件的中文/英文翻译。",
+        "不動産会社が価格交渉と日本語の書類手続きを代行。重要書類の翻訳を提供します。",
         "Your agent negotiates the price and handles all paperwork in Japanese. You'll receive English translations of key documents."
       ),
     },
@@ -66,8 +66,8 @@ export default function HowItWorks({
       title: L(locale, "付款与登记", "支払い・登記", "Payment & Registration"),
       desc: L(
         locale,
-        "支付购买金额（银行转账）。经纪人将房产登记在您名下。恭喜！您在日本拥有了一套房子！",
-        "購入金額をお支払い（銀行振込）。エージェントがあなたの名義で登記します。これであなたは日本の不動産オーナーです！",
+        "支付购买金额（银行转账）。不动产公司将房产登记在您名下。恭喜！您在日本拥有了一套房子！",
+        "購入金額をお支払い（銀行振込）。不動産会社があなたの名義で登記します。これで日本にあなたの家ができました！",
         "Pay the purchase price (bank transfer). The agent registers the property in your name. You now own a house in Japan!"
       ),
     },
@@ -88,7 +88,7 @@ export default function HowItWorks({
       a: L(
         locale,
         "一般来说，非居民外国人无法获得日本房贷。大多数空き家购买为全款交易，考虑到低价格（很多物件$0~$30,000），全款购买是可行的。",
-        "一般的に、非居住外国人は日本の住宅ローンを利用できません。空き家の購入は現金取引が多く、価格が低い（多くは$0〜$30,000）ため現金購入が現実的です。",
+        "一般的に、非居住外国人は日本の住宅ローンを利用できません。空き家の購入は現金取引が多く、価格が低い（多くは0円〜500万円程度）ため現金購入が現実的です。",
         "Generally, non-resident foreigners cannot get Japanese mortgages. Most akiya purchases are cash transactions, which is feasible given the low prices ($0–$30,000 for many properties)."
       ),
     },
@@ -97,7 +97,7 @@ export default function HowItWorks({
       a: L(
         locale,
         "主要额外费用包括：经纪人费用（~3%）、登记税（~1-2%）、以及翻新费用（如需要）。农村物件的年度固定资产税很低（通常不到$300/年）。",
-        "主な追加費用は、仲介手数料（〜3%）、登録免許税（〜1-2%）、必要に応じたリフォーム費用です。農村部の固定資産税は非常に低く、年間$300以下のことが多いです。",
+        "主な追加費用は、仲介手数料（約3%）、登録免許税（約1〜2%）、必要に応じたリフォーム費用です。地方物件の固定資産税は非常に低く、年間5万円以下のことが多いです。",
         "The main additional costs are agent fees (~3%), registration taxes (~1-2%), and renovation costs if needed. Annual property tax is very low for rural properties (often under $300/year)."
       ),
     },
@@ -106,7 +106,7 @@ export default function HowItWorks({
       a: L(
         locale,
         "日本人口在减少，集中到城市。农村地区住房过剩、无需求。日本的房屋还会贬值（不同于西方国家），所以旧房子价值趋近于零。",
-        "日本は人口が減少し、都市に集中しています。農村部は住宅が過剰で需要がありません。また日本の家屋は減価償却される（西洋と異なり）ため、古い家は価値がゼロに近づきます。",
+        "日本は人口が減少し、都市に集中しています。地方は住宅が過剰で需要がありません。また日本の家屋は減価償却されるため、古い家は価値がゼロに近づきます。",
         "Japan's population is shrinking and concentrating in cities. Rural areas have surplus housing with no demand. Japanese houses also depreciate (unlike Western countries), so older houses approach zero value."
       ),
     },
@@ -114,8 +114,8 @@ export default function HowItWorks({
       q: L(locale, "AkiyaFinder是不动产中介吗？", "AkiyaFinderは不動産会社ですか？", "Is AkiyaFinder a real estate agency?"),
       a: L(
         locale,
-        "不是。我们是一个信息服务平台，翻译整理日本的房产信息。当您准备购买时，我们将为您对接日本的持牌不动产经纪人。",
-        "いいえ。私たちは日本の物件情報を翻訳・整理する情報サービスです。購入の準備ができた際に、日本の認可不動産業者をご紹介します。",
+        "不是。我们是一个信息服务平台，翻译整理日本的房产信息。当您准备购买时，我们将为您介绍日本的不动产公司。",
+        "いいえ。私たちは日本の物件情報を翻訳・整理する情報サービスです。購入の準備ができた際に、現地の不動産会社をご紹介します。",
         "No. We are an information service that curates and translates Japanese property listings. When you're ready to buy, we connect you with licensed Japanese real estate agents."
       ),
     },
@@ -132,7 +132,7 @@ export default function HowItWorks({
           {L(
             locale,
             "外国人在日本购房比你想象的要简单。以下是你需要知道的一切。",
-            "外国人が日本で不動産を購入するのは、思っているより簡単です。必要な情報をすべてお伝えします。",
+            "外国人が日本で家を購入するのは、思っているより簡単です。必要な情報をすべてお伝えします。",
             "Buying property in Japan as a foreigner is simpler than you think. Here's everything you need to know."
           )}
         </p>
@@ -140,10 +140,10 @@ export default function HowItWorks({
         {/* Can foreigners buy? */}
         <div className="bg-white rounded-xl border border-gray-100 p-8 mb-8">
           <h2 className="text-2xl font-bold text-primary mb-4">
-            {L(locale, "🌍 外国人可以在日本买房吗？", "🌍 外国人は日本で不動産を買えますか？", "🌍 Can Foreigners Buy Property in Japan?")}
+            {L(locale, "🌍 外国人可以在日本买房吗？", "🌍 外国人は日本で家を買えますか？", "🌍 Can Foreigners Buy Property in Japan?")}
           </h2>
           <p className="text-gray-600 leading-relaxed mb-4">
-            <strong>{L(locale, "可以！", "はい！", "Yes!")}</strong>{" "}
+            <strong>{L(locale, "可以！", "はい、買えます！", "Yes!")}</strong>{" "}
             {L(
               locale,
               "日本是世界上少数对外国人购房没有任何限制的国家之一。",
@@ -176,7 +176,7 @@ export default function HowItWorks({
           <p className="text-gray-600 leading-relaxed mb-4">
             {L(
               locale,
-              "许多地方政府通过空き家バンク（空き家银行）项目免费或以极低价格提供这些房屋，有时还提供100万日元以上（~$6,600+）的翻新补贴。",
+              "许多地方政府通过空き家バンク（空き家银行）项目免费或以极低价格提供这些房屋，有时还提供100万日元以上的翻新补贴。",
               "多くの自治体が空き家バンクを通じて、これらの住宅を無料または格安で提供しており、100万円以上のリフォーム補助金が出ることもあります。",
               "Many local governments offer these houses for free or at very low prices through Akiya Bank (空き家バンク) programs, sometimes with renovation subsidies of ¥1,000,000+ (~$6,600+)."
             )}
@@ -229,16 +229,16 @@ export default function HowItWorks({
                 <tr className="border-b">
                   <td className="py-2 font-medium">{L(locale, "房产价格", "物件価格", "Property Price")}</td>
                   <td>¥0 – ¥10,000,000+</td>
-                  <td>{L(locale, "很多空き家免费或不到$10,000", "多くの空き家は無料または$10,000以下", "Many akiya are free or under $10,000")}</td>
+                  <td>{L(locale, "很多空き家免费或价格极低", "多くの空き家は無料または格安", "Many akiya are free or very affordable")}</td>
                 </tr>
                 <tr className="border-b">
-                  <td className="py-2 font-medium">{L(locale, "经纪人费用", "仲介手数料", "Agent Fee")}</td>
-                  <td>~3% + ¥60,000</td>
+                  <td className="py-2 font-medium">{L(locale, "仲介手数料", "仲介手数料", "Agent Fee")}</td>
+                  <td>{L(locale, "约3% + ¥60,000", "約3% + ¥60,000", "~3% + ¥60,000")}</td>
                   <td>{L(locale, "标准不动产佣金", "標準的な不動産手数料", "Standard real estate commission")}</td>
                 </tr>
                 <tr className="border-b">
                   <td className="py-2 font-medium">{L(locale, "登记税", "登録免許税", "Registration Tax")}</td>
-                  <td>~1-2%</td>
+                  <td>{L(locale, "约1-2%", "約1〜2%", "~1-2%")}</td>
                   <td>{L(locale, "产权登记", "不動産登記", "Property registration")}</td>
                 </tr>
                 <tr className="border-b">

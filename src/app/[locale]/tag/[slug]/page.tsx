@@ -273,8 +273,8 @@ export default function TagPage({ params }: { params: { slug: string; locale: st
           <p className="text-gray-600 mb-6">
             {L(
               locale,
-              "我们为您对接日本全国的持牌经纪人。免费咨询，无任何义务。",
-              "日本全国の認可不動産業者をご紹介します。無料相談、義務なし。",
+              "我们为您介绍日本全国的当地不动产公司。免费咨询，无任何义务。",
+              "日本全国の現地の不動産会社をご紹介します。無料相談、義務なし。",
               "Our team connects you with licensed agents across Japan. Free consultation, no obligation."
             )}
           </p>

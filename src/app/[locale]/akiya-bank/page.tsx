@@ -355,7 +355,7 @@ export default function AkiyaBankPage() {
             {L(
               locale,
               "告诉我们您的需求，我们将为您匹配专门负责您感兴趣地区的持牌代理人。",
-              "ご希望の条件をお聞かせください。ご希望エリアに詳しい認可不動産業者をご紹介します。",
+              "ご希望の条件をお聞かせください。ご希望エリアに詳しい現地の不動産会社をご紹介します。",
               "Tell us your requirements and we'll match you with a licensed agent who specializes in your area of interest."
             )}
           </p>

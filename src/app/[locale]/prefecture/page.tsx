@@ -15,7 +15,7 @@ export const metadata: Metadata = {
   title:
     "Browse Akiya Houses by Prefecture | All 47 Prefectures | AkiyaFinder",
   description:
-    "Find affordable akiya (vacant houses) across all 47 prefectures of Japan. Browse by region — from Hokkaido to Okinawa. 901+ properties from $0.",
+    "Find affordable akiya (vacant houses) across all 47 prefectures of Japan. Browse by region — from Hokkaido to Okinawa. 4,335+ properties from $0.",
   openGraph: {
     title: "Browse Akiya Houses by Prefecture | AkiyaFinder",
     description:
@@ -237,9 +237,9 @@ export default function PrefectureIndex({
           <p className="text-gray-600 mb-6">
             {L(
               locale,
-              `使用我们的投资地图浏览全部 ${scrapedProperties.length}+ 套房产，查看每平米价格、车站距离和民泊潜力。`,
-              `投資マップで ${scrapedProperties.length} 件以上の物件を閲覧。㎡単価、駅距離、民泊ポテンシャルなどの指標付き。`,
-              `Use our interactive investment map to explore all ${scrapedProperties.length}+ properties with price per sqm, station access, and Airbnb potential metrics.`
+              `使用我们的交互式地图浏览全部 ${scrapedProperties.length}+ 套房产，查看位置、价格、车站距离等信息。`,
+              `地図で ${scrapedProperties.length} 件以上の物件を閲覧。場所・価格・駅距離などの情報付き。`,
+              `Use our interactive map to explore all ${scrapedProperties.length}+ properties with location, price, and station access information.`
             )}
           </p>
           <div className="flex gap-4 justify-center">
@@ -247,7 +247,7 @@ export default function PrefectureIndex({
               href="/map"
               className="bg-accent text-white px-6 py-3 rounded-lg font-semibold hover:bg-red-600 transition"
             >
-              {L(locale, "打开投资地图", "投資マップを開く", "Open Investment Map")}
+              {L(locale, "地图找房", "地図で探す", "Open Property Map")}
             </Link>
             <Link
               href="/price/free"

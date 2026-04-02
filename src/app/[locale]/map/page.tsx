@@ -95,14 +95,14 @@ export default function MapPage() {
       <Header />
       <div className="max-w-6xl mx-auto px-4 py-10">
         <h1 className="text-3xl font-bold text-primary mb-2">
-          {L(locale, "投资日本隐藏的不动产", "日本の隠れた不動産に投資する", "Invest in Japan's Hidden Real Estate")}
+          {L(locale, "在地图上找到您在日本的家", "地図で日本の空き家を探す", "Find Your Home in Japan on the Map")}
         </h1>
         <p className="text-gray-500 mb-8">
           {L(
             locale,
-            `全国47个都道府县 ${properties.length} 套房产。您的投资目标是什么？`,
-            `47都道府県 ${properties.length} 物件。あなたの投資目標は？`,
-            `${properties.length} properties across 47 prefectures. What's your investment goal?`
+            `全国47个都道府县 ${properties.length} 套房产。找到您理想的家。`,
+            `47都道府県 ${properties.length} 件の物件。あなたの理想の家を見つけましょう。`,
+            `${properties.length} properties across 47 prefectures. Find your ideal home.`
           )}
         </p>
 
@@ -204,14 +204,14 @@ export default function MapPage() {
         {/* CTA */}
         <div className="mt-8 p-6 bg-accent/5 border border-accent/20 rounded-lg text-center">
           <h3 className="font-semibold text-primary mb-2">
-            {L(locale, "找到了理想的投资物件？", "良い投資物件が見つかりましたか？", "Found a promising investment?")}
+            {L(locale, "找到了心仪的物件？", "気になる物件はありましたか？", "Found something you like?")}
           </h3>
           <p className="text-gray-500 text-sm mb-4">
             {L(
               locale,
-              "我们为您对接当地持牌经纪人，全程协助购买流程。",
-              "現地の認可不動産業者をご紹介し、購入手続きをサポートします。",
-              "We'll connect you with a licensed local agent who speaks English and handles the entire purchase process."
+              "我们为您介绍当地的不动产公司，全程协助购买流程。",
+              "現地の不動産会社をご紹介し、購入手続きをサポートします。",
+              "We'll connect you with a local real estate agent who can handle the entire purchase process."
             )}
           </p>
           <a

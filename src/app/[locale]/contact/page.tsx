@@ -78,7 +78,7 @@ function ContactForm() {
             <span>{L(
               locale,
               "我们将在2个工作日内为您匹配一位持牌日本不动产经纪人。",
-              "2営業日以内に認可不動産業者をマッチングします。",
+              "2営業日以内に現地の不動産会社をマッチングします。",
               "We'll match you with a licensed Japanese real estate agent who speaks English — within 2 business days."
             )}</span>
           </li>
@@ -211,9 +211,9 @@ function ContactForm() {
             className="w-full border border-gray-200 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-accent/50"
             placeholder={L(
               locale,
-              "请描述您理想的物件：地域偏好、用途（度假屋、投资、永久居住）、翻新意愿等。",
-              "ご希望の物件について教えてください：希望エリア、用途（別荘・投資・移住）、リフォーム意向など。",
-              "Tell us about your ideal property: location preferences, intended use (vacation home, investment, permanent residence), renovation willingness, etc."
+              "请描述您理想的物件：位置偏好、用途（移住定居、度假别墅、翻新改造等）、具体需求等。",
+              "ご希望の物件について教えてください：希望エリア、用途（移住・定住、セカンドハウス、リノベーションなど）、ご希望の条件など。",
+              "Tell us about your ideal property: location preferences, intended use (relocation, vacation home, renovation project), and any specific requirements."
             )}
           />
         </div>
