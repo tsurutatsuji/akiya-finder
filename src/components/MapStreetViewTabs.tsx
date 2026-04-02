@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useTranslations } from "next-intl";
 
 export default function MapStreetViewTabs({
   lat,
@@ -12,6 +13,7 @@ export default function MapStreetViewTabs({
   location: string;
 }) {
   const [activeTab, setActiveTab] = useState<"map" | "streetview" | "satellite">("map");
+  const t = useTranslations("map");
 
   const mapUrl = `https://maps.google.com/maps?q=${lat},${lng}&z=17&output=embed`;
   const satelliteUrl = `https://maps.google.com/maps?q=${lat},${lng}&z=18&t=k&output=embed`;
@@ -29,7 +31,7 @@ export default function MapStreetViewTabs({
               : "bg-gray-50 text-gray-500 hover:text-gray-700"
           }`}
         >
-          🗺️ 地図
+          🗺️ {t("tabMap")}
         </button>
         <button
           onClick={() => setActiveTab("satellite")}
@@ -39,7 +41,7 @@ export default function MapStreetViewTabs({
               : "bg-gray-50 text-gray-500 hover:text-gray-700"
           }`}
         >
-          🛰️ 航空写真
+          🛰️ {t("tabSatellite")}
         </button>
         <button
           onClick={() => setActiveTab("streetview")}
@@ -49,7 +51,7 @@ export default function MapStreetViewTabs({
               : "bg-gray-50 text-gray-500 hover:text-gray-700"
           }`}
         >
-          🔍 外観
+          🔍 {t("tabStreetView")}
         </button>
       </div>
 
@@ -76,7 +78,7 @@ export default function MapStreetViewTabs({
             allowFullScreen
             loading="lazy"
             referrerPolicy="no-referrer-when-downgrade"
-            title="航空写真"
+            title={t("tabSatellite")}
           />
         )}
         {activeTab === "streetview" && (
@@ -92,7 +94,7 @@ export default function MapStreetViewTabs({
               title="Google Street View"
             />
             <div className="absolute bottom-2 left-2 right-2 bg-black/60 text-white text-xs px-3 py-1.5 rounded text-center">
-              田舎の物件はストリートビューが利用できない場合があります。その場合は航空写真をご確認ください。
+              {t("streetViewNote")}
             </div>
           </>
         )}
@@ -107,7 +109,7 @@ export default function MapStreetViewTabs({
           rel="noopener noreferrer"
           className="text-xs text-blue-500 hover:underline whitespace-nowrap ml-2"
         >
-          Google Mapsで開く ↗
+          {t("openInMaps")} ↗
         </a>
       </div>
     </div>

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useTranslations, useLocale } from "next-intl";
 import { ScrapedProperty } from "@/lib/scraped-properties";
 import { getAllDisplayImages } from "@/lib/image-utils";
 
@@ -9,6 +10,7 @@ export default function ImageGallery({ property: p, images: propImages, captions
   const captions = propCaptions && propCaptions.length > 0 ? propCaptions : (p.imageCaptions || []);
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const [lightboxIndex, setLightboxIndex] = useState(0);
+  const t = useTranslations("gallery");
 
   const openLightbox = (index: number) => {
     setLightboxIndex(index);
@@ -24,7 +26,7 @@ export default function ImageGallery({ property: p, images: propImages, captions
       <div className="h-64 md:h-80 bg-gradient-to-br from-gray-100 to-gray-200 rounded-xl flex items-center justify-center">
         <div className="text-center">
           <span className="text-6xl">🏡</span>
-          <p className="text-gray-400 mt-2">写真はまだありません</p>
+          <p className="text-gray-400 mt-2">{t("noPhoto")}</p>
         </div>
       </div>
     );
@@ -44,11 +46,11 @@ export default function ImageGallery({ property: p, images: propImages, captions
         />
         {p.price === 0 && (
           <span className="absolute top-4 left-4 bg-accent text-white text-sm font-bold px-4 py-1.5 rounded-full">
-            無料
+            {t("free")}
           </span>
         )}
         <span className="absolute bottom-2 right-2 text-xs text-white/80 bg-black/40 px-2 py-1 rounded">
-          {images.length > 1 ? `全${images.length}枚 — クリックで拡大` : "クリックで拡大"}
+          {images.length > 1 ? t("allPhotos", { count: images.length }) : t("clickToEnlarge")}
         </span>
       </div>
 
@@ -63,7 +65,7 @@ export default function ImageGallery({ property: p, images: propImages, captions
             >
               <img
                 src={img}
-                alt={captions[i] || `写真 ${i + 1}`}
+                alt={captions[i] || `Photo ${i + 1}`}
                 className="w-full h-full object-cover group-hover:opacity-80 transition"
                 loading="lazy"
               />
@@ -104,7 +106,7 @@ export default function ImageGallery({ property: p, images: propImages, captions
             ✕
           </button>
 
-          {/* 左: 前へ */}
+          {/* 前へ */}
           {images.length > 1 && (
             <button
               className="absolute left-4 top-1/2 -translate-y-1/2 text-white text-4xl hover:text-gray-300 z-50 bg-black/30 rounded-full w-12 h-12 flex items-center justify-center"
@@ -117,12 +119,12 @@ export default function ImageGallery({ property: p, images: propImages, captions
           {/* 画像 */}
           <img
             src={images[lightboxIndex]}
-            alt={captions[lightboxIndex] || `写真 ${lightboxIndex + 1}`}
+            alt={captions[lightboxIndex] || `Photo ${lightboxIndex + 1}`}
             className="max-w-[90vw] max-h-[85vh] object-contain"
             onClick={(e) => e.stopPropagation()}
           />
 
-          {/* 右: 次へ */}
+          {/* 次へ */}
           {images.length > 1 && (
             <button
               className="absolute right-4 top-1/2 -translate-y-1/2 text-white text-4xl hover:text-gray-300 z-50 bg-black/30 rounded-full w-12 h-12 flex items-center justify-center"
@@ -138,13 +140,15 @@ export default function ImageGallery({ property: p, images: propImages, captions
 }
 
 export function ShareButtons({ propertyId, title }: { propertyId: string; title: string }) {
-  const url = `https://akiya-finder.vercel.app/zh/properties/${propertyId}`;
+  const t = useTranslations("share");
+  const locale = useLocale();
+  const url = `https://akiya-finder.vercel.app/${locale}/properties/${propertyId}`;
   const text = encodeURIComponent(title);
   const encodedUrl = encodeURIComponent(url);
 
   return (
     <div className="flex flex-wrap gap-3 items-center">
-      <span className="text-sm text-gray-500">共有:</span>
+      <span className="text-sm text-gray-500">{t("label")}:</span>
       <a
         href={`https://twitter.com/intent/tweet?text=${text}&url=${encodedUrl}`}
         target="_blank"
@@ -161,27 +165,31 @@ export function ShareButtons({ propertyId, title }: { propertyId: string; title:
       >
         Facebook
       </a>
-      <a
-        href={`https://line.me/R/msg/text/?${text}%20${encodedUrl}`}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="bg-green-500 text-white px-3 py-1.5 rounded-lg text-sm hover:bg-green-600 transition"
-      >
-        LINE
-      </a>
-      <a
-        href={`https://service.weibo.com/share/share.php?url=${encodedUrl}&title=${text}`}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="bg-red-500 text-white px-3 py-1.5 rounded-lg text-sm hover:bg-red-600 transition"
-      >
-        微博
-      </a>
+      {locale === "ja" && (
+        <a
+          href={`https://line.me/R/msg/text/?${text}%20${encodedUrl}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="bg-green-500 text-white px-3 py-1.5 rounded-lg text-sm hover:bg-green-600 transition"
+        >
+          LINE
+        </a>
+      )}
+      {locale === "zh" && (
+        <a
+          href={`https://service.weibo.com/share/share.php?url=${encodedUrl}&title=${text}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="bg-red-500 text-white px-3 py-1.5 rounded-lg text-sm hover:bg-red-600 transition"
+        >
+          {t("weibo")}
+        </a>
+      )}
       <button
         onClick={() => { navigator.clipboard.writeText(url); }}
         className="bg-gray-200 text-gray-700 px-3 py-1.5 rounded-lg text-sm hover:bg-gray-300 transition"
       >
-        URLコピー
+        {t("copyUrl")}
       </button>
     </div>
   );

@@ -357,5 +357,23 @@
     "airbnbDesc": "Airbnb・短租收益",
     "renovation": "翻新改造",
     "renovationDesc": "古民家・DIY・艺术工作室"
+  },
+  "map": {
+    "tabMap": "地图",
+    "tabSatellite": "卫星图",
+    "tabStreetView": "实景",
+    "streetViewNote": "偏远地区可能无法使用街景视图。如无法显示，请查看卫星图。",
+    "openInMaps": "在Google地图中打开"
+  },
+  "gallery": {
+    "noPhoto": "暂无照片",
+    "clickToEnlarge": "点击放大",
+    "allPhotos": "共{count}张 — 点击放大",
+    "free": "免费"
+  },
+  "share": {
+    "label": "分享",
+    "copyUrl": "复制链接",
+    "weibo": "微博"
   }
 }

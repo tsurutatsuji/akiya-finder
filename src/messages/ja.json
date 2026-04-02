@@ -357,5 +357,23 @@
     "airbnbDesc": "Airbnb・短期賃貸で収益化",
     "renovation": "リノベーション",
     "renovationDesc": "古民家再生・DIY・アトリエ"
+  },
+  "map": {
+    "tabMap": "地図",
+    "tabSatellite": "航空写真",
+    "tabStreetView": "外観",
+    "streetViewNote": "田舎の物件はストリートビューが利用できない場合があります。その場合は航空写真をご確認ください。",
+    "openInMaps": "Google Mapsで開く"
+  },
+  "gallery": {
+    "noPhoto": "写真はまだありません",
+    "clickToEnlarge": "クリックで拡大",
+    "allPhotos": "全{count}枚 — クリックで拡大",
+    "free": "無料"
+  },
+  "share": {
+    "label": "共有",
+    "copyUrl": "URLコピー",
+    "weibo": "微博"
   }
 }

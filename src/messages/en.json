@@ -357,5 +357,23 @@
     "airbnbDesc": "Short-term rental income",
     "renovation": "Renovation Project",
     "renovationDesc": "Kominka, DIY, art studio"
+  },
+  "map": {
+    "tabMap": "Map",
+    "tabSatellite": "Satellite",
+    "tabStreetView": "Street View",
+    "streetViewNote": "Street View may not be available in rural areas. Please check the satellite view instead.",
+    "openInMaps": "Open in Google Maps"
+  },
+  "gallery": {
+    "noPhoto": "No photos available",
+    "clickToEnlarge": "Click to enlarge",
+    "allPhotos": "{count} photos — Click to enlarge",
+    "free": "FREE"
+  },
+  "share": {
+    "label": "Share",
+    "copyUrl": "Copy URL",
+    "weibo": "Weibo"
   }
 }
