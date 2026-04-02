@@ -343,5 +343,19 @@
     "q5": "可以用来投资（民宿等）吗？",
     "a5": "可以。",
     "a5detail": "空置房可用于自住、民宿（Airbnb）、度假别墅、翻新项目等多种用途。"
+  },
+  "purpose": {
+    "title": "您想用空置房做什么？",
+    "subtitle": "选择您的目的，找到最合适的物件",
+    "investment": "投资",
+    "investmentDesc": "租金收入・资产增值",
+    "migration": "移住定居",
+    "migrationDesc": "在日本开始新生活",
+    "secondHome": "度假别墅",
+    "secondHomeDesc": "温泉・滑雪・海边度假",
+    "airbnb": "民宿经营",
+    "airbnbDesc": "Airbnb・短租收益",
+    "renovation": "翻新改造",
+    "renovationDesc": "古民家・DIY・艺术工作室"
   }
 }

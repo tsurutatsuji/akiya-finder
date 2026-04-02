@@ -343,5 +343,19 @@
     "q5": "Can I use it for investment (Airbnb, etc)?",
     "a5": "Yes.",
     "a5detail": "Akiya properties can be used for living, vacation homes, Airbnb (with proper registration), renovation projects, and more."
+  },
+  "purpose": {
+    "title": "What do you want to do with an akiya?",
+    "subtitle": "Choose your purpose to find the best properties",
+    "investment": "Investment",
+    "investmentDesc": "Rental income & appreciation",
+    "migration": "Move to Japan",
+    "migrationDesc": "Start a new life in Japan",
+    "secondHome": "Vacation Home",
+    "secondHomeDesc": "Onsen, ski, beach getaway",
+    "airbnb": "Airbnb / Minpaku",
+    "airbnbDesc": "Short-term rental income",
+    "renovation": "Renovation Project",
+    "renovationDesc": "Kominka, DIY, art studio"
   }
 }

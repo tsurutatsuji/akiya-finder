@@ -343,5 +343,19 @@
     "q5": "投資（民泊等）にも使えますか？",
     "a5": "はい。",
     "a5detail": "空き家は居住・民泊（届出制）・セカンドハウス・リノベーション等、多用途に利用できます。"
+  },
+  "purpose": {
+    "title": "空き家で何をしたいですか？",
+    "subtitle": "目的に合った物件を探しましょう",
+    "investment": "投資",
+    "investmentDesc": "賃貸収入・資産価値向上",
+    "migration": "移住・定住",
+    "migrationDesc": "日本で新生活を始める",
+    "secondHome": "セカンドハウス",
+    "secondHomeDesc": "温泉・スキー・海辺の別荘",
+    "airbnb": "民泊経営",
+    "airbnbDesc": "Airbnb・短期賃貸で収益化",
+    "renovation": "リノベーション",
+    "renovationDesc": "古民家再生・DIY・アトリエ"
   }
 }
