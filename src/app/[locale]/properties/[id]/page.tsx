@@ -18,8 +18,10 @@ import { Link } from "@/i18n/navigation";
 import { getDisplayImageUrl } from "@/lib/image-utils";
 import ImageGallery, { ShareButtons } from "@/components/ImageGallery";
 import MapStreetViewTabs from "@/components/MapStreetViewTabs";
+import ViewHistoryTracker from "@/components/ViewHistoryTracker";
+import StickyContactBar from "@/components/StickyContactBar";
 
-// --- 統合型 ---
+// --- Unified type ---
 type UnifiedProperty =
   | { kind: "manual"; data: Property }
   | { kind: "scraped"; data: ScrapedProperty };
@@ -102,7 +104,7 @@ export function generateMetadata({
   };
 }
 
-// --- ページ ---
+// --- Page ---
 export default function PropertyDetail({
   params,
 }: {
@@ -118,7 +120,7 @@ export default function PropertyDetail({
 }
 
 // ============================================================
-// 既存の手動データ表示（akiya-001~020）— 変更なし
+// Manual property display (akiya-001~020)
 // ============================================================
 function ManualPropertyPage({ property }: { property: Property }) {
   const priceDisplay =
@@ -133,7 +135,14 @@ function ManualPropertyPage({ property }: { property: Property }) {
   return (
     <>
       <Header />
-      <div className="max-w-4xl mx-auto px-4 py-10">
+      <ViewHistoryTracker
+        id={property.id}
+        title={property.title}
+        price={property.price}
+        location={property.location}
+        thumbnailUrl={null}
+      />
+      <div className="max-w-4xl mx-auto px-4 py-10 pb-sticky-contact">
         {/* Breadcrumb */}
         <div className="text-sm text-gray-400 mb-6">
           <Link href="/properties" className="hover:text-accent">
@@ -157,7 +166,13 @@ function ManualPropertyPage({ property }: { property: Property }) {
             <h1 className="text-2xl md:text-3xl font-bold text-primary mb-2">
               {property.title}
             </h1>
-            <p className="text-gray-500">📍 {property.location}</p>
+            <p className="text-gray-500 flex items-center gap-1">
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+              </svg>
+              {property.location}
+            </p>
             <p className="text-xs text-gray-400 mt-1">{property.titleJa}</p>
           </div>
           <div className="text-right">
@@ -168,25 +183,25 @@ function ManualPropertyPage({ property }: { property: Property }) {
 
         {/* Details Grid */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
-          <div className="bg-white p-4 rounded-lg border border-gray-100 text-center">
+          <div className="bg-white p-4 rounded-xl border border-gray-100 text-center">
             <p className="text-2xl font-bold text-primary">
               {property.bedrooms}
             </p>
             <p className="text-xs text-gray-400">Bedrooms</p>
           </div>
-          <div className="bg-white p-4 rounded-lg border border-gray-100 text-center">
+          <div className="bg-white p-4 rounded-xl border border-gray-100 text-center">
             <p className="text-2xl font-bold text-primary">
               {property.buildingArea}m²
             </p>
             <p className="text-xs text-gray-400">Building Area</p>
           </div>
-          <div className="bg-white p-4 rounded-lg border border-gray-100 text-center">
+          <div className="bg-white p-4 rounded-xl border border-gray-100 text-center">
             <p className="text-2xl font-bold text-primary">
               {property.landArea}m²
             </p>
             <p className="text-xs text-gray-400">Land Area</p>
           </div>
-          <div className="bg-white p-4 rounded-lg border border-gray-100 text-center">
+          <div className="bg-white p-4 rounded-xl border border-gray-100 text-center">
             <p className="text-2xl font-bold text-primary">
               {property.yearBuilt}
             </p>
@@ -229,7 +244,7 @@ function ManualPropertyPage({ property }: { property: Property }) {
           </p>
           <Link
             href={`/contact?property=${property.id}`}
-            className="inline-block bg-accent text-white px-8 py-3 rounded-lg font-semibold hover:bg-red-600 transition"
+            className="inline-block bg-accent text-white px-8 py-3 rounded-xl font-semibold hover:bg-red-600 transition shadow-lg shadow-accent/20"
           >
             Inquire About This Property
           </Link>
@@ -238,13 +253,14 @@ function ManualPropertyPage({ property }: { property: Property }) {
           </p>
         </div>
       </div>
+      <StickyContactBar propertyId={property.id} priceDisplay={priceDisplay} />
       <Footer />
     </>
   );
 }
 
 // ============================================================
-// スクレイプ物件表示（athome-XXXXX）
+// Scraped property display (athome-XXXXX)
 // ============================================================
 function ScrapedPropertyPage({ property: p }: { property: ScrapedProperty }) {
   const priceDisplay =
@@ -252,7 +268,7 @@ function ScrapedPropertyPage({ property: p }: { property: ScrapedProperty }) {
   const usdDisplay =
     p.priceUsd === 0 ? "$0 USD" : `~$${p.priceUsd.toLocaleString()} USD`;
 
-  // 投資タグ
+  // Investment tags
   const tags = getInvestmentTags({
     price: p.price,
     buildingArea: p.buildingArea,
@@ -266,26 +282,35 @@ function ScrapedPropertyPage({ property: p }: { property: ScrapedProperty }) {
     tags.includes(c.id)
   );
 
-  // 投資指標
+  // Investment metrics
   const pricePerSqm = calculatePricePerSqm(p.price, p.buildingArea);
   const pricePerSqmUsd = pricePerSqm ? Math.round(pricePerSqm / 150) : null;
   const age = calculateAge(p.yearBuilt);
   const walkMin = parseWalkingMinutes(p.access || "");
 
-  // 同じ都道府県の関連物件（自分を除く、最大6件）
+  // Related properties
   const relatedProperties = scrapedProperties
     .filter(
       (rp) => rp.prefectureEn === p.prefectureEn && rp.id !== p.id
     )
     .slice(0, 6);
 
-  // 備考（英語優先）
+  // Remarks
   const remarksText = p.remarksEnglish || p.remarks || null;
+
+  const displayImageUrl = getDisplayImageUrl(p);
 
   return (
     <>
       <Header />
-      <div className="max-w-4xl mx-auto px-4 py-10">
+      <ViewHistoryTracker
+        id={p.id}
+        title={p.locationJa || p.location}
+        price={p.price}
+        location={p.location}
+        thumbnailUrl={displayImageUrl}
+      />
+      <div className="max-w-4xl mx-auto px-4 py-10 pb-sticky-contact">
         {/* JSON-LD */}
         <script
           type="application/ld+json"
@@ -317,7 +342,7 @@ function ScrapedPropertyPage({ property: p }: { property: ScrapedProperty }) {
           }}
         />
 
-        {/* === 1. 価格・住所（最上部） === */}
+        {/* === 1. Price & Address (top) === */}
         <div className="mb-6">
           <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-3">
             <div>
@@ -326,26 +351,30 @@ function ScrapedPropertyPage({ property: p }: { property: ScrapedProperty }) {
             </div>
             <div className="text-right">
               {p.price > 0 && (
-                <p className="text-lg text-gray-400">
+                <p className="text-lg text-orange-500 font-medium">
                   ≈ ¥{Math.round(p.price / 20).toLocaleString()} CNY
                 </p>
               )}
             </div>
           </div>
-          <h1 className="text-xl md:text-2xl font-bold text-primary mt-3">
-            📍 {p.locationJa}
+          <h1 className="text-xl md:text-2xl font-bold text-primary mt-3 flex items-center gap-2">
+            <svg className="w-5 h-5 text-accent flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+            </svg>
+            {p.locationJa}
           </h1>
-          <p className="text-sm text-gray-500 mt-1">{p.location}, {p.prefectureEn}</p>
-          <div className="flex flex-wrap items-center gap-3 mt-2">
+          <p className="text-sm text-gray-500 mt-1 ml-7">{p.location}, {p.prefectureEn}</p>
+          <div className="flex flex-wrap items-center gap-3 mt-3">
             <span className="text-xs text-gray-400">
-              {p.propertyType} · {p.layout || ""} · 掲載日: {new Date(p.scrapedAt).toLocaleDateString("ja-JP")}
+              {p.propertyType} · {p.layout || ""} · {new Date(p.scrapedAt).toLocaleDateString("ja-JP")}
             </span>
-            {/* 投資タグ */}
+            {/* Investment tags */}
             {tagCategories.map((cat) => (
               <Link
                 key={cat.id}
                 href={`/tag/${cat.id === "free-entry" ? "free-near-free" : cat.id}`}
-                className="inline-flex items-center gap-1 bg-accent/10 text-accent border border-accent/20 px-2 py-0.5 rounded-full text-xs font-medium hover:bg-accent/20 transition"
+                className="inline-flex items-center gap-1 bg-accent/10 text-accent border border-accent/20 px-2.5 py-0.5 rounded-full text-xs font-medium hover:bg-accent/20 transition"
               >
                 <span>{cat.emoji}</span>
                 <span>{cat.label}</span>
@@ -354,61 +383,62 @@ function ScrapedPropertyPage({ property: p }: { property: ScrapedProperty }) {
           </div>
         </div>
 
-        {/* SNSシェア */}
+        {/* SNS Share */}
         <div className="mb-6">
           <ShareButtons propertyId={p.id} title={`${p.locationJa} - ${priceDisplay} | AkiyaFinder`} />
         </div>
 
-        {/* === 2. 画像 + マップ（横並び） === */}
+        {/* === 2. Image + Map === */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-8">
-          {/* 左: 画像ギャラリー */}
           <div>
             <ImageGallery property={p} />
           </div>
-          {/* 右: マップ & ストリートビュー（正方形・タブ切替） */}
           {p.lat && p.lng && (
             <MapStreetViewTabs lat={p.lat} lng={p.lng} location={p.locationJa || p.location} />
           )}
         </div>
 
-        {/* === 3. 物件概要 === */}
+        {/* === 3. Property Overview === */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
           {p.layout && p.layout !== "-" && (
-            <div className="bg-white p-4 rounded-lg border border-gray-100 text-center">
+            <div className="bg-white p-4 rounded-xl border border-gray-100 text-center">
               <p className="text-2xl font-bold text-primary">{p.layout}</p>
-              <p className="text-xs text-gray-400">間取り</p>
+              <p className="text-xs text-gray-400">Layout</p>
             </div>
           )}
-          <div className="bg-white p-4 rounded-lg border border-gray-100 text-center">
+          <div className="bg-white p-4 rounded-xl border border-gray-100 text-center">
             <p className="text-2xl font-bold text-primary">
               {p.buildingArea || "-"}
             </p>
-            <p className="text-xs text-gray-400">建物面積</p>
+            <p className="text-xs text-gray-400">Building</p>
           </div>
-          <div className="bg-white p-4 rounded-lg border border-gray-100 text-center">
+          <div className="bg-white p-4 rounded-xl border border-gray-100 text-center">
             <p className="text-2xl font-bold text-primary">
               {p.landArea || "-"}
             </p>
-            <p className="text-xs text-gray-400">土地面積</p>
+            <p className="text-xs text-gray-400">Land</p>
           </div>
-          <div className="bg-white p-4 rounded-lg border border-gray-100 text-center">
+          <div className="bg-white p-4 rounded-xl border border-gray-100 text-center">
             <p className="text-2xl font-bold text-primary">
               {p.yearBuilt || "-"}
             </p>
-            <p className="text-xs text-gray-400">築年月</p>
+            <p className="text-xs text-gray-400">Year Built</p>
           </div>
         </div>
 
-        {/* 投資指標 */}
+        {/* Investment Metrics */}
         {(pricePerSqm || age !== null || walkMin !== null || p.estimatedRoi) && (
           <div className="bg-primary/5 border border-primary/10 rounded-xl p-6 mb-8">
-            <h2 className="font-bold text-lg text-primary mb-4">
-              投資指標
+            <h2 className="font-bold text-lg text-primary mb-4 flex items-center gap-2">
+              <svg className="w-5 h-5 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+              </svg>
+              Investment Metrics
             </h2>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
               {pricePerSqm && (
                 <div>
-                  <p className="text-sm text-gray-500">㎡単価</p>
+                  <p className="text-sm text-gray-500">Price/sqm</p>
                   <p className="text-lg font-bold text-primary">
                     ¥{pricePerSqm.toLocaleString()}
                   </p>
@@ -421,23 +451,23 @@ function ScrapedPropertyPage({ property: p }: { property: ScrapedProperty }) {
               )}
               {age !== null && (
                 <div>
-                  <p className="text-sm text-gray-500">築年数</p>
+                  <p className="text-sm text-gray-500">Age</p>
                   <p className="text-lg font-bold text-primary">
-                    {age}年
+                    {age} years
                   </p>
                 </div>
               )}
               {walkMin !== null && (
                 <div>
-                  <p className="text-sm text-gray-500">最寄り駅</p>
+                  <p className="text-sm text-gray-500">Station</p>
                   <p className="text-lg font-bold text-primary">
-                    徒歩{walkMin}分
+                    {walkMin} min walk
                   </p>
                 </div>
               )}
               {p.estimatedRoi && (
                 <div>
-                  <p className="text-sm text-gray-500">想定利回り</p>
+                  <p className="text-sm text-gray-500">Est. ROI</p>
                   <p className="text-lg font-bold text-accent">
                     {p.estimatedRoi}%
                   </p>
@@ -447,53 +477,53 @@ function ScrapedPropertyPage({ property: p }: { property: ScrapedProperty }) {
           </div>
         )}
 
-        {/* 物件詳細 */}
+        {/* Property Details */}
         <div className="bg-white p-6 rounded-xl border border-gray-100 mb-8">
-          <h2 className="font-bold text-lg mb-4">物件詳細</h2>
+          <h2 className="font-bold text-lg mb-4">Property Details</h2>
           <dl className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-3">
-            <DetailRow label="物件種別" value={p.propertyType} />
-            <DetailRow label="間取り" value={p.layout} />
-            <DetailRow label="建物面積" value={p.buildingArea} />
-            <DetailRow label="土地面積" value={p.landArea} />
-            <DetailRow label="築年月" value={p.yearBuilt} />
-            <DetailRow label="構造" value={p.structure} />
-            <DetailRow label="土地権利" value={p.landRights} />
-            <DetailRow label="用途地域" value={p.zoning} />
-            <DetailRow label="都道府県" value={p.prefectureEn} />
+            <DetailRow label="Type" value={p.propertyType} />
+            <DetailRow label="Layout" value={p.layout} />
+            <DetailRow label="Building" value={p.buildingArea} />
+            <DetailRow label="Land" value={p.landArea} />
+            <DetailRow label="Year Built" value={p.yearBuilt} />
+            <DetailRow label="Structure" value={p.structure} />
+            <DetailRow label="Land Rights" value={p.landRights} />
+            <DetailRow label="Zoning" value={p.zoning} />
+            <DetailRow label="Prefecture" value={p.prefectureEn} />
           </dl>
         </div>
 
-        {/* アクセス */}
+        {/* Access */}
         {p.access && (
           <div className="bg-white p-6 rounded-xl border border-gray-100 mb-8">
-            <h2 className="font-bold text-lg mb-3">アクセス</h2>
+            <h2 className="font-bold text-lg mb-3">Access</h2>
             <p className="text-gray-600">{p.access}</p>
           </div>
         )}
 
-        {/* エリア情報 */}
+        {/* Area Info */}
         {p.areaDescription && (
           <div className="bg-white p-6 rounded-xl border border-gray-100 mb-8">
-            <h2 className="font-bold text-lg mb-3">エリア情報</h2>
+            <h2 className="font-bold text-lg mb-3">Area Information</h2>
             <p className="text-gray-600 leading-relaxed">
               {p.areaDescription}
             </p>
           </div>
         )}
 
-        {/* 備考 */}
+        {/* Remarks */}
         {remarksText && (
           <div className="bg-white p-6 rounded-xl border border-gray-100 mb-8">
-            <h2 className="font-bold text-lg mb-3">備考</h2>
+            <h2 className="font-bold text-lg mb-3">Remarks</h2>
             <p className="text-gray-600">{remarksText}</p>
           </div>
         )}
 
-        {/* 出典 */}
+        {/* Source */}
         <div className="bg-gray-50 border border-gray-200 rounded-xl p-4 mb-8 flex items-center justify-between">
           <div>
             <p className="text-xs text-gray-400 mb-1">
-              出典: @home空き家バンク
+              Source: @home Akiya Bank
             </p>
             <a
               href={p.sourceUrl}
@@ -501,7 +531,7 @@ function ScrapedPropertyPage({ property: p }: { property: ScrapedProperty }) {
               rel="noopener noreferrer"
               className="text-sm text-blue-600 hover:underline break-all"
             >
-              元の掲載ページを見る
+              View original listing
             </a>
           </div>
           <svg
@@ -519,30 +549,38 @@ function ScrapedPropertyPage({ property: p }: { property: ScrapedProperty }) {
           </svg>
         </div>
 
-        {/* お問い合わせ */}
-        <div className="bg-accent/5 border border-accent/20 rounded-xl p-8 text-center mb-12">
+        {/* Contact CTA */}
+        <div className="bg-accent/5 border border-accent/20 rounded-2xl p-8 text-center mb-12">
           <h2 className="text-xl font-bold text-primary mb-2">
-            この物件に興味がありますか？
+            Interested in This Property?
           </h2>
           <p className="text-gray-600 mb-6">
-            {p.prefectureEn}エリアの不動産会社をご紹介します。内見・交渉・購入手続きをサポートいたします。
+            We&apos;ll connect you with a licensed real estate agent in {p.prefectureEn} who can help with viewings, negotiations, and the purchase process.
           </p>
-          <Link
-            href={`/contact?property=${p.id}`}
-            className="inline-block bg-accent text-white px-8 py-3 rounded-lg font-semibold hover:bg-red-600 transition"
-          >
-            この物件について問い合わせる
-          </Link>
-          <p className="text-xs text-gray-400 mt-3">
-            無料相談 · 義務なし · 48時間以内に返信
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
+            <Link
+              href={`/contact?property=${p.id}`}
+              className="bg-accent text-white px-8 py-3 rounded-xl font-semibold hover:bg-red-600 transition shadow-lg shadow-accent/20"
+            >
+              Inquire About This Property
+            </Link>
+            <a
+              href={`mailto:helongzhi57@gmail.com?subject=Inquiry: ${p.id}`}
+              className="text-gray-500 hover:text-primary px-6 py-3 rounded-xl border border-gray-200 hover:border-gray-300 transition text-sm"
+            >
+              Email Directly
+            </a>
+          </div>
+          <p className="text-xs text-gray-400 mt-4">
+            Free consultation · No obligation · Response within 48 hours
           </p>
         </div>
 
-        {/* 同エリアの物件 */}
+        {/* Related Properties */}
         {relatedProperties.length > 0 && (
           <div className="mb-12">
             <h2 className="text-xl font-bold text-primary mb-6">
-              {p.prefectureEn}の他の物件
+              More in {p.prefectureEn}
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
               {relatedProperties.map((rp) => (
@@ -551,7 +589,7 @@ function ScrapedPropertyPage({ property: p }: { property: ScrapedProperty }) {
                   href={`/properties/${rp.id}`}
                   className="bg-white rounded-xl overflow-hidden shadow-sm border border-gray-100 hover:shadow-md transition group"
                 >
-                  <div className="h-36 bg-gradient-to-br from-gray-100 to-gray-200 relative">
+                  <div className="h-36 relative overflow-hidden">
                     {getDisplayImageUrl(rp) ? (
                       <img
                         src={getDisplayImageUrl(rp)!}
@@ -560,23 +598,26 @@ function ScrapedPropertyPage({ property: p }: { property: ScrapedProperty }) {
                         loading="lazy"
                       />
                     ) : (
-                      <div className="flex items-center justify-center h-full text-3xl">
-                        🏡
+                      <div className="no-image-placeholder flex items-center justify-center h-full">
+                        <svg className="w-10 h-10 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.2} d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z" />
+                          <polyline strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.2} points="9,22 9,12 15,12 15,22" />
+                        </svg>
                       </div>
                     )}
                     {rp.price === 0 && (
                       <span className="absolute top-2 left-2 bg-accent text-white text-xs font-bold px-2 py-0.5 rounded-full">
-                        無料
+                        FREE
                       </span>
                     )}
                   </div>
                   <div className="p-3">
-                    <p className="text-sm font-semibold text-primary truncate">
+                    <p className="text-sm font-semibold text-primary truncate group-hover:text-accent transition-colors">
                       {rp.locationJa}
                     </p>
                     <p className="text-accent font-bold mt-1">
                       {rp.price === 0
-                        ? "無料"
+                        ? "FREE"
                         : `¥${rp.price.toLocaleString()}`}
                     </p>
                     <p className="text-xs text-gray-400">
@@ -589,14 +630,15 @@ function ScrapedPropertyPage({ property: p }: { property: ScrapedProperty }) {
             <div className="text-center mt-6">
               <Link
                 href={`/prefecture/${p.prefectureEn?.toLowerCase()}`}
-                className="text-accent hover:underline text-sm font-medium"
+                className="text-accent hover:text-red-600 text-sm font-semibold transition"
               >
-                {p.prefectureEn}の物件をもっと見る →
+                View more in {p.prefectureEn} →
               </Link>
             </div>
           </div>
         )}
       </div>
+      <StickyContactBar propertyId={p.id} priceDisplay={priceDisplay} />
       <Footer />
     </>
   );

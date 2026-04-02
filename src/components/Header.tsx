@@ -5,6 +5,7 @@ import { Link, usePathname, useRouter } from "@/i18n/navigation";
 import { useLocale } from "next-intl";
 import { useState } from "react";
 import ViewerCount from "./ViewerCount";
+import ViewHistory from "./ViewHistory";
 
 export default function Header() {
   const t = useTranslations("nav");
@@ -29,11 +30,11 @@ export default function Header() {
   const currentLocale = locales.find((l) => l.code === locale) || locales[0];
 
   return (
-    <header className="bg-white/80 backdrop-blur-md border-b border-gray-100 sticky top-0 z-50">
-      <div className="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
-        <div className="flex items-center gap-4">
-          <Link href="/" className="flex items-center gap-2">
-            <span className="text-2xl">🏠</span>
+    <header className="bg-white/90 backdrop-blur-md border-b border-gray-100 sticky top-0 z-50 shadow-sm">
+      <div className="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
+        <div className="flex items-center gap-3">
+          <Link href="/" className="flex items-center gap-2 group">
+            <span className="text-2xl group-hover:scale-110 transition-transform">🏠</span>
             <span className="text-xl font-bold text-primary">
               Akiya<span className="text-accent">Finder</span>
             </span>
@@ -42,49 +43,55 @@ export default function Header() {
         </div>
 
         {/* Desktop Nav */}
-        <nav className="hidden lg:flex items-center gap-5 text-sm">
+        <nav className="hidden lg:flex items-center gap-1 text-sm">
           <Link
             href="/properties"
-            className="text-gray-600 hover:text-primary transition"
+            className="text-gray-600 hover:text-primary hover:bg-gray-50 transition px-3 py-2 rounded-lg"
           >
             {t("properties")}
           </Link>
           <Link
             href="/akiya-bank"
-            className="text-gray-600 hover:text-primary transition"
+            className="text-gray-600 hover:text-primary hover:bg-gray-50 transition px-3 py-2 rounded-lg"
           >
             {t("akiyaBank")}
           </Link>
           <Link
             href="/map"
-            className="text-gray-600 hover:text-primary transition"
+            className="text-gray-600 hover:text-primary hover:bg-gray-50 transition px-3 py-2 rounded-lg"
           >
             {t("map")}
           </Link>
           <Link
             href="/how-it-works"
-            className="text-gray-600 hover:text-primary transition"
+            className="text-gray-600 hover:text-primary hover:bg-gray-50 transition px-3 py-2 rounded-lg"
           >
             {t("howItWorks")}
           </Link>
           <Link
             href="/blog"
-            className="text-gray-600 hover:text-primary transition"
+            className="text-gray-600 hover:text-primary hover:bg-gray-50 transition px-3 py-2 rounded-lg"
           >
             {t("blog")}
           </Link>
           <Link
             href="/about"
-            className="text-gray-600 hover:text-primary transition"
+            className="text-gray-600 hover:text-primary hover:bg-gray-50 transition px-3 py-2 rounded-lg"
           >
             {t("about")}
           </Link>
+
+          {/* Divider */}
+          <div className="w-px h-5 bg-gray-200 mx-1" />
+
+          {/* View History */}
+          <ViewHistory />
 
           {/* Language Selector */}
           <div className="relative">
             <button
               onClick={() => setLangOpen(!langOpen)}
-              className="flex items-center gap-1.5 text-gray-600 hover:text-primary transition border border-gray-200 rounded-lg px-2.5 py-1.5 text-sm"
+              className="flex items-center gap-1.5 text-gray-600 hover:text-primary transition border border-gray-200 rounded-lg px-2.5 py-1.5 text-sm hover:bg-gray-50"
             >
               <span>{currentLocale.flag}</span>
               <span>{currentLocale.label}</span>
@@ -112,37 +119,40 @@ export default function Header() {
 
           <Link
             href="/contact"
-            className="bg-accent text-white px-4 py-2 rounded-lg hover:bg-red-600 transition text-sm font-medium"
+            className="bg-accent text-white px-5 py-2 rounded-lg hover:bg-red-600 transition text-sm font-semibold shadow-sm shadow-accent/20"
           >
             {t("getStarted")}
           </Link>
         </nav>
 
-        {/* Mobile menu button */}
-        <button
-          className="lg:hidden text-gray-600 hover:text-primary"
-          onClick={() => setMobileOpen(!mobileOpen)}
-        >
-          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            {mobileOpen ? (
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-            ) : (
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-            )}
-          </svg>
-        </button>
+        {/* Mobile: View History + Menu button */}
+        <div className="lg:hidden flex items-center gap-2">
+          <ViewHistory />
+          <button
+            className="text-gray-600 hover:text-primary p-1.5"
+            onClick={() => setMobileOpen(!mobileOpen)}
+          >
+            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              {mobileOpen ? (
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              ) : (
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+              )}
+            </svg>
+          </button>
+        </div>
       </div>
 
       {/* Mobile Nav */}
       {mobileOpen && (
-        <div className="lg:hidden border-t border-gray-100 bg-white px-4 py-4 space-y-3">
-          <Link href="/properties" className="block text-gray-600 hover:text-primary text-sm" onClick={() => setMobileOpen(false)}>{t("properties")}</Link>
-          <Link href="/akiya-bank" className="block text-gray-600 hover:text-primary text-sm" onClick={() => setMobileOpen(false)}>{t("akiyaBank")}</Link>
-          <Link href="/map" className="block text-gray-600 hover:text-primary text-sm" onClick={() => setMobileOpen(false)}>{t("map")}</Link>
-          <Link href="/how-it-works" className="block text-gray-600 hover:text-primary text-sm" onClick={() => setMobileOpen(false)}>{t("howItWorks")}</Link>
-          <Link href="/blog" className="block text-gray-600 hover:text-primary text-sm" onClick={() => setMobileOpen(false)}>{t("blog")}</Link>
-          <Link href="/about" className="block text-gray-600 hover:text-primary text-sm" onClick={() => setMobileOpen(false)}>{t("about")}</Link>
-          <div className="flex gap-2 pt-2 border-t border-gray-100">
+        <div className="lg:hidden border-t border-gray-100 bg-white px-4 py-4 space-y-1">
+          <Link href="/properties" className="block text-gray-600 hover:text-primary hover:bg-gray-50 text-sm px-3 py-2 rounded-lg" onClick={() => setMobileOpen(false)}>{t("properties")}</Link>
+          <Link href="/akiya-bank" className="block text-gray-600 hover:text-primary hover:bg-gray-50 text-sm px-3 py-2 rounded-lg" onClick={() => setMobileOpen(false)}>{t("akiyaBank")}</Link>
+          <Link href="/map" className="block text-gray-600 hover:text-primary hover:bg-gray-50 text-sm px-3 py-2 rounded-lg" onClick={() => setMobileOpen(false)}>{t("map")}</Link>
+          <Link href="/how-it-works" className="block text-gray-600 hover:text-primary hover:bg-gray-50 text-sm px-3 py-2 rounded-lg" onClick={() => setMobileOpen(false)}>{t("howItWorks")}</Link>
+          <Link href="/blog" className="block text-gray-600 hover:text-primary hover:bg-gray-50 text-sm px-3 py-2 rounded-lg" onClick={() => setMobileOpen(false)}>{t("blog")}</Link>
+          <Link href="/about" className="block text-gray-600 hover:text-primary hover:bg-gray-50 text-sm px-3 py-2 rounded-lg" onClick={() => setMobileOpen(false)}>{t("about")}</Link>
+          <div className="flex gap-2 pt-3 mt-2 border-t border-gray-100">
             {locales.map((l) => (
               <button
                 key={l.code}
@@ -155,7 +165,7 @@ export default function Header() {
               </button>
             ))}
           </div>
-          <Link href="/contact" className="block bg-accent text-white px-4 py-2 rounded-lg text-center text-sm font-medium" onClick={() => setMobileOpen(false)}>{t("getStarted")}</Link>
+          <Link href="/contact" className="block bg-accent text-white px-4 py-2.5 rounded-lg text-center text-sm font-semibold mt-2" onClick={() => setMobileOpen(false)}>{t("getStarted")}</Link>
         </div>
       )}
     </header>

@@ -310,6 +310,17 @@
     "usd": "~${amount} USD",
     "jpy": "¥{amount}"
   },
+  "viewHistory": {
+    "title": "最近浏览",
+    "empty": "还没有浏览记录",
+    "count": "最近 {count} 套",
+    "free": "免费 (¥0)"
+  },
+  "stickyContact": {
+    "inquire": "立即咨询",
+    "freeConsultation": "免费咨询 · 48小时内回复",
+    "wechatCopied": "WeChat ID已复制: AkiyaFinder"
+  },
   "language": {
     "zh": "中文",
     "en": "English",

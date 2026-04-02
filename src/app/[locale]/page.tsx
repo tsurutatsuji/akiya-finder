@@ -5,91 +5,116 @@ import PropertyCard from "@/components/PropertyCard";
 import NewsletterForm from "@/components/NewsletterForm";
 import { properties } from "@/data/properties";
 import { Link } from "@/i18n/navigation";
+import { scrapedProperties } from "@/lib/scraped-properties";
 
 export default function Home() {
   const t = useTranslations();
   const featured = properties.slice(0, 6);
+  const totalCount = scrapedProperties.length + properties.length;
 
   return (
     <>
       <Header />
 
-      {/* Hero */}
-      <section className="hero-gradient text-white py-20 md:py-28">
-        <div className="max-w-6xl mx-auto px-4 text-center">
-          <h1 className="text-4xl md:text-6xl font-bold mb-4 leading-tight">
+      {/* Hero - Inspired by Shenjumiaosuan's clean, trust-building approach */}
+      <section className="hero-gradient text-white py-20 md:py-32 relative overflow-hidden">
+        {/* Background decoration */}
+        <div className="absolute inset-0 opacity-10">
+          <div className="absolute top-20 left-10 w-72 h-72 bg-cyan-400 rounded-full blur-3xl" />
+          <div className="absolute bottom-10 right-10 w-96 h-96 bg-accent rounded-full blur-3xl" />
+        </div>
+
+        <div className="max-w-7xl mx-auto px-4 text-center relative z-10">
+          <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full px-4 py-1.5 mb-6">
+            <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
+            <span className="text-sm text-gray-300">{totalCount.toLocaleString()}+ {t("hero.statVacant")}</span>
+          </div>
+
+          <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold mb-6 leading-tight tracking-tight">
             {t("hero.title")}
             <br />
-            <span className="text-cyan-300">{t("hero.titleAccent")}</span>
+            <span className="stat-number">{t("hero.titleAccent")}</span>
           </h1>
-          <p className="text-lg md:text-xl text-gray-300 max-w-2xl mx-auto mb-8">
+          <p className="text-lg md:text-xl text-gray-300 max-w-2xl mx-auto mb-10 leading-relaxed">
             {t("hero.subtitle")}
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
               href="/properties"
-              className="bg-accent hover:bg-red-600 text-white px-8 py-3 rounded-lg font-semibold transition text-lg"
+              className="bg-accent hover:bg-red-600 text-white px-10 py-4 rounded-xl font-semibold transition text-lg shadow-lg shadow-accent/30 hover:shadow-xl hover:shadow-accent/40"
             >
               {t("hero.cta")}
             </Link>
             <Link
-              href="/how-it-works"
-              className="border border-white/30 hover:bg-white/10 text-white px-8 py-3 rounded-lg font-semibold transition text-lg"
+              href="/map"
+              className="border border-white/30 hover:bg-white/10 text-white px-10 py-4 rounded-xl font-semibold transition text-lg backdrop-blur-sm"
             >
-              {t("hero.howItWorks")}
+              {t("nav.map")}
             </Link>
           </div>
 
-          {/* Stats */}
-          <div className="grid grid-cols-3 gap-8 mt-16 max-w-lg mx-auto">
-            <div>
-              <p className="text-3xl font-bold text-cyan-300">9M+</p>
-              <p className="text-sm text-gray-400">{t("hero.statVacant")}</p>
+          {/* Stats - Larger, more prominent */}
+          <div className="grid grid-cols-3 gap-6 mt-20 max-w-2xl mx-auto">
+            <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-5">
+              <p className="text-4xl md:text-5xl font-bold stat-number">{totalCount.toLocaleString()}+</p>
+              <p className="text-sm text-gray-400 mt-1">{t("hero.statVacant")}</p>
             </div>
-            <div>
-              <p className="text-3xl font-bold text-cyan-300">$0</p>
-              <p className="text-sm text-gray-400">{t("hero.statPrice")}</p>
+            <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-5">
+              <p className="text-4xl md:text-5xl font-bold stat-number">$0</p>
+              <p className="text-sm text-gray-400 mt-1">{t("hero.statPrice")}</p>
             </div>
-            <div>
-              <p className="text-3xl font-bold text-cyan-300">47</p>
-              <p className="text-sm text-gray-400">{t("hero.statPrefectures")}</p>
+            <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-5">
+              <p className="text-4xl md:text-5xl font-bold stat-number">47</p>
+              <p className="text-sm text-gray-400 mt-1">{t("hero.statPrefectures")}</p>
             </div>
           </div>
         </div>
       </section>
 
       {/* Why Japan */}
-      <section className="py-16 bg-white">
-        <div className="max-w-6xl mx-auto px-4">
-          <h2 className="text-3xl font-bold text-center text-primary mb-12">
+      <section className="py-20 bg-white">
+        <div className="max-w-7xl mx-auto px-4">
+          <h2 className="text-3xl md:text-4xl font-bold text-center text-primary mb-4">
             {t("whyJapan.title")}
           </h2>
+          <p className="text-center text-gray-500 mb-14 max-w-xl mx-auto">
+            {t("hero.subtitle").slice(0, 50)}...
+          </p>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="text-center p-6">
-              <span className="text-4xl mb-4 block">🌍</span>
-              <h3 className="font-bold text-lg mb-2">{t("whyJapan.noRestrictions")}</h3>
-              <p className="text-gray-600 text-sm">{t("whyJapan.noRestrictionsDesc")}</p>
+            <div className="text-center p-8 rounded-2xl bg-gray-50 border border-gray-100 hover:border-accent/20 hover:shadow-lg transition-all">
+              <div className="w-16 h-16 bg-blue-50 rounded-2xl flex items-center justify-center mx-auto mb-5">
+                <span className="text-3xl">🌍</span>
+              </div>
+              <h3 className="font-bold text-lg mb-3 text-primary">{t("whyJapan.noRestrictions")}</h3>
+              <p className="text-gray-600 text-sm leading-relaxed">{t("whyJapan.noRestrictionsDesc")}</p>
             </div>
-            <div className="text-center p-6">
-              <span className="text-4xl mb-4 block">💰</span>
-              <h3 className="font-bold text-lg mb-2">{t("whyJapan.affordable")}</h3>
-              <p className="text-gray-600 text-sm">{t("whyJapan.affordableDesc")}</p>
+            <div className="text-center p-8 rounded-2xl bg-gray-50 border border-gray-100 hover:border-accent/20 hover:shadow-lg transition-all">
+              <div className="w-16 h-16 bg-green-50 rounded-2xl flex items-center justify-center mx-auto mb-5">
+                <span className="text-3xl">💰</span>
+              </div>
+              <h3 className="font-bold text-lg mb-3 text-primary">{t("whyJapan.affordable")}</h3>
+              <p className="text-gray-600 text-sm leading-relaxed">{t("whyJapan.affordableDesc")}</p>
             </div>
-            <div className="text-center p-6">
-              <span className="text-4xl mb-4 block">🏯</span>
-              <h3 className="font-bold text-lg mb-2">{t("whyJapan.architecture")}</h3>
-              <p className="text-gray-600 text-sm">{t("whyJapan.architectureDesc")}</p>
+            <div className="text-center p-8 rounded-2xl bg-gray-50 border border-gray-100 hover:border-accent/20 hover:shadow-lg transition-all">
+              <div className="w-16 h-16 bg-red-50 rounded-2xl flex items-center justify-center mx-auto mb-5">
+                <span className="text-3xl">🏯</span>
+              </div>
+              <h3 className="font-bold text-lg mb-3 text-primary">{t("whyJapan.architecture")}</h3>
+              <p className="text-gray-600 text-sm leading-relaxed">{t("whyJapan.architectureDesc")}</p>
             </div>
           </div>
         </div>
       </section>
 
       {/* Featured Properties */}
-      <section className="py-16">
-        <div className="max-w-6xl mx-auto px-4">
-          <div className="flex items-center justify-between mb-8">
-            <h2 className="text-3xl font-bold text-primary">{t("featured.title")}</h2>
-            <Link href="/properties" className="text-accent hover:underline text-sm font-medium">
+      <section className="py-20 bg-gray-50/50">
+        <div className="max-w-7xl mx-auto px-4">
+          <div className="flex items-center justify-between mb-10">
+            <div>
+              <h2 className="text-3xl md:text-4xl font-bold text-primary">{t("featured.title")}</h2>
+              <p className="text-gray-500 mt-1 text-sm">{totalCount.toLocaleString()}+ {t("hero.statVacant")}</p>
+            </div>
+            <Link href="/properties" className="text-accent hover:text-red-600 text-sm font-semibold flex items-center gap-1 transition">
               {t("featured.viewAll")}
             </Link>
           </div>
@@ -102,18 +127,18 @@ export default function Home() {
       </section>
 
       {/* Browse by Prefecture */}
-      <section className="py-16 bg-gray-50">
-        <div className="max-w-6xl mx-auto px-4">
-          <div className="flex items-center justify-between mb-8">
-            <h2 className="text-3xl font-bold text-primary">{t("browsePrefecture.title")}</h2>
-            <Link href="/prefecture" className="text-accent hover:underline text-sm font-medium">
+      <section className="py-20 bg-white">
+        <div className="max-w-7xl mx-auto px-4">
+          <div className="flex items-center justify-between mb-10">
+            <h2 className="text-3xl md:text-4xl font-bold text-primary">{t("browsePrefecture.title")}</h2>
+            <Link href="/prefecture" className="text-accent hover:text-red-600 text-sm font-semibold transition">
               {t("browsePrefecture.viewAll")}
             </Link>
           </div>
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3">
             {["Hokkaido","Tokyo","Kyoto","Osaka","Nagano","Okinawa","Chiba","Shizuoka","Fukuoka","Kanagawa","Niigata","Hiroshima"].map((name) => (
-              <Link key={name} href={`/prefecture/${name.toLowerCase()}`} className="bg-white rounded-lg p-3 text-center border border-gray-100 hover:border-accent hover:shadow-sm transition text-sm font-medium text-primary">
-                {name}
+              <Link key={name} href={`/prefecture/${name.toLowerCase()}`} className="bg-gray-50 rounded-xl p-4 text-center border border-gray-100 hover:border-accent hover:shadow-md hover:bg-white transition-all text-sm font-semibold text-primary group">
+                <span className="group-hover:text-accent transition-colors">{name}</span>
               </Link>
             ))}
           </div>
@@ -121,9 +146,9 @@ export default function Home() {
       </section>
 
       {/* Browse by Price */}
-      <section className="py-16 bg-white">
-        <div className="max-w-6xl mx-auto px-4">
-          <h2 className="text-3xl font-bold text-primary mb-8 text-center">{t("browsePrice.title")}</h2>
+      <section className="py-20 bg-gray-50/50">
+        <div className="max-w-7xl mx-auto px-4">
+          <h2 className="text-3xl md:text-4xl font-bold text-primary mb-10 text-center">{t("browsePrice.title")}</h2>
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
             {[
               { href: "/price/free", label: t("browsePrice.free"), accent: true },
@@ -133,7 +158,7 @@ export default function Home() {
               { href: "/price/under-5m", label: t("browsePrice.under5m"), accent: false },
               { href: "/price/under-10m", label: t("browsePrice.under10m"), accent: false },
             ].map((item) => (
-              <Link key={item.href} href={item.href} className={`rounded-lg p-4 text-center border transition font-semibold text-sm ${item.accent ? "bg-accent text-white border-accent hover:bg-red-600" : "bg-gray-50 text-primary border-gray-200 hover:border-accent"}`}>
+              <Link key={item.href} href={item.href} className={`rounded-xl p-5 text-center border transition-all font-semibold text-sm hover:shadow-md ${item.accent ? "bg-accent text-white border-accent hover:bg-red-600 shadow-lg shadow-accent/20" : "bg-white text-primary border-gray-200 hover:border-accent"}`}>
                 {item.label}
               </Link>
             ))}
@@ -142,10 +167,10 @@ export default function Home() {
       </section>
 
       {/* Investment Categories */}
-      <section className="py-16 bg-gray-50">
-        <div className="max-w-6xl mx-auto px-4">
-          <h2 className="text-3xl font-bold text-primary mb-8 text-center">{t("browseInvestment.title")}</h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+      <section className="py-20 bg-white">
+        <div className="max-w-7xl mx-auto px-4">
+          <h2 className="text-3xl md:text-4xl font-bold text-primary mb-10 text-center">{t("browseInvestment.title")}</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
             {[
               { slug: "high-value", emoji: "📈", label: t("browseInvestment.highValue"), desc: t("browseInvestment.highValueDesc") },
               { slug: "station-close", emoji: "🚉", label: t("browseInvestment.stationClose"), desc: t("browseInvestment.stationCloseDesc") },
@@ -154,11 +179,11 @@ export default function Home() {
               { slug: "move-in-ready", emoji: "🏗️", label: t("browseInvestment.moveInReady"), desc: t("browseInvestment.moveInReadyDesc") },
               { slug: "cultural-gem", emoji: "🏯", label: t("browseInvestment.culturalGem"), desc: t("browseInvestment.culturalGemDesc") },
             ].map((tag) => (
-              <Link key={tag.slug} href={`/tag/${tag.slug}`} className="bg-white rounded-xl p-5 border border-gray-100 card-hover flex items-start gap-4">
-                <span className="text-3xl">{tag.emoji}</span>
+              <Link key={tag.slug} href={`/tag/${tag.slug}`} className="bg-gray-50 rounded-2xl p-6 border border-gray-100 card-hover flex items-start gap-4 hover:border-accent/20 transition-all">
+                <span className="text-3xl mt-0.5">{tag.emoji}</span>
                 <div>
-                  <h3 className="font-bold text-primary">{tag.label}</h3>
-                  <p className="text-sm text-gray-500">{tag.desc}</p>
+                  <h3 className="font-bold text-primary text-base">{tag.label}</h3>
+                  <p className="text-sm text-gray-500 mt-1">{tag.desc}</p>
                 </div>
               </Link>
             ))}
@@ -167,37 +192,40 @@ export default function Home() {
       </section>
 
       {/* How It Works CTA */}
-      <section className="py-16 bg-white">
+      <section className="py-20 bg-gray-50/50">
         <div className="max-w-4xl mx-auto px-4 text-center">
-          <h2 className="text-3xl font-bold text-primary mb-6">{t("howItWorksSection.title")}</h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-10">
+          <h2 className="text-3xl md:text-4xl font-bold text-primary mb-6">{t("howItWorksSection.title")}</h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-12">
             {[
               { num: "1", title: t("howItWorksSection.step1Title"), desc: t("howItWorksSection.step1Desc") },
               { num: "2", title: t("howItWorksSection.step2Title"), desc: t("howItWorksSection.step2Desc") },
               { num: "3", title: t("howItWorksSection.step3Title"), desc: t("howItWorksSection.step3Desc") },
             ].map((step) => (
-              <div key={step.num}>
-                <div className="w-12 h-12 bg-accent/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <span className="text-accent font-bold text-xl">{step.num}</span>
+              <div key={step.num} className="relative">
+                <div className="w-14 h-14 bg-accent/10 rounded-2xl flex items-center justify-center mx-auto mb-5">
+                  <span className="text-accent font-bold text-2xl">{step.num}</span>
                 </div>
-                <h3 className="font-bold mb-2">{step.title}</h3>
-                <p className="text-gray-600 text-sm">{step.desc}</p>
+                <h3 className="font-bold mb-2 text-primary text-lg">{step.title}</h3>
+                <p className="text-gray-600 text-sm leading-relaxed">{step.desc}</p>
               </div>
             ))}
           </div>
-          <Link href="/contact" className="inline-block bg-accent text-white px-8 py-3 rounded-lg font-semibold hover:bg-red-600 transition mt-10">
+          <Link href="/contact" className="inline-block bg-accent text-white px-10 py-4 rounded-xl font-semibold hover:bg-red-600 transition mt-12 shadow-lg shadow-accent/20 text-lg">
             {t("howItWorksSection.cta")}
           </Link>
         </div>
       </section>
 
       {/* Newsletter */}
-      <section className="py-16 hero-gradient text-white">
-        <div className="max-w-2xl mx-auto px-4 text-center">
-          <h2 className="text-3xl font-bold mb-4">{t("newsletter.title")}</h2>
-          <p className="text-gray-300 mb-8">{t("newsletter.subtitle")}</p>
+      <section className="py-20 hero-gradient text-white relative overflow-hidden">
+        <div className="absolute inset-0 opacity-10">
+          <div className="absolute top-10 right-20 w-64 h-64 bg-cyan-400 rounded-full blur-3xl" />
+        </div>
+        <div className="max-w-2xl mx-auto px-4 text-center relative z-10">
+          <h2 className="text-3xl md:text-4xl font-bold mb-4">{t("newsletter.title")}</h2>
+          <p className="text-gray-300 mb-8 leading-relaxed">{t("newsletter.subtitle")}</p>
           <NewsletterForm />
-          <p className="text-xs text-gray-400 mt-3">{t("newsletter.note")}</p>
+          <p className="text-xs text-gray-400 mt-4">{t("newsletter.note")}</p>
         </div>
       </section>
 

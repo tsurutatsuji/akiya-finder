@@ -310,6 +310,17 @@
     "usd": "~${amount} USD",
     "jpy": "¥{amount}"
   },
+  "viewHistory": {
+    "title": "Recently Viewed",
+    "empty": "No properties viewed yet",
+    "count": "Last {count}",
+    "free": "FREE (¥0)"
+  },
+  "stickyContact": {
+    "inquire": "Inquire Now",
+    "freeConsultation": "Free consultation · Reply within 48h",
+    "wechatCopied": "WeChat ID copied: AkiyaFinder"
+  },
   "language": {
     "zh": "中文",
     "en": "English",
