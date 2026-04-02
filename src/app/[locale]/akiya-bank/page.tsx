@@ -1,43 +1,18 @@
 "use client";
 
 import { useState, useMemo } from "react";
-import Image from "next/image";
+import { useLocale } from "next-intl";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import scrapedData from "../../../../data/scraped-properties.json";
+import SeoPropertyCard from "@/components/SeoPropertyCard";
+import { scrapedProperties, ScrapedProperty } from "@/lib/scraped-properties";
 import {
   getInvestmentTags,
   INVESTMENT_CATEGORIES,
 } from "@/lib/investment-tags";
+import { L, PREF_NAMES } from "@/lib/locale-utils";
 
-interface ScrapedProperty {
-  id: string;
-  price: number;
-  priceFormatted: string;
-  location: string;
-  locationJa: string;
-  prefecture: string;
-  prefectureEn: string;
-  propertyType: string;
-  landArea: string;
-  buildingArea: string;
-  yearBuilt: string;
-  layout: string;
-  sourceUrl: string;
-  thumbnailUrl?: string;
-  access?: string;
-  structure?: string;
-  priceUsdFormatted?: string;
-  pricePerSqmUsd?: number;
-  buildingAge?: number;
-  estimatedRenovationUsd?: { low: number; high: number };
-  estimatedAirbnbRevenueUsd?: { gross: number; net: number };
-  estimatedRoi?: number;
-  areaDescription?: string;
-  remarksEnglish?: string;
-}
-
-const properties = scrapedData as ScrapedProperty[];
+const properties = scrapedProperties;
 
 const TAG_MAP = Object.fromEntries(
   INVESTMENT_CATEGORIES.map((c) => [c.id, c])
@@ -45,15 +20,74 @@ const TAG_MAP = Object.fromEntries(
 
 const PREF_LIST = [...new Set(properties.map((p) => p.prefectureEn))].sort();
 
-function priceToUsd(yen: number): number {
-  return Math.round(yen / 150);
+const ITEMS_PER_PAGE = 20;
+
+// 都道府県の英語名 → PREF_NAMES のキー（小文字）を探すヘルパー
+function prefEnToKey(prefEn: string): string {
+  return prefEn.toLowerCase();
+}
+
+// タグ名の多言語化
+function getTagLabel(tagId: string, locale: string): string {
+  const map: Record<string, { en: string; ja: string; zh: string }> = {
+    "high-value": { en: "High Value", ja: "高コスパ", zh: "高性价比" },
+    "station-close": { en: "Station Close", ja: "駅近", zh: "近车站" },
+    "airbnb-ready": { en: "Airbnb Ready", ja: "民泊向き", zh: "民宿适合" },
+    "free-entry": { en: "Free / Near-Free", ja: "無料・格安", zh: "免费・低价" },
+    "move-in-ready": { en: "Move-in Ready", ja: "即入居可", zh: "可直接入住" },
+    "cultural-gem": { en: "Cultural Gem", ja: "文化財", zh: "文化瑰宝" },
+  };
+  const entry = map[tagId];
+  if (!entry) return TAG_MAP[tagId]?.label || tagId;
+  return L(locale, entry.zh, entry.ja, entry.en);
+}
+
+// タグ説明の多言語化
+function getTagDescription(tagId: string, locale: string): string {
+  const map: Record<string, { en: string; ja: string; zh: string }> = {
+    "high-value": {
+      en: "Low price per sqm — best bang for your buck",
+      ja: "㎡単価が安い — コスパ最高",
+      zh: "每平米单价低 — 性价比最高",
+    },
+    "station-close": {
+      en: "Within 10 min walk to a train station",
+      ja: "駅から徒歩10分以内",
+      zh: "步行10分钟内到车站",
+    },
+    "airbnb-ready": {
+      en: "Tourist area + spacious — ideal for vacation rental",
+      ja: "観光地×広い — 民泊に最適",
+      zh: "旅游区+宽敞 — 最适合民宿经营",
+    },
+    "free-entry": {
+      en: "¥0–¥150,000 (~$0–$1,000) — ultra-low risk entry",
+      ja: "¥0〜¥150,000 — 超低リスク",
+      zh: "¥0〜¥150,000 — 超低风险入门",
+    },
+    "move-in-ready": {
+      en: "Under 30 years old or solid structure — low renovation cost",
+      ja: "築30年以内またはRC構造 — リフォーム費用が安い",
+      zh: "30年以内或RC结构 — 翻新费用低",
+    },
+    "cultural-gem": {
+      en: "Machiya, kominka in historic areas — premium Airbnb potential",
+      ja: "歴史エリアの町家・古民家 — 高級民泊向き",
+      zh: "历史区域的町屋・古民居 — 高端民宿潜力",
+    },
+  };
+  const entry = map[tagId];
+  if (!entry) return TAG_MAP[tagId]?.description || "";
+  return L(locale, entry.zh, entry.ja, entry.en);
 }
 
 export default function AkiyaBankPage() {
+  const locale = useLocale();
   const [prefFilter, setPrefFilter] = useState("");
   const [priceRange, setPriceRange] = useState("");
   const [search, setSearch] = useState("");
-  const [sortBy, setSortBy] = useState<"price-asc" | "price-desc" | "roi-desc" | "newest">("price-asc");
+  const [sortBy, setSortBy] = useState<"price-asc" | "price-desc" | "roi-desc">("price-asc");
+  const [currentPage, setCurrentPage] = useState(1);
 
   const filtered = useMemo(() => {
     let result = properties.filter((p) => {
@@ -68,6 +102,7 @@ export default function AkiyaBankPage() {
         return (
           p.location.toLowerCase().includes(q) ||
           p.locationJa.includes(q) ||
+          (p.locationZh && p.locationZh.includes(q)) ||
           p.prefectureEn.toLowerCase().includes(q) ||
           p.propertyType.toLowerCase().includes(q)
         );
@@ -82,17 +117,43 @@ export default function AkiyaBankPage() {
     return result;
   }, [prefFilter, priceRange, search, sortBy]);
 
+  // フィルター変更時にページをリセット
+  const totalPages = Math.max(1, Math.ceil(filtered.length / ITEMS_PER_PAGE));
+  const safeCurrentPage = Math.min(currentPage, totalPages);
+  const paginatedProperties = filtered.slice(
+    (safeCurrentPage - 1) * ITEMS_PER_PAGE,
+    safeCurrentPage * ITEMS_PER_PAGE
+  );
+
+  // フィルター変更時にページリセット
+  const handleFilterChange = (setter: (v: string) => void, value: string) => {
+    setter(value);
+    setCurrentPage(1);
+  };
+
+  // 都道府県名をロケール対応で表示
+  function getPrefDisplayName(prefEn: string): string {
+    const key = prefEnToKey(prefEn);
+    const names = PREF_NAMES[key];
+    if (!names) return prefEn;
+    return L(locale, names.zh, names.ja, names.en);
+  }
+
   return (
     <>
       <Header />
       <div className="max-w-6xl mx-auto px-4 py-10">
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-primary mb-2">
-            Akiya Bank Search
+            {L(locale, "空置房搜索", "空き家バンク検索", "Akiya Bank Search")}
           </h1>
           <p className="text-gray-500">
-            {properties.length} properties from Japan&apos;s official Akiya Bank system, translated into English.
-            Data sourced from municipal vacant house databases across {PREF_LIST.length} prefectures.
+            {L(
+              locale,
+              `来自日本官方空置房银行系统的 ${properties.length} 套房产，覆盖 ${PREF_LIST.length} 个都道府县。`,
+              `日本の空き家バンクから ${properties.length.toLocaleString()} 件の物件を掲載。${PREF_LIST.length} 都道府県をカバー。`,
+              `${properties.length.toLocaleString()} properties from Japan's official Akiya Bank system across ${PREF_LIST.length} prefectures.`
+            )}
           </p>
         </div>
 
@@ -101,200 +162,213 @@ export default function AkiyaBankPage() {
           <input
             type="text"
             value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            placeholder="Search by location, prefecture, or type..."
+            onChange={(e) => handleFilterChange(setSearch, e.target.value)}
+            placeholder={L(
+              locale,
+              "按地点、都道府县或类型搜索...",
+              "地名・都道府県・種別で検索...",
+              "Search by location, prefecture, or type..."
+            )}
             className="w-full border border-gray-200 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-accent/50"
           />
           <div className="flex flex-wrap gap-3">
             <select
               value={prefFilter}
-              onChange={(e) => setPrefFilter(e.target.value)}
+              onChange={(e) => handleFilterChange(setPrefFilter, e.target.value)}
               className="border border-gray-200 rounded-lg px-3 py-2 text-sm bg-white"
             >
-              <option value="">All Prefectures ({PREF_LIST.length})</option>
+              <option value="">
+                {L(
+                  locale,
+                  `全部都道府县 (${PREF_LIST.length})`,
+                  `全都道府県 (${PREF_LIST.length})`,
+                  `All Prefectures (${PREF_LIST.length})`
+                )}
+              </option>
               {PREF_LIST.map((p) => (
                 <option key={p} value={p}>
-                  {p} ({properties.filter((x) => x.prefectureEn === p).length})
+                  {getPrefDisplayName(p)} ({properties.filter((x) => x.prefectureEn === p).length})
                 </option>
               ))}
             </select>
             <select
               value={priceRange}
-              onChange={(e) => setPriceRange(e.target.value)}
+              onChange={(e) => handleFilterChange(setPriceRange, e.target.value)}
               className="border border-gray-200 rounded-lg px-3 py-2 text-sm bg-white"
             >
-              <option value="">All Prices</option>
-              <option value="free">Free (¥0)</option>
-              <option value="under1m">Under ¥1M (~$6,600)</option>
-              <option value="1m-5m">¥1M–5M (~$6,600–$33,000)</option>
-              <option value="5m-10m">¥5M–10M (~$33,000–$66,000)</option>
-              <option value="10m+">Over ¥10M (~$66,000+)</option>
+              <option value="">
+                {L(locale, "全部价格", "全価格帯", "All Prices")}
+              </option>
+              <option value="free">
+                {L(locale, "免费 (¥0)", "無料 (¥0)", "Free (¥0)")}
+              </option>
+              <option value="under1m">
+                {L(locale, "100万日元以下 (~$6,600)", "100万円以下 (~$6,600)", "Under ¥1M (~$6,600)")}
+              </option>
+              <option value="1m-5m">
+                {L(locale, "100万〜500万日元", "100万〜500万円", "¥1M–5M (~$6,600–$33,000)")}
+              </option>
+              <option value="5m-10m">
+                {L(locale, "500万〜1000万日元", "500万〜1000万円", "¥5M–10M (~$33,000–$66,000)")}
+              </option>
+              <option value="10m+">
+                {L(locale, "1000万日元以上", "1000万円以上", "Over ¥10M (~$66,000+)")}
+              </option>
             </select>
             <select
               value={sortBy}
-              onChange={(e) => setSortBy(e.target.value as typeof sortBy)}
+              onChange={(e) => {
+                setSortBy(e.target.value as typeof sortBy);
+                setCurrentPage(1);
+              }}
               className="border border-gray-200 rounded-lg px-3 py-2 text-sm bg-white"
             >
-              <option value="price-asc">Price: Low to High</option>
-              <option value="price-desc">Price: High to Low</option>
-              <option value="roi-desc">ROI: High to Low</option>
+              <option value="price-asc">
+                {L(locale, "价格：从低到高", "価格：安い順", "Price: Low to High")}
+              </option>
+              <option value="price-desc">
+                {L(locale, "价格：从高到低", "価格：高い順", "Price: High to Low")}
+              </option>
+              <option value="roi-desc">
+                {L(locale, "投资回报率：从高到低", "ROI：高い順", "ROI: High to Low")}
+              </option>
             </select>
           </div>
           <p className="text-xs text-gray-400">
-            Showing {filtered.length} of {properties.length} properties
+            {L(
+              locale,
+              `显示 ${filtered.length} 套中的第 ${(safeCurrentPage - 1) * ITEMS_PER_PAGE + 1}–${Math.min(safeCurrentPage * ITEMS_PER_PAGE, filtered.length)} 套（共 ${properties.length} 套）`,
+              `${filtered.length} 件中 ${(safeCurrentPage - 1) * ITEMS_PER_PAGE + 1}–${Math.min(safeCurrentPage * ITEMS_PER_PAGE, filtered.length)} 件を表示（全 ${properties.length.toLocaleString()} 件）`,
+              `Showing ${(safeCurrentPage - 1) * ITEMS_PER_PAGE + 1}–${Math.min(safeCurrentPage * ITEMS_PER_PAGE, filtered.length)} of ${filtered.length} properties (${properties.length.toLocaleString()} total)`
+            )}
           </p>
         </div>
 
-        {/* Results */}
+        {/* Results — SeoPropertyCard with investment tags overlay */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {filtered.map((p) => {
+          {paginatedProperties.map((p) => {
             const tags = getInvestmentTags(p);
             return (
-            <div
-              key={p.id}
-              className="bg-white rounded-xl overflow-hidden shadow-sm border border-gray-100 hover:shadow-md transition flex flex-col"
-            >
-              {/* Thumbnail / Header */}
-              <div className="h-40 relative bg-gradient-to-br from-gray-50 to-gray-100">
-                {p.thumbnailUrl ? (
-                  <Image
-                    src={p.thumbnailUrl}
-                    alt={p.location}
-                    fill
-                    className="object-cover"
-                    sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                  />
-                ) : (
-                  <div className="flex items-center justify-center h-full">
-                    <span className="text-4xl">🏡</span>
-                  </div>
-                )}
-                <span className="absolute top-2 right-2 bg-white/90 backdrop-blur-sm text-xs px-2 py-0.5 rounded-full text-gray-600 font-medium">
-                  {p.propertyType}
-                </span>
-                {p.price === 0 && (
-                  <span className="absolute top-2 left-2 bg-accent text-white text-xs font-bold px-2 py-0.5 rounded-full">
-                    FREE
-                  </span>
-                )}
-                {p.estimatedRoi != null && p.estimatedRoi > 0 && (
-                  <span className={`absolute bottom-2 left-2 text-white text-xs font-bold px-2 py-0.5 rounded-full ${
-                    p.estimatedRoi >= 15 ? "bg-green-600" : p.estimatedRoi >= 8 ? "bg-emerald-500" : "bg-gray-500"
-                  }`}>
-                    ROI {p.estimatedRoi}%
-                  </span>
-                )}
-              </div>
-
-              {/* Content */}
-              <div className="p-4 flex-1 flex flex-col">
-                <p className="text-xs text-gray-500 mb-1 truncate">📍 {p.location}</p>
-
-                {/* Price — USD primary, JPY secondary */}
-                <div className="mb-2">
-                  <p className="text-xl font-bold text-primary">
-                    {p.price === 0 ? "FREE" : (p.priceUsdFormatted || `$${priceToUsd(p.price).toLocaleString()}`)}
-                  </p>
-                  {p.price > 0 && (
-                    <p className="text-xs text-gray-400">{p.priceFormatted}</p>
-                  )}
-                </div>
-
+              <div key={p.id} className="flex flex-col">
+                <SeoPropertyCard property={p} />
                 {/* Investment Tags */}
                 {tags.length > 0 && (
-                  <div className="flex flex-wrap gap-1 mb-2">
+                  <div className="flex flex-wrap gap-1 px-4 pb-3 -mt-2 bg-white rounded-b-xl border-x border-b border-gray-100">
                     {tags.map((tagId) => {
                       const cat = TAG_MAP[tagId];
                       if (!cat) return null;
                       return (
                         <span
                           key={tagId}
-                          title={cat.description}
+                          title={getTagDescription(tagId, locale)}
                           className="inline-flex items-center gap-0.5 text-[10px] bg-accent/10 text-accent px-1.5 py-0.5 rounded-full font-medium"
                         >
-                          {cat.emoji} {cat.label}
+                          {cat.emoji} {getTagLabel(tagId, locale)}
                         </span>
                       );
                     })}
                   </div>
                 )}
-
-                {/* Airbnb Revenue Estimate */}
-                {p.estimatedAirbnbRevenueUsd && p.estimatedAirbnbRevenueUsd.net > 0 && (
-                  <div className="bg-emerald-50 border border-emerald-100 rounded-lg px-3 py-1.5 mb-2">
-                    <p className="text-[10px] text-emerald-600 font-medium uppercase tracking-wide">Est. Airbnb Revenue / yr</p>
-                    <p className="text-sm font-bold text-emerald-700">
-                      ${p.estimatedAirbnbRevenueUsd.net.toLocaleString()} <span className="font-normal text-[10px] text-emerald-500">net</span>
-                    </p>
-                  </div>
-                )}
-
-                {/* Details */}
-                <div className="grid grid-cols-2 gap-1 text-xs text-gray-500 mb-2">
-                  {p.layout !== "-" && <span>🏠 {p.layout}</span>}
-                  {p.buildingArea !== "-" && <span>📐 {p.buildingArea}</span>}
-                  {p.landArea !== "-" && <span>🌿 Land: {p.landArea}</span>}
-                  {p.yearBuilt !== "-" && <span>📅 Built: {p.yearBuilt}</span>}
-                  {p.pricePerSqmUsd != null && <span>💰 ${p.pricePerSqmUsd}/㎡</span>}
-                  {p.buildingAge != null && <span>🏗️ {p.buildingAge}yr old</span>}
-                </div>
-
-                {/* Area Description */}
-                {p.areaDescription && (
-                  <p className="text-[11px] text-gray-400 italic mb-2 line-clamp-2">
-                    {p.areaDescription}
-                  </p>
-                )}
-
-                {/* Remarks */}
-                {p.remarksEnglish && (
-                  <p className="text-[11px] text-amber-600 mb-2">
-                    💡 {p.remarksEnglish}
-                  </p>
-                )}
-
-                {/* Actions — pushed to bottom */}
-                <div className="flex gap-2 mt-auto pt-2">
-                  <a
-                    href={p.sourceUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex-1 text-center text-xs bg-gray-100 text-gray-600 px-3 py-2 rounded-lg hover:bg-gray-200 transition"
-                  >
-                    View Original
-                  </a>
-                  <a
-                    href={`/contact?property=${encodeURIComponent(`${p.location} - ${p.priceUsdFormatted || p.priceFormatted}`)}`}
-                    className="flex-1 text-center text-xs bg-accent text-white px-3 py-2 rounded-lg hover:bg-red-600 transition"
-                  >
-                    Inquire
-                  </a>
-                </div>
               </div>
-            </div>
             );
           })}
         </div>
 
         {filtered.length === 0 && (
           <p className="text-center text-gray-400 py-12">
-            No properties match your filters. Try adjusting your search.
+            {L(
+              locale,
+              "没有匹配的房产。请调整搜索条件。",
+              "条件に一致する物件がありません。検索条件を変更してください。",
+              "No properties match your filters. Try adjusting your search."
+            )}
           </p>
+        )}
+
+        {/* Pagination */}
+        {totalPages > 1 && (
+          <div className="flex items-center justify-center gap-2 mt-8">
+            <button
+              onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
+              disabled={safeCurrentPage <= 1}
+              className="px-4 py-2 text-sm rounded-lg border border-gray-200 bg-white hover:bg-gray-50 transition disabled:opacity-40 disabled:cursor-not-allowed"
+            >
+              {L(locale, "上一页", "前へ", "Previous")}
+            </button>
+
+            {/* Page numbers */}
+            <div className="flex items-center gap-1">
+              {(() => {
+                const pages: (number | "...")[] = [];
+                if (totalPages <= 7) {
+                  for (let i = 1; i <= totalPages; i++) pages.push(i);
+                } else {
+                  pages.push(1);
+                  if (safeCurrentPage > 3) pages.push("...");
+                  for (let i = Math.max(2, safeCurrentPage - 1); i <= Math.min(totalPages - 1, safeCurrentPage + 1); i++) {
+                    pages.push(i);
+                  }
+                  if (safeCurrentPage < totalPages - 2) pages.push("...");
+                  pages.push(totalPages);
+                }
+                return pages.map((page, idx) =>
+                  page === "..." ? (
+                    <span key={`dots-${idx}`} className="px-2 text-gray-400 text-sm">...</span>
+                  ) : (
+                    <button
+                      key={page}
+                      onClick={() => setCurrentPage(page as number)}
+                      className={`w-9 h-9 text-sm rounded-lg transition ${
+                        safeCurrentPage === page
+                          ? "bg-accent text-white font-bold"
+                          : "border border-gray-200 bg-white hover:bg-gray-50"
+                      }`}
+                    >
+                      {page}
+                    </button>
+                  )
+                );
+              })()}
+            </div>
+
+            <button
+              onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
+              disabled={safeCurrentPage >= totalPages}
+              className="px-4 py-2 text-sm rounded-lg border border-gray-200 bg-white hover:bg-gray-50 transition disabled:opacity-40 disabled:cursor-not-allowed"
+            >
+              {L(locale, "下一页", "次へ", "Next")}
+            </button>
+          </div>
         )}
 
         {/* Bottom CTA */}
         <div className="mt-12 p-6 bg-accent/5 border border-accent/20 rounded-lg text-center">
           <h3 className="font-semibold text-primary mb-2">
-            Can&apos;t find what you&apos;re looking for?
+            {L(
+              locale,
+              "没找到想要的房产？",
+              "お探しの物件が見つかりませんか？",
+              "Can't find what you're looking for?"
+            )}
           </h3>
           <p className="text-gray-500 text-sm mb-4">
-            Tell us your requirements and we&apos;ll match you with a licensed agent who specializes in your area of interest.
+            {L(
+              locale,
+              "告诉我们您的需求，我们将为您匹配专门负责您感兴趣地区的持牌代理人。",
+              "ご希望の条件をお聞かせください。ご希望エリアに詳しい認可不動産業者をご紹介します。",
+              "Tell us your requirements and we'll match you with a licensed agent who specializes in your area of interest."
+            )}
           </p>
           <a
-            href="/contact"
+            href={`/${locale}/contact`}
             className="inline-block bg-accent text-white px-6 py-2.5 rounded-lg font-medium hover:bg-red-600 transition"
           >
-            Get Matched with an Agent — Free
+            {L(
+              locale,
+              "免费匹配代理人",
+              "エージェントに無料相談",
+              "Get Matched with an Agent — Free"
+            )}
           </a>
         </div>
       </div>
