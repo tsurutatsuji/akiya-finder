@@ -37,6 +37,7 @@ export interface ScrapedProperty {
   areaDescription?: string;
   remarksEnglish?: string;
   allImages?: string[];
+  imageCaptions?: string[];
   carouselPhotoCount?: number;
   municipalityUrl?: string;
 }

@@ -6,6 +6,7 @@ import { getAllDisplayImages } from "@/lib/image-utils";
 
 export default function ImageGallery({ property: p }: { property: ScrapedProperty }) {
   const images = getAllDisplayImages(p);
+  const captions = p.imageCaptions || [];
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const [lightboxIndex, setLightboxIndex] = useState(0);
 
@@ -54,18 +55,23 @@ export default function ImageGallery({ property: p }: { property: ScrapedPropert
       {/* サムネイル一覧 */}
       {images.length > 1 && (
         <div className="grid grid-cols-4 md:grid-cols-6 gap-1 mt-1">
-          {images.slice(0, 6).map((img, i) => (
+          {images.slice(0, 12).map((img, i) => (
             <div
               key={i}
-              className="h-20 md:h-24 bg-gray-100 rounded-lg overflow-hidden cursor-pointer"
+              className="h-20 md:h-24 bg-gray-100 rounded-lg overflow-hidden cursor-pointer relative group"
               onClick={() => openLightbox(i)}
             >
               <img
                 src={img}
-                alt={`写真 ${i + 1}`}
-                className="w-full h-full object-cover hover:opacity-80 transition"
+                alt={captions[i] || `写真 ${i + 1}`}
+                className="w-full h-full object-cover group-hover:opacity-80 transition"
                 loading="lazy"
               />
+              {captions[i] && (
+                <span className="absolute bottom-0 left-0 right-0 bg-black/60 text-white text-[10px] px-1 py-0.5 text-center truncate">
+                  {captions[i]}
+                </span>
+              )}
             </div>
           ))}
         </div>
@@ -109,8 +115,11 @@ export default function ImageGallery({ property: p }: { property: ScrapedPropert
             </button>
           )}
 
-          <div className="absolute bottom-4 left-1/2 -translate-x-1/2 text-white text-sm bg-black/50 px-3 py-1 rounded">
-            {lightboxIndex + 1} / {images.length}
+          <div className="absolute bottom-4 left-1/2 -translate-x-1/2 text-white text-sm bg-black/60 px-4 py-2 rounded-lg text-center">
+            {captions[lightboxIndex] && (
+              <p className="font-medium mb-1">{captions[lightboxIndex]}</p>
+            )}
+            <p className="text-white/70 text-xs">{lightboxIndex + 1} / {images.length}</p>
           </div>
         </div>
       )}
