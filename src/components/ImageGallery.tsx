@@ -4,9 +4,9 @@ import { useState } from "react";
 import { ScrapedProperty } from "@/lib/scraped-properties";
 import { getAllDisplayImages } from "@/lib/image-utils";
 
-export default function ImageGallery({ property: p }: { property: ScrapedProperty }) {
-  const images = getAllDisplayImages(p);
-  const captions = p.imageCaptions || [];
+export default function ImageGallery({ property: p, images: propImages, captions: propCaptions }: { property: ScrapedProperty; images?: string[]; captions?: string[] }) {
+  const images = propImages && propImages.length > 0 ? propImages : getAllDisplayImages(p);
+  const captions = propCaptions && propCaptions.length > 0 ? propCaptions : (p.imageCaptions || []);
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const [lightboxIndex, setLightboxIndex] = useState(0);
 

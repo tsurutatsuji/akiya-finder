@@ -391,7 +391,7 @@ function ScrapedPropertyPage({ property: p }: { property: ScrapedProperty }) {
         {/* === 2. Image + Map === */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-8">
           <div>
-            <ImageGallery property={p} />
+            <ImageGallery property={p} images={p.allImages || []} captions={p.imageCaptions || []} />
           </div>
           {p.lat && p.lng && (
             <MapStreetViewTabs lat={p.lat} lng={p.lng} location={p.locationJa || p.location} />
