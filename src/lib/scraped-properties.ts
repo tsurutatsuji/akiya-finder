@@ -36,6 +36,9 @@ export interface ScrapedProperty {
   estimatedRoi?: number;
   areaDescription?: string;
   remarksEnglish?: string;
+  allImages?: string[];
+  carouselPhotoCount?: number;
+  municipalityUrl?: string;
 }
 
 // 型アサーション付きでロード
