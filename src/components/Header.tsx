@@ -127,12 +127,15 @@ export default function Header() {
             )}
           </div>
 
+          {/* 無料相談ボタン — ユーザー対応不可のため一時非表示 */}
+          {false && (
           <Link
             href="/contact"
             className="bg-accent text-white px-5 py-2 rounded-lg hover:bg-red-600 transition text-sm font-semibold shadow-sm shadow-accent/20"
           >
             {t("getStarted")}
           </Link>
+          )}
         </nav>
 
         {/* Mobile: View History + Menu button */}
@@ -176,7 +179,10 @@ export default function Header() {
               </button>
             ))}
           </div>
+          {/* 無料相談ボタン — ユーザー対応不可のため一時非表示 */}
+          {false && (
           <Link href="/contact" className="block bg-accent text-white px-4 py-2.5 rounded-lg text-center text-sm font-semibold mt-2" onClick={() => setMobileOpen(false)}>{t("getStarted")}</Link>
+          )}
         </div>
       )}
     </header>

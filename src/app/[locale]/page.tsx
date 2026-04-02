@@ -261,9 +261,12 @@ export default function Home() {
               </div>
             ))}
           </div>
+          {/* 無料相談CTA — ユーザー対応不可のため一時非表示 */}
+          {false && (
           <Link href="/contact" className="inline-block bg-accent text-white px-10 py-4 rounded-xl font-semibold hover:bg-red-600 transition mt-12 shadow-lg shadow-accent/20 text-lg">
             {t("howItWorksSection.cta")}
           </Link>
+          )}
         </div>
       </section>
 

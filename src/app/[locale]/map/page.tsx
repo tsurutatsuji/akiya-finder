@@ -202,6 +202,8 @@ export default function MapPage() {
         <PropertyMap properties={filtered} />
 
         {/* CTA */}
+        {/* 無料相談CTA — ユーザー対応不可のため一時非表示 */}
+        {false && (
         <div className="mt-8 p-6 bg-accent/5 border border-accent/20 rounded-lg text-center">
           <h3 className="font-semibold text-primary mb-2">
             {L(locale, "找到了心仪的物件？", "気になる物件はありましたか？", "Found something you like?")}
@@ -221,6 +223,7 @@ export default function MapPage() {
             {L(locale, "免费匹配经纪人", "無料でエージェントを紹介", "Get Matched with an Agent — Free")}
           </a>
         </div>
+        )}
       </div>
       <Footer />
     </>

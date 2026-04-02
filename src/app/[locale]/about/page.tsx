@@ -169,12 +169,15 @@ export default function AboutPage({
               >
                 {L(locale, "查看物件地图", "物件を探す", "Browse Properties")}
               </Link>
+              {/* 無料相談CTA — ユーザー対応不可のため一時非表示 */}
+              {false && (
               <Link
                 href="/contact"
                 className="bg-white border border-gray-200 text-primary px-6 py-2.5 rounded-lg font-medium hover:bg-gray-50 transition"
               >
                 {L(locale, "免费咨询", "無料で相談する", "Get Started — Free")}
               </Link>
+              )}
             </div>
           </div>
         </div>

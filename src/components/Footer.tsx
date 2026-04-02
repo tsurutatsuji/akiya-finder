@@ -62,7 +62,8 @@ export default function Footer() {
               <li><Link href="/blog" className="hover:text-white transition">{t("blogEn")}</Link></li>
               <li><Link href="/blog?lang=zh" className="hover:text-white transition">{t("blogZh")}</Link></li>
               <li><Link href="/about" className="hover:text-white transition">{t("aboutUs")}</Link></li>
-              <li><Link href="/contact" className="hover:text-white transition">{t("getStarted")}</Link></li>
+              {/* 無料相談CTA — ユーザー対応不可のため一時非表示 */}
+              {/* <li><Link href="/contact" className="hover:text-white transition">{t("getStarted")}</Link></li> */}
             </ul>
           </div>
           <div>

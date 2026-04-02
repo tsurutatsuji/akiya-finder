@@ -243,7 +243,8 @@ function ManualPropertyPage({ property }: { property: Property }) {
           </div>
         </div>
 
-        {/* CTA */}
+        {/* CTA — ユーザー対応不可のため一時非表示 */}
+        {false && (
         <div className="bg-accent/5 border border-accent/20 rounded-xl p-8 text-center">
           <h2 className="text-xl font-bold text-primary mb-2">
             Interested in This Property?
@@ -263,6 +264,7 @@ function ManualPropertyPage({ property }: { property: Property }) {
             Free consultation · No obligation · Response within 48 hours
           </p>
         </div>
+        )}
       </div>
       <StickyContactBar propertyId={property.id} priceDisplay={priceDisplay} />
       <Footer />
@@ -613,7 +615,8 @@ function ScrapedPropertyPage({ property: p, locale = "zh" }: { property: Scraped
           </div>
         )}
 
-        {/* Contact CTA */}
+        {/* Contact CTA — ユーザー対応不可のため一時非表示 */}
+        {false && (
         <div className="bg-accent/5 border border-accent/20 rounded-2xl p-8 text-center mb-12">
           <h2 className="text-xl font-bold text-primary mb-2">
             {L(locale, "对此物件感兴趣？", "この物件に興味がありますか？", "Interested in This Property?")}
@@ -643,6 +646,7 @@ function ScrapedPropertyPage({ property: p, locale = "zh" }: { property: Scraped
             {L(locale, "免费咨询 · 无义务 · 48小时内回复", "無料相談 · 義務なし · 48時間以内に返信", "Free consultation · No obligation · Response within 48 hours")}
           </p>
         </div>
+        )}
 
         {/* Related Properties */}
         {relatedProperties.length > 0 && (
