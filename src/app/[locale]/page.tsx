@@ -10,16 +10,11 @@ import { scrapedProperties } from "@/lib/scraped-properties";
 
 export default function Home() {
   const t = useTranslations();
-  // 最新の写真あり物件から6件（異なる都道府県）
-  const sorted = [...scrapedProperties]
+  // 最新の写真あり物件から6件（投稿日順）
+  const featuredScraped = [...scrapedProperties]
     .filter((p) => p.allImages && p.allImages.length > 0)
-    .sort((a, b) => (b.scrapedAt || "").localeCompare(a.scrapedAt || ""));
-  const seenPrefs = new Set<string>();
-  const featuredScraped = sorted.filter((p) => {
-    if (seenPrefs.has(p.prefectureEn)) return false;
-    seenPrefs.add(p.prefectureEn);
-    return true;
-  }).slice(0, 6);
+    .sort((a, b) => (b.scrapedAt || "").localeCompare(a.scrapedAt || ""))
+    .slice(0, 6);
   const totalCount = scrapedProperties.length;
 
   return (
