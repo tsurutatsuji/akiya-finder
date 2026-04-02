@@ -262,6 +262,11 @@ function ManualPropertyPage({ property }: { property: Property }) {
 // ============================================================
 // Scraped property display (athome-XXXXX)
 // ============================================================
+// ロケール別テキスト
+function L(locale: string, zh: string, ja: string, en: string) {
+  return locale === "zh" ? zh : locale === "ja" ? ja : en;
+}
+
 function ScrapedPropertyPage({ property: p, locale = "zh" }: { property: ScrapedProperty; locale?: string }) {
   const priceCny = p.price > 0 ? Math.round(p.price / 20) : 0;
   const priceUsd = p.priceUsd || Math.round(p.price / 150);
@@ -406,26 +411,26 @@ function ScrapedPropertyPage({ property: p, locale = "zh" }: { property: Scraped
           {p.layout && p.layout !== "-" && (
             <div className="bg-white p-4 rounded-xl border border-gray-100 text-center">
               <p className="text-2xl font-bold text-primary">{p.layout}</p>
-              <p className="text-xs text-gray-400">Layout</p>
+              <p className="text-xs text-gray-400">{L(locale, "户型", "間取り", "Layout")}</p>
             </div>
           )}
           <div className="bg-white p-4 rounded-xl border border-gray-100 text-center">
             <p className="text-2xl font-bold text-primary">
               {p.buildingArea || "-"}
             </p>
-            <p className="text-xs text-gray-400">Building</p>
+            <p className="text-xs text-gray-400">{L(locale, "建筑面积", "建物面積", "Building")}</p>
           </div>
           <div className="bg-white p-4 rounded-xl border border-gray-100 text-center">
             <p className="text-2xl font-bold text-primary">
               {p.landArea || "-"}
             </p>
-            <p className="text-xs text-gray-400">Land</p>
+            <p className="text-xs text-gray-400">{L(locale, "土地面积", "土地面積", "Land")}</p>
           </div>
           <div className="bg-white p-4 rounded-xl border border-gray-100 text-center">
             <p className="text-2xl font-bold text-primary">
               {p.yearBuilt || "-"}
             </p>
-            <p className="text-xs text-gray-400">Year Built</p>
+            <p className="text-xs text-gray-400">{L(locale, "建造年月", "築年月", "Year Built")}</p>
           </div>
         </div>
 
@@ -436,12 +441,12 @@ function ScrapedPropertyPage({ property: p, locale = "zh" }: { property: Scraped
               <svg className="w-5 h-5 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
               </svg>
-              Investment Metrics
+              {L(locale, "投资指标", "投資指標", "Investment Metrics")}
             </h2>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
               {pricePerSqm && (
                 <div>
-                  <p className="text-sm text-gray-500">Price/sqm</p>
+                  <p className="text-sm text-gray-500">{L(locale, "每平米价格", "㎡単価", "Price/sqm")}</p>
                   <p className="text-lg font-bold text-primary">
                     ¥{pricePerSqm.toLocaleString()}
                   </p>
@@ -454,23 +459,23 @@ function ScrapedPropertyPage({ property: p, locale = "zh" }: { property: Scraped
               )}
               {age !== null && (
                 <div>
-                  <p className="text-sm text-gray-500">Age</p>
+                  <p className="text-sm text-gray-500">{L(locale, "房龄", "築年数", "Age")}</p>
                   <p className="text-lg font-bold text-primary">
-                    {age} years
+                    {age}{L(locale, "年", "年", " years")}
                   </p>
                 </div>
               )}
               {walkMin !== null && (
                 <div>
-                  <p className="text-sm text-gray-500">Station</p>
+                  <p className="text-sm text-gray-500">{L(locale, "最近车站", "最寄り駅", "Station")}</p>
                   <p className="text-lg font-bold text-primary">
-                    {walkMin} min walk
+                    {L(locale, `步行${walkMin}分钟`, `徒歩${walkMin}分`, `${walkMin} min walk`)}
                   </p>
                 </div>
               )}
               {p.estimatedRoi && (
                 <div>
-                  <p className="text-sm text-gray-500">Est. ROI</p>
+                  <p className="text-sm text-gray-500">{L(locale, "预估回报率", "想定利回り", "Est. ROI")}</p>
                   <p className="text-lg font-bold text-accent">
                     {p.estimatedRoi}%
                   </p>
@@ -482,7 +487,7 @@ function ScrapedPropertyPage({ property: p, locale = "zh" }: { property: Scraped
 
         {/* Property Details */}
         <div className="bg-white p-6 rounded-xl border border-gray-100 mb-8">
-          <h2 className="font-bold text-lg mb-4">Property Details</h2>
+          <h2 className="font-bold text-lg mb-4">{L(locale, "物件详情", "物件詳細", "Property Details")}</h2>
           <dl className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-3">
             <DetailRow label={locale === "zh" ? "物件类型" : locale === "ja" ? "物件種別" : "Type"} value={locale === "zh" ? (p.propertyTypeZh || p.propertyType) : p.propertyType} />
             <DetailRow label={locale === "zh" ? "户型" : locale === "ja" ? "間取り" : "Layout"} value={p.layout} />
@@ -532,7 +537,7 @@ function ScrapedPropertyPage({ property: p, locale = "zh" }: { property: Scraped
         {/* Area Info */}
         {p.areaDescription && (
           <div className="bg-white p-6 rounded-xl border border-gray-100 mb-8">
-            <h2 className="font-bold text-lg mb-3">Area Information</h2>
+            <h2 className="font-bold text-lg mb-3">{L(locale, "区域信息", "エリア情報", "Area Information")}</h2>
             <p className="text-gray-600 leading-relaxed">
               {p.areaDescription}
             </p>
@@ -542,7 +547,7 @@ function ScrapedPropertyPage({ property: p, locale = "zh" }: { property: Scraped
         {/* Remarks */}
         {remarksText && (
           <div className="bg-white p-6 rounded-xl border border-gray-100 mb-8">
-            <h2 className="font-bold text-lg mb-3">Remarks</h2>
+            <h2 className="font-bold text-lg mb-3">{L(locale, "备注", "備考", "Remarks")}</h2>
             <p className="text-gray-600">{remarksText}</p>
           </div>
         )}
@@ -551,7 +556,7 @@ function ScrapedPropertyPage({ property: p, locale = "zh" }: { property: Scraped
         <div className="bg-gray-50 border border-gray-200 rounded-xl p-4 mb-8 flex items-center justify-between">
           <div>
             <p className="text-xs text-gray-400 mb-1">
-              Source: @home Akiya Bank
+              {L(locale, "数据来源: @home空置房银行", "出典: @home空き家バンク", "Source: @home Akiya Bank")}
             </p>
             <a
               href={p.sourceUrl}
@@ -559,7 +564,7 @@ function ScrapedPropertyPage({ property: p, locale = "zh" }: { property: Scraped
               rel="noopener noreferrer"
               className="text-sm text-blue-600 hover:underline break-all"
             >
-              View original listing
+              {L(locale, "查看原始页面", "元の掲載ページを見る", "View original listing")}
             </a>
           </div>
           <svg
@@ -587,27 +592,31 @@ function ScrapedPropertyPage({ property: p, locale = "zh" }: { property: Scraped
         {/* Contact CTA */}
         <div className="bg-accent/5 border border-accent/20 rounded-2xl p-8 text-center mb-12">
           <h2 className="text-xl font-bold text-primary mb-2">
-            Interested in This Property?
+            {L(locale, "对此物件感兴趣？", "この物件に興味がありますか？", "Interested in This Property?")}
           </h2>
           <p className="text-gray-600 mb-6">
-            We&apos;ll connect you with a licensed real estate agent in {p.prefectureEn} who can help with viewings, negotiations, and the purchase process.
+            {L(locale,
+              `我们将为您介绍${p.prefectureZh || p.prefectureEn}地区的持牌不动产经纪人，协助看房、谈判及购买手续。`,
+              `${p.prefectureEn}エリアの不動産会社をご紹介します。内見・交渉・購入手続きをサポートいたします。`,
+              `We will connect you with a licensed real estate agent in ${p.prefectureEn} who can help with viewings, negotiations, and the purchase process.`
+            )}
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
             <Link
               href={`/contact?property=${p.id}`}
               className="bg-accent text-white px-8 py-3 rounded-xl font-semibold hover:bg-red-600 transition shadow-lg shadow-accent/20"
             >
-              Inquire About This Property
+              {L(locale, "咨询此物件", "この物件について問い合わせる", "Inquire About This Property")}
             </Link>
             <a
               href={`mailto:helongzhi57@gmail.com?subject=Inquiry: ${p.id}`}
               className="text-gray-500 hover:text-primary px-6 py-3 rounded-xl border border-gray-200 hover:border-gray-300 transition text-sm"
             >
-              Email Directly
+              {L(locale, "发送邮件", "メールで問い合わせ", "Email Directly")}
             </a>
           </div>
           <p className="text-xs text-gray-400 mt-4">
-            Free consultation · No obligation · Response within 48 hours
+            {L(locale, "免费咨询 · 无义务 · 48小时内回复", "無料相談 · 義務なし · 48時間以内に返信", "Free consultation · No obligation · Response within 48 hours")}
           </p>
         </div>
 
@@ -615,7 +624,7 @@ function ScrapedPropertyPage({ property: p, locale = "zh" }: { property: Scraped
         {relatedProperties.length > 0 && (
           <div className="mb-12">
             <h2 className="text-xl font-bold text-primary mb-6">
-              More in {p.prefectureEn}
+              {L(locale, `${p.prefectureZh || p.prefectureEn}的更多物件`, `${p.prefectureEn}の他の物件`, `More in ${p.prefectureEn}`)}
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
               {relatedProperties.map((rp) => (
@@ -642,7 +651,7 @@ function ScrapedPropertyPage({ property: p, locale = "zh" }: { property: Scraped
                     )}
                     {rp.price === 0 && (
                       <span className="absolute top-2 left-2 bg-accent text-white text-xs font-bold px-2 py-0.5 rounded-full">
-                        FREE
+                        {L(locale, "免费", "無料", "FREE")}
                       </span>
                     )}
                   </div>
@@ -667,7 +676,7 @@ function ScrapedPropertyPage({ property: p, locale = "zh" }: { property: Scraped
                 href={`/prefecture/${p.prefectureEn?.toLowerCase()}`}
                 className="text-accent hover:text-red-600 text-sm font-semibold transition"
               >
-                View more in {p.prefectureEn} →
+                {L(locale, `查看${p.prefectureZh || p.prefectureEn}的更多物件 →`, `${p.prefectureEn}の物件をもっと見る →`, `View more in ${p.prefectureEn} →`)}
               </Link>
             </div>
           </div>
