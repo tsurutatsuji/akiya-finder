@@ -17,6 +17,7 @@ import {
 import { Link } from "@/i18n/navigation";
 import { getDisplayImageUrl } from "@/lib/image-utils";
 import ImageGallery, { ShareButtons } from "@/components/ImageGallery";
+import MapStreetViewTabs from "@/components/MapStreetViewTabs";
 
 // --- 統合型 ---
 type UnifiedProperty =
@@ -316,55 +317,40 @@ function ScrapedPropertyPage({ property: p }: { property: ScrapedProperty }) {
           }}
         />
 
-        {/* Breadcrumb */}
-        <nav className="text-sm text-gray-400 mb-6">
-          <Link href="/properties" className="hover:text-accent">
-            Properties
-          </Link>
-          <span className="mx-2">/</span>
-          <Link
-            href={`/akiya/${p.prefectureEn?.toLowerCase()}`}
-            className="hover:text-accent"
-          >
-            {p.prefectureEn}
-          </Link>
-          <span className="mx-2">/</span>
-          <span className="text-gray-600">{p.location}</span>
-        </nav>
-
-        {/* 画像ギャラリー */}
-        <ImageGallery property={p} />
-
-        {/* 投資タグ */}
-        {tagCategories.length > 0 && (
-          <div className="flex flex-wrap gap-2 mb-6">
+        {/* === 1. 価格・住所（最上部） === */}
+        <div className="mb-6">
+          <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-3">
+            <div>
+              <p className="text-3xl md:text-4xl font-bold text-accent">{priceDisplay}</p>
+              <p className="text-lg text-gray-500">{usdDisplay}</p>
+            </div>
+            <div className="text-right">
+              {p.price > 0 && (
+                <p className="text-lg text-gray-400">
+                  ≈ ¥{Math.round(p.price / 20).toLocaleString()} CNY
+                </p>
+              )}
+            </div>
+          </div>
+          <h1 className="text-xl md:text-2xl font-bold text-primary mt-3">
+            📍 {p.locationJa}
+          </h1>
+          <p className="text-sm text-gray-500 mt-1">{p.location}, {p.prefectureEn}</p>
+          <div className="flex flex-wrap items-center gap-3 mt-2">
+            <span className="text-xs text-gray-400">
+              {p.propertyType} · {p.layout || ""} · 掲載日: {new Date(p.scrapedAt).toLocaleDateString("ja-JP")}
+            </span>
+            {/* 投資タグ */}
             {tagCategories.map((cat) => (
               <Link
                 key={cat.id}
                 href={`/tag/${cat.id === "free-entry" ? "free-near-free" : cat.id}`}
-                className="inline-flex items-center gap-1.5 bg-accent/10 text-accent border border-accent/20 px-3 py-1.5 rounded-full text-sm font-medium hover:bg-accent/20 transition"
+                className="inline-flex items-center gap-1 bg-accent/10 text-accent border border-accent/20 px-2 py-0.5 rounded-full text-xs font-medium hover:bg-accent/20 transition"
               >
                 <span>{cat.emoji}</span>
                 <span>{cat.label}</span>
               </Link>
             ))}
-          </div>
-        )}
-
-        {/* タイトル・価格 */}
-        <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-4 mb-8">
-          <div>
-            <h1 className="text-2xl md:text-3xl font-bold text-primary mb-2">
-              {p.locationJa}
-            </h1>
-            <p className="text-gray-500">📍 {p.location}, {p.prefectureEn}</p>
-            <p className="text-xs text-gray-400 mt-1">
-              {p.propertyType} · {p.layout || ""} · 掲載日: {new Date(p.scrapedAt).toLocaleDateString("ja-JP")}
-            </p>
-          </div>
-          <div className="text-right shrink-0">
-            <p className="text-3xl font-bold text-accent">{priceDisplay}</p>
-            <p className="text-gray-400">{usdDisplay}</p>
           </div>
         </div>
 
@@ -373,7 +359,19 @@ function ScrapedPropertyPage({ property: p }: { property: ScrapedProperty }) {
           <ShareButtons propertyId={p.id} title={`${p.locationJa} - ${priceDisplay} | AkiyaFinder`} />
         </div>
 
-        {/* 物件概要 */}
+        {/* === 2. 画像 + マップ（横並び） === */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-8">
+          {/* 左: 画像ギャラリー */}
+          <div>
+            <ImageGallery property={p} />
+          </div>
+          {/* 右: マップ & ストリートビュー（正方形・タブ切替） */}
+          {p.lat && p.lng && (
+            <MapStreetViewTabs lat={p.lat} lng={p.lng} location={p.locationJa || p.location} />
+          )}
+        </div>
+
+        {/* === 3. 物件概要 === */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
           {p.layout && p.layout !== "-" && (
             <div className="bg-white p-4 rounded-lg border border-gray-100 text-center">

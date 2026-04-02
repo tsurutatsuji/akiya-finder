@@ -20,18 +20,11 @@ export default function ImageGallery({ property: p }: { property: ScrapedPropert
 
   if (images.length === 0) {
     return (
-      <div className="mb-8">
-        {p.lat && p.lng && (
-          <StreetViewEmbed lat={p.lat} lng={p.lng} location={p.locationJa || p.location} />
-        )}
-        {!p.lat && (
-          <div className="h-64 md:h-96 bg-gradient-to-br from-gray-100 to-gray-200 rounded-xl flex items-center justify-center">
-            <div className="text-center">
-              <span className="text-6xl">🏡</span>
-              <p className="text-gray-400 mt-2">写真はまだありません</p>
-            </div>
-          </div>
-        )}
+      <div className="h-64 md:h-80 bg-gradient-to-br from-gray-100 to-gray-200 rounded-xl flex items-center justify-center">
+        <div className="text-center">
+          <span className="text-6xl">🏡</span>
+          <p className="text-gray-400 mt-2">写真はまだありません</p>
+        </div>
       </div>
     );
   }
@@ -78,13 +71,6 @@ export default function ImageGallery({ property: p }: { property: ScrapedPropert
         </div>
       )}
 
-      {/* Street View */}
-      {p.lat && p.lng && (
-        <div className="mt-4">
-          <StreetViewEmbed lat={p.lat} lng={p.lng} location={p.locationJa || p.location} />
-        </div>
-      )}
-
       {/* ライトボックス */}
       {lightboxOpen && (
         <div
@@ -128,49 +114,6 @@ export default function ImageGallery({ property: p }: { property: ScrapedPropert
           </div>
         </div>
       )}
-    </div>
-  );
-}
-
-function StreetViewEmbed({ lat, lng, location }: { lat: number; lng: number; location: string }) {
-  // Google Maps Embed（APIキー不要）でStreet View + 地図を表示
-  // layer=c でストリートビューレイヤーを有効化
-  const mapUrl = `https://maps.google.com/maps?q=${lat},${lng}&z=17&layer=c&cbll=${lat},${lng}&cbp=11,0,0,0,0&output=svembed`;
-  const fallbackUrl = `https://maps.google.com/maps?q=${lat},${lng}&z=17&output=embed`;
-
-  return (
-    <div className="rounded-xl overflow-hidden border border-gray-200">
-      <div className="bg-gray-50 px-4 py-2 border-b border-gray-200 flex justify-between items-center">
-        <p className="text-sm font-medium text-gray-600">📍 周辺マップ & ストリートビュー — {location}</p>
-        <a
-          href={`https://www.google.com/maps/@${lat},${lng},17z/data=!3m1!1e3`}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="text-xs text-blue-500 hover:underline"
-        >
-          Google Mapsで開く
-        </a>
-      </div>
-      <iframe
-        src={fallbackUrl}
-        width="100%"
-        height="350"
-        style={{ border: 0 }}
-        allowFullScreen
-        loading="lazy"
-        referrerPolicy="no-referrer-when-downgrade"
-        title="Google Maps"
-      />
-      <div className="bg-gray-50 px-4 py-2 border-t border-gray-200">
-        <a
-          href={`https://www.google.com/maps/@${lat},${lng},3a,75y,0h,90t/data=!3m6!1e1!3m4!1s!2e0!7i16384!8i8192`}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="text-sm text-blue-600 hover:underline flex items-center gap-1"
-        >
-          🔍 ストリートビューで外観を確認する（Google Mapsで開く）
-        </a>
-      </div>
     </div>
   );
 }
