@@ -15,15 +15,15 @@ export default function AboutPage({
       <Header />
       <div className="max-w-3xl mx-auto px-4 py-16">
         <h1 className="text-3xl font-bold text-primary mb-6">
-          {L(locale, "关于 AkiyaFinder", "AkiyaFinderについて", "About AkiyaFinder")}
+          {L(locale, "关于 日本空房网", "AKIYAについて", "About AkiyaFinder")}
         </h1>
 
         <div className="prose prose-gray max-w-none">
           <p className="text-lg text-gray-600 mb-8">
             {L(
               locale,
-              "AkiyaFinder是一个将日本全国空き家バンク的房源信息翻译为中文、英文、日文的网站。希望移住日本、在日本定居的海外人士，可以在这里无语言障碍地查阅房源信息。",
-              "AkiyaFinderは、日本全国の空き家バンク物件を中国語・英語・日本語に翻訳して紹介するサイトです。移住・定住を希望される海外の方が、言語の壁を感じずに物件情報にアクセスできる環境を提供します。",
+              "日本空房网是一个将日本全国空き家バンク的房源信息翻译为中文、英文、日文的网站。希望移住日本、在日本定居的海外人士，可以在这里无语言障碍地查阅房源信息。",
+              "AKIYAは、日本全国の空き家バンク物件を中国語・英語・日本語に翻訳して紹介するサイトです。移住・定住を希望される海外の方が、言語の壁を感じずに物件情報にアクセスできる環境を提供します。",
               "AkiyaFinder is a website that translates akiya bank property listings from across Japan into Chinese, English, and Japanese. We help people from overseas who wish to relocate to Japan access property information without language barriers."
             )}
           </p>

@@ -26,7 +26,7 @@ export default function StickyContactBar({ propertyId, priceDisplay }: Props) {
           <button
             onClick={() => {
               if (navigator.clipboard) {
-                navigator.clipboard.writeText("AkiyaFinder");
+                navigator.clipboard.writeText("AKIYA");
               }
               alert(t("wechatCopied"));
             }}

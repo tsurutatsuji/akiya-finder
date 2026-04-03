@@ -62,7 +62,7 @@
     "culturalGemDesc": "町屋 & 古民家"
   },
   "howItWorksSection": {
-    "title": "AkiyaFinder如何运作",
+    "title": "日本空房网如何运作",
     "step1Title": "我们寻找物件",
     "step1Desc": "我们每天搜索日文物件数据库、空置房银行和SUUMO，为您在全日本找到最优质的房源。",
     "step2Title": "我们翻译一切",
@@ -158,8 +158,8 @@
     "browseFree": "浏览免费物件"
   },
   "aboutPage": {
-    "title": "关于AkiyaFinder",
-    "intro": "AkiyaFinder是一个将日本全国空き家バンク的房源信息翻译为中文、英文、日文的网站。希望移住日本、在日本定居的海外人士，可以在这里无语言障碍地查阅房源信息。",
+    "title": "关于日本空房网",
+    "intro": "日本空房网是一个将日本全国空き家バンク的房源信息翻译为中文、英文、日文的网站。希望移住日本、在日本定居的海外人士，可以在这里无语言障碍地查阅房源信息。",
     "propertiesListed": "物件数量",
     "propertiesListedDesc": "遍布47个都道府县的房源",
     "languages": "语言",
@@ -229,9 +229,9 @@
     "whatIsAkiyaTitle": "什么是空き家？",
     "whatIsAkiyaP1": "空き家（Akiya）的字面意思是'空房子'。由于日本人口老龄化和城市化迁移，全国有超过900万套空置房屋。",
     "whatIsAkiyaP2": "许多地方政府通过空き家バンク（空置房银行）计划免费或以极低价格提供这些房屋，有时还提供100万日元以上（约6,600美元+）的翻新补贴。",
-    "whatIsAkiyaP3": "问题是？几乎所有空置房信息都只有日文。这正是AkiyaFinder存在的意义。",
+    "whatIsAkiyaP3": "问题是？几乎所有空置房信息都只有日文。这正是日本空房网存在的意义。",
     "stepsTitle": "购买流程（分步指南）",
-    "step1Title": "在AkiyaFinder上找到物件",
+    "step1Title": "在日本空房网上找到物件",
     "step1Desc": "浏览我们精选的房源，全部翻译成中文。按价格、位置和物件类型筛选。",
     "step2Title": "提交咨询",
     "step2Desc": "点击任何物件上的'咨询'按钮。告诉我们关于您自己和您的需求。免费且无义务。",
@@ -271,7 +271,7 @@
     "faq3A": "主要额外费用包括经纪人费（约3%）、登记税（约1-2%）和翻新费用（如需要）。农村物件的年度固定资产税通常低于$300/年。",
     "faq4Q": "为什么日本的房子这么便宜？",
     "faq4A": "日本人口正在减少并集中到城市。农村地区住房过剩、需求不足。日本的房屋还会贬值（与西方国家不同），所以老房子的价值趋近于零。",
-    "faq5Q": "AkiyaFinder是不动产公司吗？",
+    "faq5Q": "日本空房网是不动产公司吗？",
     "faq5A": "不是。我们是信息服务平台，精选和翻译日本物件信息。当您准备购买时，我们为您介绍当地的不动产公司。",
     "browseNow": "立即浏览物件"
   },
@@ -283,7 +283,7 @@
     "chinese": "中文"
   },
   "footer": {
-    "about": "AkiyaFinder",
+    "about": "日本空房网",
     "aboutDesc": "帮助海外人士查阅日本空置房产信息的多语言平台。",
     "email": "helongzhi57@gmail.com",
     "explore": "浏览",
@@ -299,11 +299,11 @@
     "aboutUs": "关于我们",
     "getStarted": "免费咨询",
     "disclaimer": "免责声明",
-    "disclaimerText": "AkiyaFinder是信息展示和转介服务。我们不是不动产公司。所有物件交易由持有宅建業免許的日本不动产公司处理。物件信息仅供参考。",
+    "disclaimerText": "日本空房网是信息展示和转介服务。我们不是不动产公司。所有物件交易由持有宅建業免許的日本不动产公司处理。物件信息仅供参考。",
     "popularPrefectures": "热门都道府县",
     "akiyaIn": "{prefecture}的空置房",
     "allPrefectures": "全部47个都道府县 →",
-    "copyright": "© 2026 AkiyaFinder. 保留所有权利。"
+    "copyright": "© 2026 日本空房网. 保留所有权利。"
   },
   "currency": {
     "cny": "约 ¥{amount} 人民币",
@@ -325,7 +325,7 @@
   "stickyContact": {
     "inquire": "立即咨询",
     "freeConsultation": "免费咨询 · 48小时内回复",
-    "wechatCopied": "WeChat ID已复制: AkiyaFinder"
+    "wechatCopied": "WeChat ID已复制: 日本空房网"
   },
   "language": {
     "zh": "中文",
@@ -342,7 +342,7 @@
     "a2detail": "持旅游签证即可购买。无需永住权或工作签证。",
     "q3": "不会日语也能买吗？",
     "a3": "可以。",
-    "a3detail": "AkiyaFinder上所有房源信息均提供中文版本。物件详情、照片、地图和位置信息全部翻译为中文，帮助您做出明智的决定。",
+    "a3detail": "日本空房网上所有房源信息均提供中文版本。物件详情、照片、地图和位置信息全部翻译为中文，帮助您做出明智的决定。",
     "q4": "真的有0元的房子吗？",
     "a4": "有。",
     "a4detail": "日本全国约900万套空置房屋，部分自治体以0日元免费提供。",

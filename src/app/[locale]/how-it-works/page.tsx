@@ -13,7 +13,7 @@ export default function HowItWorks({
   const steps = [
     {
       step: "1",
-      title: L(locale, "在AkiyaFinder上寻找房产", "AkiyaFinderで物件を探す", "Find a Property on AkiyaFinder"),
+      title: L(locale, "在日本空房网上寻找房产", "AKIYAで物件を探す", "Find a Property on AkiyaFinder"),
       desc: L(
         locale,
         "浏览我们精选的房源，全部翻译为中文。按价格、地区、物件类型筛选。",
@@ -111,7 +111,7 @@ export default function HowItWorks({
       ),
     },
     {
-      q: L(locale, "AkiyaFinder是不动产中介吗？", "AkiyaFinderは不動産会社ですか？", "Is AkiyaFinder a real estate agency?"),
+      q: L(locale, "日本空房网是不动产中介吗？", "AKIYAは不動産会社ですか？", "Is AkiyaFinder a real estate agency?"),
       a: L(
         locale,
         "不是。我们是一个信息服务平台，翻译整理日本的房产信息。当您准备购买时，我们将为您介绍日本的不动产公司。",
