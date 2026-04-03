@@ -76,8 +76,8 @@ export default function HeroSlider({ totalCount }: HeroSliderProps) {
         </div>
       ))}
 
-      {/* Dark overlay — gradient from bottom */}
-      <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-black/10" />
+      {/* Dark overlay — 下部のみ薄く、画像をクリアに見せる */}
+      <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
 
       {/* Content — 左下寄せ、LUVIA風 */}
       <div className="relative z-10 flex flex-col justify-end h-full px-8 md:px-16 lg:px-24 pb-32 md:pb-40">
