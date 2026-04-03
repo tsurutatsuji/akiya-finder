@@ -2,6 +2,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { Link } from "@/i18n/navigation";
 import { L } from "@/lib/locale-utils";
+import ScrollFadeIn from "@/components/ScrollFadeIn";
 
 export default function AboutPage({
   params,
@@ -13,175 +14,233 @@ export default function AboutPage({
   return (
     <>
       <Header />
-      <div className="max-w-3xl mx-auto px-4 py-16">
-        <h1 className="text-3xl font-bold text-primary mb-6">
-          {L(locale, "关于 日本空房网", "AKIYAについて", "About AkiyaFinder")}
-        </h1>
 
-        <div className="prose prose-gray max-w-none">
-          <p className="text-lg text-gray-600 mb-8">
-            {L(
-              locale,
-              "日本空房网是一个将日本全国空き家バンク的房源信息翻译为中文、英文、日文的网站。希望移住日本、在日本定居的海外人士，可以在这里无语言障碍地查阅房源信息。",
-              "AKIYAは、日本全国の空き家バンク物件を中国語・英語・日本語に翻訳して紹介するサイトです。移住・定住を希望される海外の方が、言語の壁を感じずに物件情報にアクセスできる環境を提供します。",
-              "AkiyaFinder is a website that translates akiya bank property listings from across Japan into Chinese, English, and Japanese. We help people from overseas who wish to relocate to Japan access property information without language barriers."
-            )}
-          </p>
-
-          <div className="grid md:grid-cols-3 gap-6 mb-12">
-            <div className="bg-gray-50 rounded-xl p-6">
-              <span className="text-3xl block mb-2">🏠</span>
-              <p className="font-bold text-primary text-2xl">4,335+</p>
-              <p className="text-gray-500 text-sm">
-                {L(locale, "覆盖47个都道府县的房源", "47都道府県の掲載物件", "Properties listed across 47 prefectures")}
-              </p>
+      {/* Hero — Concept */}
+      <section className="py-24 md:py-32 bg-white">
+        <div className="max-w-5xl mx-auto px-8 md:px-16 lg:px-24">
+          <ScrollFadeIn>
+            <p className="text-sm tracking-[0.3em] uppercase text-gray-400 mb-6">Concept</p>
+          </ScrollFadeIn>
+          <ScrollFadeIn delay={200}>
+            <h1 className="text-2xl md:text-4xl font-light text-gray-900 leading-relaxed mb-10">
+              {L(locale,
+                "跨越语言的壁垒，\n为每一栋空置房注入新的生命。",
+                "言語の壁を超え、\nすべての空き家に、新しい命を。",
+                "Beyond the language barrier,\nbringing new life to every vacant house."
+              )}
+            </h1>
+          </ScrollFadeIn>
+          <ScrollFadeIn delay={400}>
+            <div className="text-base md:text-lg text-gray-500 leading-loose whitespace-pre-line max-w-2xl">
+              {L(locale,
+                "AKIYA（日本空房网）は、日本全国の空き家バンク物件を\n中国語・英語・日本語に翻訳し、\n世界中の方に日本の空き家情報を届けるサイトです。\n\n私たちは、移住・定住を希望される方が\n母国語で安心して物件情報にアクセスできる\n環境を提供いたします。",
+                "AKIYAは、日本全国の空き家バンク物件を\n中国語・英語・日本語に翻訳し、\n世界中の方に日本の空き家情報を届けるサイトです。\n\n私たちは、移住・定住を希望される方が\n母国語で安心して物件情報にアクセスできる\n環境を提供いたします。",
+                "AKIYA (AkiyaFinder) translates vacant house listings\nfrom Japan's akiya banks into Chinese, English, and Japanese,\nmaking property information accessible to people worldwide.\n\nWe provide an environment where those hoping to relocate\ncan confidently explore listings in their own language."
+              )}
             </div>
-            <div className="bg-gray-50 rounded-xl p-6">
-              <span className="text-3xl block mb-2">🌏</span>
-              <p className="font-bold text-primary text-2xl">3</p>
-              <p className="text-gray-500 text-sm">
-                {L(locale, "种语言（中文、英文、日文）", "言語対応（中国語・英語・日本語）", "Languages (Chinese, English, Japanese)")}
-              </p>
-            </div>
-            <div className="bg-gray-50 rounded-xl p-6">
-              <span className="text-3xl block mb-2">🤝</span>
-              <p className="font-bold text-primary text-2xl">
-                {L(locale, "免费", "無料", "Free")}
-              </p>
-              <p className="text-gray-500 text-sm">
-                {L(locale, "不动产公司介绍——无需任何费用", "不動産会社のご紹介——費用はかかりません", "Real estate agent referral — no cost to you")}
-              </p>
-            </div>
-          </div>
+          </ScrollFadeIn>
+        </div>
+      </section>
 
-          <h2 className="text-2xl font-bold text-primary mb-4">
-            {L(locale, "为什么创建这个平台", "なぜ作ったのか", "Why We Built This")}
-          </h2>
-          <p className="text-gray-600 mb-4">
-            {L(
-              locale,
-              "日本有超过900万套空置住宅，而且每年都在增加。很多物件价格极低——有些甚至免费。但存在巨大的信息壁垒：几乎所有空き家バンク的信息都只有日语，分散在1,700多个市町村网站上，格式也不统一。",
-              "日本には900万戸以上の空き家があり、毎年増加しています。多くの物件は驚くほど安く、無料のものもあります。しかし、大きな情報格差があります。ほぼ全ての空き家バンク情報は日本語のみで、1,700以上の自治体サイトに分散し、フォーマットも統一されていません。",
-              "Japan has over 9 million vacant homes, and that number is growing every year. Many of these properties are available for incredibly low prices — some even for free. But there's a massive information gap: almost all akiya bank listings are in Japanese only, scattered across 1,700+ municipal websites with no standardized format."
-            )}
-          </p>
-          <p className="text-gray-600 mb-8">
-            {L(
-              locale,
-              "我们通过自动收集、翻译空き家信息来弥补这一空白——让海外人士可以轻松了解日本各地的物件情况，为移住定居提供第一步的信息支持。",
-              "私たちはこのギャップを埋めるため、空き家情報を自動収集・翻訳し、海外の方が日本各地の物件情報を簡単に理解できるようにしています。移住・定住の第一歩となる情報をお届けします。",
-              "We bridge that gap by automatically collecting and translating akiya listings — making it easy for people overseas to explore property information across Japan as the first step toward relocation."
-            )}
-          </p>
-
-          <h2 className="text-2xl font-bold text-primary mb-4">
-            {L(locale, "运作方式", "仕組み", "How It Works")}
-          </h2>
-          <ol className="space-y-4 mb-8">
-            <li className="flex gap-3">
-              <span className="bg-accent/10 text-accent font-bold w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0">1</span>
-              <div>
-                <p className="font-semibold text-primary">
-                  {L(locale, "浏览与筛选", "検索・絞り込み", "Browse & Filter")}
-                </p>
-                <p className="text-gray-500 text-sm">
-                  {L(
-                    locale,
-                    "在物件地图上搜索4,335+套房产。按价格、地区、车站距离筛选。",
-                    "物件マップで4,335件以上の物件を検索。価格・地域・駅距離で絞り込みできます。",
-                    "Search 4,335+ properties on our property map. Filter by price, location, and station access."
-                  )}
-                </p>
-              </div>
-            </li>
-            <li className="flex gap-3">
-              <span className="bg-accent/10 text-accent font-bold w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0">2</span>
-              <div>
-                <p className="font-semibold text-primary">
-                  {L(locale, "联系不动产公司", "不動産会社をご紹介", "Get Connected")}
-                </p>
-                <p className="text-gray-500 text-sm">
-                  {L(
-                    locale,
-                    "提交咨询，我们将在2个工作日内为您介绍当地的不动产公司。",
-                    "問い合わせを送信すると、2営業日以内に現地の不動産会社をご紹介します。",
-                    "Submit an inquiry and we'll connect you with a local real estate agent — within 2 business days."
-                  )}
-                </p>
-              </div>
-            </li>
-            <li className="flex gap-3">
-              <span className="bg-accent/10 text-accent font-bold w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0">3</span>
-              <div>
-                <p className="font-semibold text-primary">
-                  {L(locale, "安心购买", "安心して購入", "Buy with Confidence")}
-                </p>
-                <p className="text-gray-500 text-sm">
-                  {L(
-                    locale,
-                    "不动产公司全程处理——看房、议价、合同、登记。很多购买可以远程完成。",
-                    "不動産会社が全て対応——内覧・交渉・契約・登記。多くの購入は遠隔で完結できます。",
-                    "The agent handles everything — property visits, negotiation, contracts, and registration. Many purchases can be completed remotely."
-                  )}
-                </p>
-              </div>
-            </li>
-          </ol>
-
-          <h2 className="text-2xl font-bold text-primary mb-4">
-            {L(locale, "我们的承诺", "私たちの約束", "Our Commitment")}
-          </h2>
-          <ul className="space-y-2 text-gray-600 mb-8">
-            <li className="flex items-start gap-2">
-              <span className="text-green-500 mt-1">✓</span>
-              <span><strong>{L(locale, "完全免费", "完全無料", "Completely free")}</strong> — {L(locale, "不动产公司的介绍不收取任何费用", "不動産会社のご紹介に費用は一切かかりません", "We never charge for agent referrals")}</span>
-            </li>
-            <li className="flex items-start gap-2">
-              <span className="text-green-500 mt-1">✓</span>
-              <span><strong>{L(locale, "正规不动产公司", "正規の不動産会社", "Licensed agents only")}</strong> — {L(locale, "我们推荐的每一家不动产公司都持有日本宅建業免許", "ご紹介する不動産会社は全て、日本の宅建業免許を保有しています", "Every agent we recommend holds a valid Japanese real estate license")}</span>
-            </li>
-            <li className="flex items-start gap-2">
-              <span className="text-green-500 mt-1">✓</span>
-              <span><strong>{L(locale, "无压力", "プレッシャーなし", "No pressure")}</strong> — {L(locale, "随意浏览，准备好再咨询。无任何义务", "自由に閲覧し、準備ができたらお問い合わせください。義務はありません", "Browse freely, inquire when ready. No obligations")}</span>
-            </li>
-            <li className="flex items-start gap-2">
-              <span className="text-green-500 mt-1">✓</span>
-              <span><strong>{L(locale, "定期更新", "定期更新", "Updated regularly")}</strong> — {L(locale, "我们定期从日本各地的空き家バンク更新房源信息", "日本全国の空き家バンクから定期的に情報を更新しています", "We refresh listings from akiya banks across Japan")}</span>
-            </li>
-          </ul>
-
-          <div className="bg-accent/5 border border-accent/20 rounded-lg p-6 text-center">
-            <h3 className="font-semibold text-primary mb-2">
-              {L(locale, "准备探索了吗？", "物件を探してみませんか？", "Ready to explore?")}
-            </h3>
-            <p className="text-gray-500 text-sm mb-4">
-              {L(
-                locale,
-                "在地图上浏览4,335+套房产。",
-                "地図で4,335件以上の物件をご覧ください。",
-                "Start browsing 4,335+ properties on our map."
+      {/* Service — 3 Features */}
+      <section className="py-20 bg-gray-50">
+        <div className="max-w-5xl mx-auto px-8 md:px-16 lg:px-24">
+          <ScrollFadeIn>
+            <p className="text-sm tracking-[0.3em] uppercase text-gray-400 mb-4">Service</p>
+            <h2 className="text-2xl md:text-3xl font-light text-gray-900 mb-4">
+              {L(locale,
+                "日本空房网能为您做的",
+                "AKIYAだからできること",
+                "What AkiyaFinder offers"
+              )}
+            </h2>
+            <p className="text-gray-500 mb-14 max-w-xl">
+              {L(locale,
+                "消除信息壁垒，让每个人都能找到日本的理想之家。",
+                "情報格差をなくし、誰もが日本の理想の家を見つけられるように。",
+                "Removing information barriers so everyone can find their ideal home in Japan."
               )}
             </p>
-            <div className="flex gap-3 justify-center">
-              <Link
-                href="/map"
-                className="bg-accent text-white px-6 py-2.5 rounded-lg font-medium hover:bg-red-600 transition"
-              >
-                {L(locale, "查看物件地图", "物件を探す", "Browse Properties")}
-              </Link>
-              {/* 無料相談CTA — ユーザー対応不可のため一時非表示 */}
-              {false && (
-              <Link
-                href="/contact"
-                className="bg-white border border-gray-200 text-primary px-6 py-2.5 rounded-lg font-medium hover:bg-gray-50 transition"
-              >
-                {L(locale, "免费咨询", "無料で相談する", "Get Started — Free")}
-              </Link>
-              )}
-            </div>
+          </ScrollFadeIn>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <ScrollFadeIn delay={200}>
+              <div className="bg-white p-8 rounded-2xl border border-gray-100">
+                <p className="text-4xl font-light text-accent mb-4">01</p>
+                <h3 className="font-semibold text-gray-900 mb-3">
+                  {L(locale, "3种语言，全部房源", "3言語で、すべての物件を", "Every listing, in 3 languages")}
+                </h3>
+                <p className="text-sm text-gray-500 leading-relaxed">
+                  {L(locale,
+                    "中文・英文・日文完全对应。物件详情、照片、地图信息——全部可用母语查看。",
+                    "中国語・英語・日本語に完全対応。物件の詳細、写真、地図情報まで、すべて母国語でご確認いただけます。",
+                    "Full support for Chinese, English, and Japanese. Property details, photos, and maps — all in your language."
+                  )}
+                </p>
+              </div>
+            </ScrollFadeIn>
+
+            <ScrollFadeIn delay={400}>
+              <div className="bg-white p-8 rounded-2xl border border-gray-100">
+                <p className="text-4xl font-light text-accent mb-4">02</p>
+                <h3 className="font-semibold text-gray-900 mb-3">
+                  {L(locale, "自治体官方数据", "自治体の公式情報を、そのまま", "Official municipal data")}
+                </h3>
+                <p className="text-sm text-gray-500 leading-relaxed">
+                  {L(locale,
+                    "翻译并展示日本全国自治体运营的空置房银行公开信息。来自可靠来源的准确数据。",
+                    "全国の自治体が運営する空き家バンクの公開情報を翻訳・掲載。信頼できる情報源からの正確なデータです。",
+                    "We translate and present public listings from municipal akiya banks across Japan. Accurate data from trusted sources."
+                  )}
+                </p>
+              </div>
+            </ScrollFadeIn>
+
+            <ScrollFadeIn delay={600}>
+              <div className="bg-white p-8 rounded-2xl border border-gray-100">
+                <p className="text-4xl font-light text-accent mb-4">03</p>
+                <h3 className="font-semibold text-gray-900 mb-3">
+                  {L(locale, "全国47都道府县", "全国47都道府県", "47 prefectures, nationwide")}
+                </h3>
+                <p className="text-sm text-gray-500 leading-relaxed">
+                  {L(locale,
+                    "从北海道到冲绳，覆盖日本全国4,335+套空置房信息。每日更新，为您提供最新房源。",
+                    "北海道から沖縄まで、4,335件以上の空き家情報を網羅。定期的に更新し、最新の物件情報をお届けします。",
+                    "From Hokkaido to Okinawa, covering 4,335+ vacant houses across all of Japan. Updated regularly with the latest listings."
+                  )}
+                </p>
+              </div>
+            </ScrollFadeIn>
           </div>
         </div>
-      </div>
+      </section>
+
+      {/* Flow — Steps */}
+      <section className="py-20 bg-white">
+        <div className="max-w-5xl mx-auto px-8 md:px-16 lg:px-24">
+          <ScrollFadeIn>
+            <p className="text-sm tracking-[0.3em] uppercase text-gray-400 mb-4">Flow</p>
+            <h2 className="text-2xl md:text-3xl font-light text-gray-900 mb-14">
+              {L(locale, "使用流程", "ご利用の流れ", "How it works")}
+            </h2>
+          </ScrollFadeIn>
+
+          <div className="space-y-12">
+            <ScrollFadeIn delay={200}>
+              <div className="flex gap-6">
+                <div className="text-3xl font-light text-gray-300 shrink-0 w-16">01</div>
+                <div>
+                  <h3 className="font-semibold text-gray-900 mb-2">
+                    {L(locale, "搜索房源", "物件を探す", "Search properties")}
+                  </h3>
+                  <p className="text-gray-500 text-sm leading-relaxed">
+                    {L(locale,
+                      "按价格、地区、房屋类型搜索4,335+套房源。所有信息均以中文显示。",
+                      "価格・地域・物件タイプで4,335件以上の物件を検索。すべて母国語で表示されます。",
+                      "Browse 4,335+ properties by price, location, and type. Everything displayed in your language."
+                    )}
+                  </p>
+                </div>
+              </div>
+            </ScrollFadeIn>
+
+            <ScrollFadeIn delay={400}>
+              <div className="flex gap-6">
+                <div className="text-3xl font-light text-gray-300 shrink-0 w-16">02</div>
+                <div>
+                  <h3 className="font-semibold text-gray-900 mb-2">
+                    {L(locale, "查看详情", "詳細を確認する", "View details")}
+                  </h3>
+                  <p className="text-gray-500 text-sm leading-relaxed">
+                    {L(locale,
+                      "查看物件照片、间取图、位置地图、街景视图。了解价格、面积、建筑年限等详细信息。",
+                      "物件の写真、間取り図、地図、ストリートビューを確認。価格・面積・築年数などの詳細情報を確認できます。",
+                      "View photos, floor plans, location maps, and street views. Check price, area, building age, and more."
+                    )}
+                  </p>
+                </div>
+              </div>
+            </ScrollFadeIn>
+
+            <ScrollFadeIn delay={600}>
+              <div className="flex gap-6">
+                <div className="text-3xl font-light text-gray-300 shrink-0 w-16">03</div>
+                <div>
+                  <h3 className="font-semibold text-gray-900 mb-2">
+                    {L(locale, "联系当地不动产公司", "現地の不動産会社に繋がる", "Connect with a local agent")}
+                  </h3>
+                  <p className="text-gray-500 text-sm leading-relaxed">
+                    {L(locale,
+                      "找到心仪的房源后，我们会为您联系当地的不动产公司。内覧・交渉・契約手続きをサポートします。",
+                      "気に入った物件が見つかったら、現地の不動産会社にお繋ぎします。内見・交渉・契約手続きをサポートします。",
+                      "When you find a property you like, we connect you with a local real estate company who handles viewings, negotiations, and contracts."
+                    )}
+                  </p>
+                </div>
+              </div>
+            </ScrollFadeIn>
+          </div>
+        </div>
+      </section>
+
+      {/* Company */}
+      <section className="py-20 bg-gray-50">
+        <div className="max-w-5xl mx-auto px-8 md:px-16 lg:px-24">
+          <ScrollFadeIn>
+            <p className="text-sm tracking-[0.3em] uppercase text-gray-400 mb-4">Company</p>
+            <h2 className="text-2xl md:text-3xl font-light text-gray-900 mb-10">
+              {L(locale, "运营信息", "運営情報", "About the operator")}
+            </h2>
+          </ScrollFadeIn>
+
+          <ScrollFadeIn delay={200}>
+            <div className="bg-white rounded-2xl border border-gray-100 p-8">
+              <table className="w-full text-sm">
+                <tbody>
+                  <tr className="border-b border-gray-50">
+                    <td className="py-3 text-gray-400 w-32">{L(locale, "站点名称", "サイト名", "Site name")}</td>
+                    <td className="py-3 text-gray-800">{L(locale, "日本空房网（AKIYA）", "AKIYA", "AkiyaFinder")}</td>
+                  </tr>
+                  <tr className="border-b border-gray-50">
+                    <td className="py-3 text-gray-400">{L(locale, "运营者", "運営者", "Operator")}</td>
+                    <td className="py-3 text-gray-800">{L(locale, "�的 竜治（Tatsuji Tsuru）", "鶴 竜治（つる たつじ）", "Tatsuji Tsuru")}</td>
+                  </tr>
+                  <tr className="border-b border-gray-50">
+                    <td className="py-3 text-gray-400">{L(locale, "联系方式", "連絡先", "Contact")}</td>
+                    <td className="py-3 text-gray-800">helongzhi57@gmail.com</td>
+                  </tr>
+                  <tr className="border-b border-gray-50">
+                    <td className="py-3 text-gray-400">URL</td>
+                    <td className="py-3 text-gray-800">https://akiyafinder.homes</td>
+                  </tr>
+                  <tr>
+                    <td className="py-3 text-gray-400">{L(locale, "对应语言", "対応言語", "Languages")}</td>
+                    <td className="py-3 text-gray-800">{L(locale, "中文・英文・日文", "中国語・英語・日本語", "Chinese, English, Japanese")}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </ScrollFadeIn>
+        </div>
+      </section>
+
+      {/* CTA */}
+      <section className="py-20 bg-white">
+        <div className="max-w-3xl mx-auto px-8 text-center">
+          <ScrollFadeIn>
+            <h2 className="text-2xl md:text-3xl font-light text-gray-900 mb-6">
+              {L(locale, "开始探索日本的空置房", "日本の空き家を探してみませんか", "Ready to explore Japan's vacant houses?")}
+            </h2>
+            <Link
+              href="/properties"
+              className="inline-block text-gray-600 hover:text-gray-900 text-sm tracking-[0.2em] uppercase border-b border-gray-400 hover:border-gray-900 pb-1 transition"
+            >
+              {L(locale, "浏览所有房源 →", "物件一覧を見る →", "Browse all properties →")}
+            </Link>
+          </ScrollFadeIn>
+        </div>
+      </section>
+
       <Footer />
     </>
   );
