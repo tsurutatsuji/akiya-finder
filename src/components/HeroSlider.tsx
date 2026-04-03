@@ -69,9 +69,7 @@ export default function HeroSlider({ totalCount }: HeroSliderProps) {
             alt={image.alt}
             loading={index === 0 ? "eager" : "lazy"}
             onLoad={() => handleImageLoad(index)}
-            className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-500 ${
-              loadedImages.has(index) ? "opacity-100" : "opacity-0"
-            }`}
+            className="absolute inset-0 w-full h-full object-cover"
             width={1920}
             height={1080}
           />
