@@ -1,13 +1,10 @@
 "use client";
 
 import "leaflet/dist/leaflet.css";
-import { MapContainer, TileLayer, CircleMarker, Popup } from "react-leaflet";
+import { MapContainer, TileLayer, CircleMarker, Popup, useMap } from "react-leaflet";
 import L from "leaflet";
+import { useEffect } from "react";
 import { PREFECTURE_COORDS, jitterCoord } from "@/lib/prefecture-coords";
-import {
-  INVESTMENT_CATEGORIES,
-  type InvestmentMetrics,
-} from "@/lib/investment-tags";
 
 // Fix default marker icon issue
 delete (L.Icon.Default.prototype as any)._getIconUrl;
@@ -22,7 +19,6 @@ interface MapProperty {
   id: string;
   price: number;
   priceFormatted: string;
-  priceUsdFormatted?: string;
   location: string;
   prefectureEn: string;
   propertyType: string;
@@ -35,24 +31,119 @@ interface MapProperty {
   lng?: number;
   thumbnailUrl?: string;
   access?: string;
-  metrics?: InvestmentMetrics;
-  investmentTags?: string[];
-  pricePerSqm?: number;
-  pricePerSqmUsd?: number;
-  buildingAge?: number;
-  estimatedRenovationUsd?: { low: number; high: number };
-  estimatedAirbnbRevenueUsd?: { gross: number; net: number };
-  estimatedRoi?: number;
-  areaDescription?: string;
-  remarksEnglish?: string;
+  [key: string]: any;
 }
 
 interface Props {
   properties: MapProperty[];
 }
 
+function priceColor(price: number): string {
+  if (price === 0) return "#22c55e";
+  if (price < 1000000) return "#3b82f6";
+  if (price < 5000000) return "#f59e0b";
+  return "#ef4444";
+}
+
+// MarkerCluster component using Leaflet directly
+function MarkerClusterGroup({ properties }: { properties: (MapProperty & { lat: number; lng: number })[] }) {
+  const map = useMap();
+
+  useEffect(() => {
+    // Load markercluster CSS
+    const css1 = document.createElement("link");
+    css1.rel = "stylesheet";
+    css1.href = "https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css";
+    document.head.appendChild(css1);
+
+    const css2 = document.createElement("link");
+    css2.rel = "stylesheet";
+    css2.href = "https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css";
+    document.head.appendChild(css2);
+
+    // Load markercluster JS
+    const script = document.createElement("script");
+    script.src = "https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js";
+    script.onload = () => {
+      // Create cluster group
+      const cluster = (L as any).markerClusterGroup({
+        maxClusterRadius: 50,
+        spiderfyOnMaxZoom: true,
+        showCoverageOnHover: false,
+        zoomToBoundsOnClick: true,
+        iconCreateFunction: (clusterObj: any) => {
+          const count = clusterObj.getChildCount();
+          let size = "small";
+          if (count > 50) size = "large";
+          else if (count > 10) size = "medium";
+          return L.divIcon({
+            html: `<div style="
+              background: #1a1a2e;
+              color: white;
+              border-radius: 50%;
+              width: ${size === "large" ? 50 : size === "medium" ? 40 : 30}px;
+              height: ${size === "large" ? 50 : size === "medium" ? 40 : 30}px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              font-size: ${size === "large" ? 14 : size === "medium" ? 12 : 11}px;
+              font-weight: bold;
+              border: 2px solid white;
+              box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+            ">${count}</div>`,
+            className: "",
+            iconSize: L.point(size === "large" ? 50 : size === "medium" ? 40 : 30, size === "large" ? 50 : size === "medium" ? 40 : 30),
+          });
+        },
+      });
+
+      // Add markers
+      properties.forEach((p) => {
+        const color = priceColor(p.price);
+        const marker = L.circleMarker([p.lat, p.lng], {
+          radius: 7,
+          fillColor: color,
+          color: "#fff",
+          weight: 1.5,
+          opacity: 1,
+          fillOpacity: 0.85,
+        });
+
+        const priceText = p.price === 0 ? "FREE" : `¥${p.price.toLocaleString()}`;
+        marker.bindPopup(`
+          <div style="min-width:200px; font-family: sans-serif;">
+            <strong style="font-size:14px;">${p.location}</strong><br/>
+            <span style="color: #e94560; font-weight: bold; font-size: 16px;">${priceText}</span><br/>
+            <span style="color:#666; font-size:12px;">${p.propertyType} · ${p.layout || ""} · ${p.buildingArea || ""}</span><br/>
+            <a href="/ja/properties/${p.id}" style="color:#3b82f6; font-size:12px; text-decoration: underline;">詳細を見る →</a>
+          </div>
+        `);
+
+        cluster.addLayer(marker);
+      });
+
+      map.addLayer(cluster);
+
+      return () => {
+        map.removeLayer(cluster);
+      };
+    };
+    document.head.appendChild(script);
+
+    return () => {
+      // Cleanup
+      try {
+        document.head.removeChild(css1);
+        document.head.removeChild(css2);
+        document.head.removeChild(script);
+      } catch {}
+    };
+  }, [map, properties]);
+
+  return null;
+}
+
 export default function PropertyMap({ properties }: Props) {
-  // Use geocoded lat/lng if available, otherwise fallback to prefecture jitter
   const prefCounts: Record<string, number> = {};
   const markers = properties.map((p) => {
     if (p.lat && p.lng) {
@@ -63,19 +154,7 @@ export default function PropertyMap({ properties }: Props) {
     prefCounts[p.prefectureEn] = idx + 1;
     const coord = jitterCoord(baseCoord, idx);
     return { ...p, lat: coord[0], lng: coord[1] };
-  });
-
-  function priceColor(price: number): string {
-    if (price === 0) return "#22c55e"; // green = free
-    if (price < 1000000) return "#3b82f6"; // blue = cheap
-    if (price < 5000000) return "#f59e0b"; // amber = medium
-    return "#ef4444"; // red = expensive
-  }
-
-  function priceToUsd(yen: number): string {
-    if (yen === 0) return "FREE";
-    return `~$${Math.round(yen / 150).toLocaleString()}`;
-  }
+  }) as (MapProperty & { lat: number; lng: number })[];
 
   return (
     <div className="w-full h-[500px] rounded-xl overflow-hidden border border-gray-200">
@@ -89,158 +168,7 @@ export default function PropertyMap({ properties }: Props) {
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
-        {markers.map((m) => (
-          <CircleMarker
-            key={m.id}
-            center={[m.lat, m.lng]}
-            radius={6}
-            fillColor={priceColor(m.price)}
-            color="#fff"
-            weight={1.5}
-            opacity={1}
-            fillOpacity={0.85}
-          >
-            <Popup maxWidth={280}>
-              <div className="text-xs min-w-[240px]">
-                {/* サムネイル画像 */}
-                {m.thumbnailUrl && (
-                  <img
-                    src={m.thumbnailUrl}
-                    alt={m.location}
-                    className="w-full h-28 object-cover rounded mb-2"
-                    loading="lazy"
-                  />
-                )}
-
-                {/* 価格 */}
-                <p className="font-bold text-sm mb-1">
-                  {m.price === 0 ? (
-                    <span className="text-green-600">FREE</span>
-                  ) : (
-                    <>
-                      <span>{m.priceUsdFormatted || priceToUsd(m.price)}</span>
-                      <span className="text-gray-400 font-normal ml-1 text-xs">
-                        ({m.priceFormatted})
-                      </span>
-                    </>
-                  )}
-                </p>
-
-                {/* 場所 */}
-                <p className="text-gray-600 mb-1">{m.location}</p>
-
-                {/* 基本情報 */}
-                <p className="text-gray-500">
-                  {m.propertyType}
-                  {m.layout !== "-" && ` · ${m.layout}`}
-                  {m.buildingArea !== "-" && ` · ${m.buildingArea}`}
-                </p>
-
-                {/* 投資指標セクション */}
-                <div className="bg-amber-50 border-l-2 border-amber-400 p-2 my-2 rounded-r">
-                  <p className="font-semibold text-amber-800 text-xs mb-1">
-                    Investment Metrics
-                  </p>
-                  <div className="space-y-0.5 text-xs text-amber-700">
-                    {m.pricePerSqmUsd && (
-                      <p>
-                        <span className="text-amber-500">$/㎡:</span>{" "}
-                        <strong>${m.pricePerSqmUsd.toLocaleString()}</strong>
-                      </p>
-                    )}
-                    {m.buildingAge != null && (
-                      <p>
-                        <span className="text-amber-500">Age:</span>{" "}
-                        {m.buildingAge} years
-                      </p>
-                    )}
-                    {m.metrics?.walkingMinutes != null && (
-                      <p>
-                        {m.metrics.walkingMinutes <= 10 ? "🚉" : "🚶"}{" "}
-                        {m.metrics.walkingMinutes} min walk
-                      </p>
-                    )}
-                    {m.access && m.metrics?.walkingMinutes == null && (
-                      <p className="text-amber-500 truncate max-w-[220px]">{m.access}</p>
-                    )}
-                    {m.estimatedRenovationUsd && (
-                      <p>
-                        <span className="text-amber-500">Reno est.:</span>{" "}
-                        ${m.estimatedRenovationUsd.low.toLocaleString()}–${m.estimatedRenovationUsd.high.toLocaleString()}
-                      </p>
-                    )}
-                    {m.estimatedAirbnbRevenueUsd && (
-                      <p>
-                        <span className="text-amber-500">Airbnb est.:</span>{" "}
-                        ${m.estimatedAirbnbRevenueUsd.net.toLocaleString()}/yr net
-                      </p>
-                    )}
-                    {m.estimatedRoi && (
-                      <p>
-                        <span className="text-amber-500">Est. ROI:</span>{" "}
-                        <strong className={m.estimatedRoi >= 10 ? "text-green-700" : ""}>{m.estimatedRoi}%</strong>
-                      </p>
-                    )}
-                  </div>
-
-                  {/* エリア説明 */}
-                  {m.areaDescription && (
-                    <p className="text-[10px] text-amber-600 mt-1 leading-tight">
-                      {m.areaDescription}
-                    </p>
-                  )}
-
-                  {/* 備考（英語） */}
-                  {m.remarksEnglish && m.remarksEnglish.length > 0 && (
-                    <p className="text-[10px] text-amber-500 mt-1 italic truncate max-w-[220px]">
-                      Note: {m.remarksEnglish}
-                    </p>
-                  )}
-
-                  {/* 投資タグバッジ */}
-                  {m.investmentTags && m.investmentTags.length > 0 && (
-                    <div className="flex flex-wrap gap-1 mt-1.5">
-                      {m.investmentTags.map((tagId) => {
-                        const cat = INVESTMENT_CATEGORIES.find(
-                          (c) => c.id === tagId
-                        );
-                        if (!cat) return null;
-                        return (
-                          <span
-                            key={tagId}
-                            className="text-[10px] bg-amber-200 text-amber-800 px-1.5 py-0.5 rounded font-medium"
-                          >
-                            {cat.emoji} {cat.label}
-                          </span>
-                        );
-                      })}
-                    </div>
-                  )}
-                </div>
-
-                {/* アクションボタン */}
-                <div className="flex gap-1 mt-2">
-                  <a
-                    href={m.sourceUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="bg-gray-100 text-gray-600 px-2 py-1 rounded text-xs hover:bg-gray-200"
-                  >
-                    Original
-                  </a>
-                  <a
-                    href={`/contact?property=${encodeURIComponent(
-                      `${m.location} - ${m.priceFormatted}`
-                    )}`}
-                    className="bg-red-500 text-white px-2 py-1 rounded text-xs hover:bg-red-600"
-                  >
-                    Inquire
-                  </a>
-                </div>
-              </div>
-            </Popup>
-          </CircleMarker>
-        ))}
+        <MarkerClusterGroup properties={markers} />
       </MapContainer>
     </div>
   );
