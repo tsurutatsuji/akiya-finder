@@ -79,15 +79,15 @@ export default function HeroSlider({ totalCount }: HeroSliderProps) {
       {/* Dark overlay — 下部のみ薄く、画像をクリアに見せる */}
       <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
 
-      {/* Content — 左下寄せ、LUVIA風 */}
+      {/* Content — 左下寄せ、LUVIA風、アニメーション付き */}
       <div className="relative z-10 flex flex-col justify-end h-full px-8 md:px-16 lg:px-24 pb-32 md:pb-40">
-        <p className="text-sm md:text-base text-white/70 tracking-[0.3em] uppercase mb-4 font-light">
+        <p className="text-sm md:text-base text-white/70 tracking-[0.3em] uppercase mb-4 font-light hero-text-1">
           {t("heroNew.subtitle", { count: totalCount.toLocaleString() })}
         </p>
-        <h1 className="text-3xl md:text-5xl lg:text-6xl font-light text-white leading-tight tracking-wide drop-shadow-lg">
+        <h1 className="text-3xl md:text-5xl lg:text-6xl font-light text-white leading-tight tracking-wide drop-shadow-lg hero-text-2">
           {t("heroNew.title")}
         </h1>
-        <div className="mt-8">
+        <div className="mt-8 hero-text-3">
           <Link
             href="/properties"
             className="text-white/80 hover:text-white text-sm tracking-[0.2em] uppercase border-b border-white/40 hover:border-white pb-1 transition"
