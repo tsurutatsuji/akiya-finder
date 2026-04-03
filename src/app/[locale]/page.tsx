@@ -71,20 +71,33 @@ export default function Home() {
             AKIYA&nbsp;&nbsp;&nbsp;AKIYA&nbsp;&nbsp;&nbsp;AKIYA&nbsp;&nbsp;&nbsp;AKIYA&nbsp;&nbsp;&nbsp;AKIYA&nbsp;&nbsp;&nbsp;AKIYA&nbsp;&nbsp;&nbsp;AKIYA&nbsp;&nbsp;&nbsp;AKIYA&nbsp;&nbsp;&nbsp;
           </div>
         </div>
-        <div className="max-w-6xl mx-auto px-8 md:px-16 lg:px-24 relative z-10">
-          <ScrollFadeIn>
-            <p className="text-sm tracking-[0.3em] uppercase text-gray-400 mb-6">
-              {t("messageSection.label")}
-            </p>
-          </ScrollFadeIn>
-          <ScrollFadeIn delay={200}>
-            <h2 className="text-2xl md:text-4xl font-light text-gray-900 leading-relaxed mb-10">
-              {t("messageSection.title")}
-            </h2>
-          </ScrollFadeIn>
-          <ScrollFadeIn delay={400}>
-            <div className="text-base md:text-lg text-gray-500 leading-loose whitespace-pre-line max-w-2xl">
-              {t("messageSection.body")}
+        <div className="max-w-6xl mx-auto px-8 md:px-16 lg:px-24 relative z-10 flex flex-col md:flex-row gap-12 md:gap-20">
+          {/* 左: テキスト */}
+          <div className="flex-1">
+            <ScrollFadeIn>
+              <p className="text-sm tracking-[0.3em] uppercase text-gray-400 mb-6">
+                {t("messageSection.label")}
+              </p>
+            </ScrollFadeIn>
+            <ScrollFadeIn delay={200}>
+              <h2 className="text-2xl md:text-4xl font-light text-gray-900 leading-relaxed mb-10">
+                {t("messageSection.title")}
+              </h2>
+            </ScrollFadeIn>
+            <ScrollFadeIn delay={400}>
+              <div className="text-base md:text-lg text-gray-500 leading-loose whitespace-pre-line max-w-2xl">
+                {t("messageSection.body")}
+              </div>
+            </ScrollFadeIn>
+          </div>
+
+          {/* 右: 代表名 */}
+          <ScrollFadeIn delay={600}>
+            <div className="md:w-48 flex flex-col items-end justify-end text-right">
+              <div className="w-px h-16 bg-gray-300 mb-6" />
+              <p className="text-xs tracking-[0.2em] uppercase text-gray-400 mb-2">Founder</p>
+              <p className="text-lg font-light text-gray-800 tracking-wider">鶴 竜治</p>
+              <p className="text-xs text-gray-400 mt-1 tracking-wider">Tatsuji Tsuru</p>
             </div>
           </ScrollFadeIn>
         </div>
