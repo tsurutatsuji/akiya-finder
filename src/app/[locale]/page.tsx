@@ -6,6 +6,7 @@ import HeroSlider from "@/components/HeroSlider";
 import FaqAccordion from "@/components/FaqAccordion";
 import { Link } from "@/i18n/navigation";
 import { scrapedProperties } from "@/lib/scraped-properties";
+import ScrollFadeIn from "@/components/ScrollFadeIn";
 
 export default function Home() {
   const t = useTranslations();
@@ -59,25 +60,33 @@ export default function Home() {
       {/* 3. Message — Our Mission */}
       <section className="py-24 md:py-32 bg-white">
         <div className="max-w-3xl mx-auto px-8 md:px-16">
-          <p className="text-sm tracking-[0.3em] uppercase text-gray-400 mb-6">
-            {t("messageSection.label")}
-          </p>
-          <h2 className="text-2xl md:text-4xl font-light text-gray-900 leading-relaxed mb-10">
-            {t("messageSection.title")}
-          </h2>
-          <div className="text-base md:text-lg text-gray-600 leading-loose whitespace-pre-line">
-            {t("messageSection.body")}
-          </div>
+          <ScrollFadeIn>
+            <p className="text-sm tracking-[0.3em] uppercase text-gray-400 mb-6">
+              {t("messageSection.label")}
+            </p>
+          </ScrollFadeIn>
+          <ScrollFadeIn delay={200}>
+            <h2 className="text-2xl md:text-4xl font-light text-gray-900 leading-relaxed mb-10">
+              {t("messageSection.title")}
+            </h2>
+          </ScrollFadeIn>
+          <ScrollFadeIn delay={400}>
+            <div className="text-base md:text-lg text-gray-600 leading-loose whitespace-pre-line">
+              {t("messageSection.body")}
+            </div>
+          </ScrollFadeIn>
         </div>
       </section>
 
       {/* 4. About Us — 3 Features */}
       <section className="py-20 bg-gray-50">
         <div className="max-w-5xl mx-auto px-8 md:px-16">
-          <p className="text-sm tracking-[0.3em] uppercase text-gray-400 mb-4">About</p>
-          <h2 className="text-2xl md:text-3xl font-light text-gray-900 mb-14">
-            {t("aboutFeatures.title")}
-          </h2>
+          <ScrollFadeIn>
+            <p className="text-sm tracking-[0.3em] uppercase text-gray-400 mb-4">About</p>
+            <h2 className="text-2xl md:text-3xl font-light text-gray-900 mb-14">
+              {t("aboutFeatures.title")}
+            </h2>
+          </ScrollFadeIn>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {/* Feature 1: 3 Languages */}
             <div className="text-center p-8 rounded-2xl bg-white border border-gray-100 hover:border-primary/20 hover:shadow-lg transition-all">
