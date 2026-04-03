@@ -391,17 +391,18 @@
     "statLanguages": "Languages"
   },
   "messageSection": {
-    "title": "Our Mission",
-    "body": "There are over 9 million vacant houses across Japan. We remove the language barrier so that anyone in the world can access Japanese akiya information — and take the first step toward a new life."
+    "label": "Message",
+    "title": "Beyond the language barrier.",
+    "body": "Japan has over 9 million vacant houses.\nTraditional farmhouses surrounded by nature, historic townhouses, hot spring getaways.\nYet almost all of this information exists only in Japanese, unreachable for those overseas.\n\nWe created AKIYA to bridge this gap.\nWe translate vacant house listings from municipalities across Japan into Chinese, English, and Japanese,\nso everyone can search for properties in their own language.\n\nBringing new life to vacant houses.\nThat is our mission."
   },
   "aboutFeatures": {
-    "title": "Why AkiyaFinder",
-    "feature1Title": "3 Languages",
-    "feature1Desc": "All property information is available in Chinese, English, and Japanese. No language barrier.",
-    "feature2Title": "Completely Free",
-    "feature2Desc": "Browsing, searching, and agent referrals are all free. No hidden fees.",
-    "feature3Title": "4,335+ Properties",
-    "feature3Desc": "Real listings from akiya banks across all 47 prefectures, updated regularly."
+    "title": "What we do",
+    "feature1Title": "Every listing, in 3 languages",
+    "feature1Desc": "Full support for Chinese, English, and Japanese. Property details, photos, and maps — all in your language.",
+    "feature2Title": "Official municipal data, translated",
+    "feature2Desc": "We translate and present public listings from municipal akiya banks across Japan. Accurate data from trusted sources.",
+    "feature3Title": "47 prefectures, 4,335+ properties",
+    "feature3Desc": "From Hokkaido to Okinawa, covering vacant houses across all of Japan. Updated regularly with the latest listings."
   },
   "site": {
     "name": "AkiyaFinder",
