@@ -74,3 +74,31 @@ body {
 .pb-sticky-contact {
   padding-bottom: 80px;
 }
+
+/* Hero slider */
+.hero-slider {
+  position: relative;
+}
+
+.hero-slide {
+  will-change: opacity;
+}
+
+.hero-fallback-bg {
+  background: linear-gradient(135deg, #2B5F2B 0%, #1a3a1a 50%, #0d2d0d 100%);
+}
+
+/* Message section background */
+.message-section-bg {
+  background: linear-gradient(135deg, #2B5F2B 0%, #1f4a1f 100%);
+}
+
+/* FAQ accordion */
+.faq-answer {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease-out, padding 0.3s ease-out;
+}
+.faq-answer.open {
+  max-height: 500px;
+}

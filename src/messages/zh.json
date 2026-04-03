@@ -382,6 +382,27 @@
     "copyUrl": "复制链接",
     "weibo": "微博"
   },
+  "heroNew": {
+    "title": "在日本的新生活。",
+    "subtitle": "搜索日本全国47个都道府县 {count}+套空置房屋",
+    "cta": "搜索房源",
+    "statProperties": "房源数",
+    "statPrefectures": "都道府县",
+    "statLanguages": "语言支持"
+  },
+  "messageSection": {
+    "title": "我们的使命",
+    "body": "日本全国有超过900万套空置房屋。我们消除语言障碍，让世界各地的人都能轻松获取日本空置房信息，迈出新生活的第一步。"
+  },
+  "aboutFeatures": {
+    "title": "为什么选择AkiyaFinder",
+    "feature1Title": "3语言支持",
+    "feature1Desc": "所有房源信息提供中文、英文、日文三种语言。没有语言障碍。",
+    "feature2Title": "完全免费",
+    "feature2Desc": "浏览、搜索、不动产公司介绍全部免费。没有隐藏费用。",
+    "feature3Title": "4,335+套房源",
+    "feature3Desc": "来自全国47个都道府县空置房银行的真实房源，定期更新。"
+  },
   "site": {
     "name": "日本空房网",
     "title": "日本空房网 — 日本全国空置房搜索 | 从0日元起",

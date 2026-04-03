@@ -382,6 +382,27 @@
     "copyUrl": "Copy URL",
     "weibo": "Weibo"
   },
+  "heroNew": {
+    "title": "A new life in Japan.",
+    "subtitle": "Discover {count}+ vacant houses across all 47 prefectures",
+    "cta": "Browse Properties",
+    "statProperties": "Properties",
+    "statPrefectures": "Prefectures",
+    "statLanguages": "Languages"
+  },
+  "messageSection": {
+    "title": "Our Mission",
+    "body": "There are over 9 million vacant houses across Japan. We remove the language barrier so that anyone in the world can access Japanese akiya information — and take the first step toward a new life."
+  },
+  "aboutFeatures": {
+    "title": "Why AkiyaFinder",
+    "feature1Title": "3 Languages",
+    "feature1Desc": "All property information is available in Chinese, English, and Japanese. No language barrier.",
+    "feature2Title": "Completely Free",
+    "feature2Desc": "Browsing, searching, and agent referrals are all free. No hidden fees.",
+    "feature3Title": "4,335+ Properties",
+    "feature3Desc": "Real listings from akiya banks across all 47 prefectures, updated regularly."
+  },
   "site": {
     "name": "AkiyaFinder",
     "title": "AkiyaFinder — Find Cheap Houses in Japan | From $0",
