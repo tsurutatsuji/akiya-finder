@@ -59,10 +59,16 @@ export default function Home() {
 
       {/* 3. Message — Our Mission */}
       <section className="py-24 md:py-32 bg-white relative overflow-hidden">
-        {/* 流れるテキストアニメーション（LUVIA風） */}
-        <div className="absolute inset-0 flex items-center pointer-events-none select-none" aria-hidden="true">
-          <div className="flowing-text whitespace-nowrap text-[120px] md:text-[200px] font-bold text-gray-100 tracking-wider">
-            AKIYA&nbsp;&nbsp;&nbsp;空き家&nbsp;&nbsp;&nbsp;AKIYA&nbsp;&nbsp;&nbsp;空き家&nbsp;&nbsp;&nbsp;AKIYA&nbsp;&nbsp;&nbsp;空き家&nbsp;&nbsp;&nbsp;AKIYA&nbsp;&nbsp;&nbsp;空き家&nbsp;&nbsp;&nbsp;
+        {/* 上: 中国語で左→右に流れる */}
+        <div className="absolute top-8 left-0 right-0 pointer-events-none select-none" aria-hidden="true">
+          <div className="flowing-text-right whitespace-nowrap text-[80px] md:text-[120px] font-bold text-gray-100/60 tracking-wider">
+            日本空房网&nbsp;&nbsp;&nbsp;空置房&nbsp;&nbsp;&nbsp;日本空房网&nbsp;&nbsp;&nbsp;空置房&nbsp;&nbsp;&nbsp;日本空房网&nbsp;&nbsp;&nbsp;空置房&nbsp;&nbsp;&nbsp;日本空房网&nbsp;&nbsp;&nbsp;空置房&nbsp;&nbsp;&nbsp;
+          </div>
+        </div>
+        {/* 下: AKIYAで右→左に流れる */}
+        <div className="absolute bottom-8 left-0 right-0 pointer-events-none select-none" aria-hidden="true">
+          <div className="flowing-text whitespace-nowrap text-[80px] md:text-[120px] font-bold text-gray-100/60 tracking-[0.3em]">
+            AKIYA&nbsp;&nbsp;&nbsp;AKIYA&nbsp;&nbsp;&nbsp;AKIYA&nbsp;&nbsp;&nbsp;AKIYA&nbsp;&nbsp;&nbsp;AKIYA&nbsp;&nbsp;&nbsp;AKIYA&nbsp;&nbsp;&nbsp;AKIYA&nbsp;&nbsp;&nbsp;AKIYA&nbsp;&nbsp;&nbsp;
           </div>
         </div>
         <div className="max-w-6xl mx-auto px-8 md:px-16 lg:px-24 relative z-10">

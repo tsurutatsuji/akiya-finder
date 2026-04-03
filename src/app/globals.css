@@ -104,15 +104,28 @@ body {
 }
 /* Flowing text animation (LUVIA style) */
 .flowing-text {
-  animation: flowText 30s linear infinite;
+  animation: flowTextLeft 30s linear infinite;
 }
 
-@keyframes flowText {
+.flowing-text-right {
+  animation: flowTextRight 30s linear infinite;
+}
+
+@keyframes flowTextLeft {
   0% {
     transform: translateX(0);
   }
   100% {
     transform: translateX(-50%);
+  }
+}
+
+@keyframes flowTextRight {
+  0% {
+    transform: translateX(-50%);
+  }
+  100% {
+    transform: translateX(0);
   }
 }
 
