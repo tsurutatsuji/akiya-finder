@@ -6,23 +6,21 @@ import { Link } from "@/i18n/navigation";
 
 const SLIDE_INTERVAL = 5000;
 
-const REPO_BASE = "https://raw.githubusercontent.com/tsurutatsuji/akiya-finder/master/public/hero";
-
 const heroImages = [
   {
-    url: `${REPO_BASE}/spring.jpg`,
+    url: "/hero/spring.jpg",
     alt: "茅葺古民家と桜 — 春の日本",
   },
   {
-    url: `${REPO_BASE}/summer.jpg`,
+    url: "/hero/summer.jpg",
     alt: "白川郷の合掌造りと緑の田んぼ — 夏の日本",
   },
   {
-    url: `${REPO_BASE}/autumn.jpg`,
+    url: "/hero/autumn.jpg",
     alt: "畳の間から眺める紅葉の庭園 — 秋の日本",
   },
   {
-    url: `${REPO_BASE}/winter.jpg`,
+    url: "/hero/winter.jpg",
     alt: "雪に包まれた白川郷のライトアップ — 冬の日本",
   },
 ];
@@ -69,7 +67,9 @@ export default function HeroSlider({ totalCount }: HeroSliderProps) {
             alt={image.alt}
             loading={index === 0 ? "eager" : "lazy"}
             onLoad={() => handleImageLoad(index)}
-            className="absolute inset-0 w-full h-full object-cover"
+            className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-500 ${
+              loadedImages.has(index) || index === 0 ? "opacity-100" : "opacity-0"
+            }`}
             width={1920}
             height={1080}
           />

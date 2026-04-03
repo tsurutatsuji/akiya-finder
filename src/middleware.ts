@@ -8,5 +8,5 @@ export const config = {
   // - /api (API routes)
   // - /_next (Next.js internals)
   // - /images, /favicon.ico, etc (static files)
-  matcher: ["/((?!api|_next|images|favicon.ico|robots.txt|sitemap.xml).*)"],
+  matcher: ["/((?!api|_next|images|hero|favicon.ico|robots.txt|sitemap.xml).*)"],
 };
