@@ -58,8 +58,14 @@ export default function Home() {
       </section>
 
       {/* 3. Message — Our Mission */}
-      <section className="py-24 md:py-32 bg-white">
-        <div className="max-w-6xl mx-auto px-8 md:px-16 lg:px-24">
+      <section className="py-24 md:py-32 bg-white relative overflow-hidden">
+        {/* 流れるテキストアニメーション（LUVIA風） */}
+        <div className="absolute inset-0 flex items-center pointer-events-none select-none" aria-hidden="true">
+          <div className="flowing-text whitespace-nowrap text-[120px] md:text-[200px] font-bold text-gray-100 tracking-wider">
+            AKIYA&nbsp;&nbsp;&nbsp;空き家&nbsp;&nbsp;&nbsp;AKIYA&nbsp;&nbsp;&nbsp;空き家&nbsp;&nbsp;&nbsp;AKIYA&nbsp;&nbsp;&nbsp;空き家&nbsp;&nbsp;&nbsp;AKIYA&nbsp;&nbsp;&nbsp;空き家&nbsp;&nbsp;&nbsp;
+          </div>
+        </div>
+        <div className="max-w-6xl mx-auto px-8 md:px-16 lg:px-24 relative z-10">
           <ScrollFadeIn>
             <p className="text-sm tracking-[0.3em] uppercase text-gray-400 mb-6">
               {t("messageSection.label")}
