@@ -12,3 +12,4 @@ const nextConfig = {
 };
 
 export default withNextIntl(nextConfig);
+// cache bust 1775203369
