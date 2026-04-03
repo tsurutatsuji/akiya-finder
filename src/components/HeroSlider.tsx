@@ -8,20 +8,20 @@ const SLIDE_INTERVAL = 5000;
 
 const heroImages = [
   {
-    url: "https://images.unsplash.com/photo-1728738574846-8331eb8b1a09?w=1920&q=80",
-    alt: "Japanese traditional house with green garden in spring",
+    url: "https://images.unsplash.com/photo-1570459027562-4a916cc6113f?w=1920&q=80",
+    alt: "Traditional Japanese house with natural surroundings",
   },
   {
-    url: "https://images.unsplash.com/photo-1737262607346-5a03ad3f3fa8?w=1920&q=80",
-    alt: "Old house on a hill with autumn foliage",
+    url: "https://images.unsplash.com/photo-1528360983277-13d401cdc186?w=1920&q=80",
+    alt: "Japanese countryside landscape",
   },
   {
     url: "https://images.unsplash.com/photo-1522623349500-de37a56ea2a5?w=1920&q=80",
-    alt: "Shirakawa-go winter snow scene",
+    alt: "Shirakawa-go village in winter snow",
   },
   {
-    url: "https://images.unsplash.com/photo-1729577552837-a3d8e80cc92a?w=1920&q=80",
-    alt: "Traditional Japanese house with pond and trees",
+    url: "https://images.unsplash.com/photo-1522383225653-ed111181a951?w=1920&q=80",
+    alt: "Cherry blossoms in Japan spring",
   },
 ];
 
