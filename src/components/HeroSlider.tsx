@@ -101,17 +101,17 @@ export default function HeroSlider({ totalCount }: HeroSliderProps) {
       <div className="absolute bottom-0 left-0 right-0 z-10 bg-black/40 backdrop-blur-sm border-t border-white/10">
         <div className="max-w-4xl mx-auto px-4 py-4 flex items-center justify-center gap-8 md:gap-16 text-white">
           <div className="text-center">
-            <p className="text-2xl md:text-3xl font-bold text-gold-brand">{totalCount.toLocaleString()}+</p>
+            <p className="text-2xl md:text-3xl font-bold text-accent">{totalCount.toLocaleString()}+</p>
             <p className="text-xs md:text-sm text-gray-300">{t("heroNew.statProperties")}</p>
           </div>
           <div className="w-px h-8 bg-white/20" />
           <div className="text-center">
-            <p className="text-2xl md:text-3xl font-bold text-gold-brand">47</p>
+            <p className="text-2xl md:text-3xl font-bold text-accent">47</p>
             <p className="text-xs md:text-sm text-gray-300">{t("heroNew.statPrefectures")}</p>
           </div>
           <div className="w-px h-8 bg-white/20" />
           <div className="text-center">
-            <p className="text-2xl md:text-3xl font-bold text-gold-brand">3</p>
+            <p className="text-2xl md:text-3xl font-bold text-accent">3</p>
             <p className="text-xs md:text-sm text-gray-300">{t("heroNew.statLanguages")}</p>
           </div>
         </div>
