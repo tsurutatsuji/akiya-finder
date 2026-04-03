@@ -59,7 +59,7 @@ export default function Home() {
 
       {/* 3. Message — Our Mission */}
       <section className="py-24 md:py-32 bg-white">
-        <div className="max-w-3xl mx-auto px-8 md:px-16">
+        <div className="max-w-6xl mx-auto px-8 md:px-16 lg:px-24">
           <ScrollFadeIn>
             <p className="text-sm tracking-[0.3em] uppercase text-gray-400 mb-6">
               {t("messageSection.label")}
@@ -71,7 +71,7 @@ export default function Home() {
             </h2>
           </ScrollFadeIn>
           <ScrollFadeIn delay={400}>
-            <div className="text-base md:text-lg text-gray-600 leading-loose whitespace-pre-line">
+            <div className="text-base md:text-lg text-gray-500 leading-loose whitespace-pre-line max-w-2xl">
               {t("messageSection.body")}
             </div>
           </ScrollFadeIn>
