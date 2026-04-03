@@ -106,27 +106,38 @@ export default function MapPage() {
           )}
         </p>
 
-        {/* Investment Category Cards */}
+        {/* Category Cards */}
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3 mb-8">
-          {INVESTMENT_CATEGORIES.map((cat) => (
-            <button
-              key={cat.id}
-              onClick={() => setCategory(category === cat.id ? "" : cat.id)}
-              className={`p-4 rounded-xl border-2 text-left transition-all ${
-                category === cat.id
-                  ? "border-accent bg-accent/5 shadow-md"
-                  : "border-gray-200 hover:border-gray-300 hover:shadow-sm"
-              }`}
-            >
-              <span className="text-2xl block mb-1">{cat.emoji}</span>
-              <span className="font-semibold text-sm text-primary block">
-                {cat.label}
-              </span>
-              <span className="text-xs text-gray-400">
-                {categoryCounts[cat.id]} {L(locale, "套", "件", "homes")}
-              </span>
-            </button>
-          ))}
+          {INVESTMENT_CATEGORIES.map((cat) => {
+            const catLabels: Record<string, { zh: string; ja: string; en: string }> = {
+              "high-value": { zh: "高性价比", ja: "高コスパ", en: "High Value" },
+              "station-close": { zh: "车站近", ja: "駅近", en: "Station Close" },
+              "airbnb-ready": { zh: "民宿适合", ja: "民泊向き", en: "Airbnb Ready" },
+              "free-entry": { zh: "免费/低价", ja: "無料/格安", en: "Free / Near-Free" },
+              "move-in-ready": { zh: "即可入住", ja: "即入居可", en: "Move-in Ready" },
+              "cultural-gem": { zh: "文化遗产", ja: "古民家", en: "Cultural Gem" },
+            };
+            const label = catLabels[cat.id] ? L(locale, catLabels[cat.id].zh, catLabels[cat.id].ja, catLabels[cat.id].en) : cat.label;
+            return (
+              <button
+                key={cat.id}
+                onClick={() => setCategory(category === cat.id ? "" : cat.id)}
+                className={`p-4 rounded-xl border-2 text-left transition-all ${
+                  category === cat.id
+                    ? "border-accent bg-accent/5 shadow-md"
+                    : "border-gray-200 hover:border-gray-300 hover:shadow-sm"
+                }`}
+              >
+                <span className="text-2xl block mb-1">{cat.emoji}</span>
+                <span className="font-semibold text-sm text-primary block">
+                  {label}
+                </span>
+                <span className="text-xs text-gray-400">
+                  {categoryCounts[cat.id]} {L(locale, "套", "件", "homes")}
+                </span>
+              </button>
+            );
+          })}
         </div>
 
         {/* Active filter indicator */}
@@ -134,10 +145,17 @@ export default function MapPage() {
           <div className="flex items-center gap-2 mb-4 text-sm">
             <span className="bg-accent/10 text-accent px-3 py-1 rounded-full font-medium">
               {INVESTMENT_CATEGORIES.find((c) => c.id === category)?.emoji}{" "}
-              {INVESTMENT_CATEGORIES.find((c) => c.id === category)?.label}
-            </span>
-            <span className="text-gray-400">
-              {INVESTMENT_CATEGORIES.find((c) => c.id === category)?.description}
+              {L(locale,
+                {
+                  "high-value": "高性价比", "station-close": "车站近", "airbnb-ready": "民宿适合",
+                  "free-entry": "免费/低价", "move-in-ready": "即可入住", "cultural-gem": "文化遗产"
+                }[category] || category,
+                {
+                  "high-value": "高コスパ", "station-close": "駅近", "airbnb-ready": "民泊向き",
+                  "free-entry": "無料/格安", "move-in-ready": "即入居可", "cultural-gem": "古民家"
+                }[category] || category,
+                INVESTMENT_CATEGORIES.find((c) => c.id === category)?.label || category
+              )}
             </span>
             <button
               onClick={() => setCategory("")}
