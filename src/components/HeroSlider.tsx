@@ -8,20 +8,20 @@ const SLIDE_INTERVAL = 5000;
 
 const heroImages = [
   {
-    url: "https://images.unsplash.com/photo-1570459027562-4a916cc6113f?w=1920&q=80",
-    alt: "Traditional Japanese house with natural surroundings",
+    url: "/hero/spring.jpg",
+    alt: "茅葺古民家と桜 — 春の日本",
   },
   {
-    url: "https://images.unsplash.com/photo-1528360983277-13d401cdc186?w=1920&q=80",
-    alt: "Japanese countryside landscape",
+    url: "/hero/summer.jpg",
+    alt: "白川郷の合掌造りと緑の田んぼ — 夏の日本",
   },
   {
-    url: "https://images.unsplash.com/photo-1522623349500-de37a56ea2a5?w=1920&q=80",
-    alt: "Shirakawa-go village in winter snow",
+    url: "/hero/autumn.jpg",
+    alt: "畳の間から眺める紅葉の庭園 — 秋の日本",
   },
   {
-    url: "https://images.unsplash.com/photo-1522383225653-ed111181a951?w=1920&q=80",
-    alt: "Cherry blossoms in Japan spring",
+    url: "/hero/winter.jpg",
+    alt: "雪に包まれた白川郷のライトアップ — 冬の日本",
   },
 ];
 
