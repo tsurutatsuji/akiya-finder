@@ -48,7 +48,7 @@ export default function Footer() {
           <div>
             <h4 className="text-white font-semibold mb-3">{t("explore")}</h4>
             <ul className="space-y-2 text-sm">
-              <li><Link href="/map" className="hover:text-white transition">{t("investmentMap")}</Link></li>
+              {/* マップ — 座標精度改善後に復活 */}
               <li><Link href="/akiya-bank" className="hover:text-white transition">{t("akiyaBankSearch")}</Link></li>
               <li><Link href="/properties" className="hover:text-white transition">{t("browseProperties")}</Link></li>
               <li><Link href="/prefecture" className="hover:text-white transition">{t("byPrefecture")}</Link></li>
