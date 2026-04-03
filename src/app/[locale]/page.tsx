@@ -91,10 +91,9 @@ export default function Home() {
             </ScrollFadeIn>
           </div>
 
-          {/* 右: 代表名 */}
+          {/* 右: 代表名（下寄せ） */}
           <ScrollFadeIn delay={600}>
-            <div className="md:w-48 flex flex-col items-end justify-end text-right">
-              <div className="w-px h-16 bg-gray-300 mb-6" />
+            <div className="md:w-48 flex flex-col items-end justify-end h-full text-right mt-auto">
               <p className="text-xs tracking-[0.2em] uppercase text-gray-400 mb-2">Founder</p>
               <p className="text-lg font-light text-gray-800 tracking-wider">鶴 竜治</p>
               <p className="text-xs text-gray-400 mt-1 tracking-wider">Tatsuji Tsuru</p>
