@@ -76,45 +76,31 @@ export default function HeroSlider({ totalCount }: HeroSliderProps) {
         </div>
       ))}
 
-      {/* Dark overlay */}
-      <div className="absolute inset-0 bg-black/50" />
+      {/* Dark overlay — gradient from bottom */}
+      <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-black/10" />
 
-      {/* Content */}
-      <div className="relative z-10 flex flex-col items-center justify-center h-full text-center px-4">
-        <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-6 leading-tight tracking-tight drop-shadow-lg">
-          {t("heroNew.title")}
-        </h1>
-        <p className="text-lg md:text-xl text-gray-200 max-w-2xl mx-auto mb-10 leading-relaxed drop-shadow">
+      {/* Content — 左下寄せ、LUVIA風 */}
+      <div className="relative z-10 flex flex-col justify-end h-full px-8 md:px-16 lg:px-24 pb-32 md:pb-40">
+        <p className="text-sm md:text-base text-white/70 tracking-[0.3em] uppercase mb-4 font-light">
           {t("heroNew.subtitle", { count: totalCount.toLocaleString() })}
         </p>
-
-        {/* CTA */}
-        <Link
-          href="/properties"
-          className="bg-accent hover:bg-red-600 text-white px-10 py-4 rounded-xl font-semibold transition text-lg shadow-lg shadow-accent/30 hover:shadow-xl hover:shadow-accent/40"
-        >
-          {t("heroNew.cta")}
-        </Link>
+        <h1 className="text-3xl md:text-5xl lg:text-6xl font-light text-white leading-tight tracking-wide drop-shadow-lg">
+          {t("heroNew.title")}
+        </h1>
+        <div className="mt-8">
+          <Link
+            href="/properties"
+            className="text-white/80 hover:text-white text-sm tracking-[0.2em] uppercase border-b border-white/40 hover:border-white pb-1 transition"
+          >
+            {t("heroNew.cta")} →
+          </Link>
+        </div>
       </div>
 
-      {/* Stats bar at bottom */}
-      <div className="absolute bottom-0 left-0 right-0 z-10 bg-black/40 backdrop-blur-sm border-t border-white/10">
-        <div className="max-w-4xl mx-auto px-4 py-4 flex items-center justify-center gap-8 md:gap-16 text-white">
-          <div className="text-center">
-            <p className="text-2xl md:text-3xl font-bold text-accent">{totalCount.toLocaleString()}+</p>
-            <p className="text-xs md:text-sm text-gray-300">{t("heroNew.statProperties")}</p>
-          </div>
-          <div className="w-px h-8 bg-white/20" />
-          <div className="text-center">
-            <p className="text-2xl md:text-3xl font-bold text-accent">47</p>
-            <p className="text-xs md:text-sm text-gray-300">{t("heroNew.statPrefectures")}</p>
-          </div>
-          <div className="w-px h-8 bg-white/20" />
-          <div className="text-center">
-            <p className="text-2xl md:text-3xl font-bold text-accent">3</p>
-            <p className="text-xs md:text-sm text-gray-300">{t("heroNew.statLanguages")}</p>
-          </div>
-        </div>
+      {/* Scroll Down — LUVIA風 */}
+      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 text-white/50 text-xs tracking-[0.2em] uppercase flex flex-col items-center gap-2">
+        <span>Scroll</span>
+        <div className="w-px h-8 bg-white/30" />
       </div>
 
       {/* Slide indicators */}
