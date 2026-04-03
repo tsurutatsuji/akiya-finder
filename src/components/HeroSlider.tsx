@@ -6,21 +6,23 @@ import { Link } from "@/i18n/navigation";
 
 const SLIDE_INTERVAL = 5000;
 
+const REPO_BASE = "https://raw.githubusercontent.com/tsurutatsuji/akiya-finder/master/public/hero";
+
 const heroImages = [
   {
-    url: "/hero/spring.jpg",
+    url: `${REPO_BASE}/spring.jpg`,
     alt: "茅葺古民家と桜 — 春の日本",
   },
   {
-    url: "/hero/summer.jpg",
+    url: `${REPO_BASE}/summer.jpg`,
     alt: "白川郷の合掌造りと緑の田んぼ — 夏の日本",
   },
   {
-    url: "/hero/autumn.jpg",
+    url: `${REPO_BASE}/autumn.jpg`,
     alt: "畳の間から眺める紅葉の庭園 — 秋の日本",
   },
   {
-    url: "/hero/winter.jpg",
+    url: `${REPO_BASE}/winter.jpg`,
     alt: "雪に包まれた白川郷のライトアップ — 冬の日本",
   },
 ];
