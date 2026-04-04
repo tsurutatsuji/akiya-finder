@@ -17,7 +17,7 @@ export default function Home() {
     .slice(0, 6);
   const totalCount = scrapedProperties.length;
 
-  const faqItems = (["q1", "q2", "q3", "q4", "q5"] as const).map((key) => ({
+  const faqItems = (["q1", "q2", "q3", "q4", "q5", "q6"] as const).map((key) => ({
     question: t(`yesSection.${key}`),
     answer: t(`yesSection.${key.replace("q", "a")}`),
     detail: t(`yesSection.${key.replace("q", "a")}detail`),

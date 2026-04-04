@@ -229,6 +229,14 @@ export default function SupportPage({
                   "From application to purchase completion, typically 1–3 months. Processing speed varies by municipality."
                 ),
               },
+              {
+                q: L(locale, "为什么有0日元（免费）的房子？", "なぜ無料（0円）の物件があるのですか？", "Why are some houses free ($0)?"),
+                a: L(locale,
+                  "持有空房对业主来说是负担。即使不使用，每年也需缴纳固定资产税（约1～5万日元/年）。放置不管可能被认定为「特定空房」，税额最高增加6倍。拆除也需100～300万日元。因此免费转让比继续持有更经济。购买前请务必了解固定资产税和修缮费用等持续成本。",
+                  "空き家は使わなくても固定資産税（年1〜5万円）がかかり、放置すると「特定空家」に指定され税額が最大6倍になります。解体にも100〜300万円かかるため、無料で譲渡した方が経済的です。購入を検討される際は、固定資産税や修繕費などの維持コストを事前にご確認ください。",
+                  "Owners pay annual property tax (¥10,000–50,000/year) even on unused houses. If neglected, the tax can increase up to 6x. Demolition costs ¥1–3 million. Giving away is cheaper than keeping. Before purchasing, factor in ongoing costs like property tax and maintenance."
+                ),
+              },
             ].map((item, i) => (
               <ScrollFadeIn key={i} delay={i * 100}>
                 <div className="border-b border-gray-100 pb-6">
