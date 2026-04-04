@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { Property } from "@/data/properties";
 import { isRealPropertyPhoto } from "@/lib/image-utils";
@@ -9,17 +9,17 @@ import { isRealPropertyPhoto } from "@/lib/image-utils";
 export default function PropertyCard({ property }: { property: Property }) {
   const [imgError, setImgError] = useState(false);
   const t = useTranslations("property");
+  const locale = useLocale();
 
+  const priceCny = property.price > 0 ? Math.round(property.price / 20) : 0;
   const formatPrice = (yen: number, usd: number) => {
-    if (yen === 0) return { main: t("free"), sub: "$0 USD" };
-    return {
-      main: `¥${yen.toLocaleString()}`,
-      sub: `~$${usd.toLocaleString()} USD`,
-    };
+    if (yen === 0) return { main: t("free"), sub: "" };
+    if (locale === "ja") return { main: `¥${yen.toLocaleString()}`, sub: "" };
+    if (locale === "zh") return { main: `¥${priceCny.toLocaleString()} CNY`, sub: `≈ ¥${yen.toLocaleString()} JPY` };
+    return { main: `$${usd.toLocaleString()} USD`, sub: `≈ ¥${yen.toLocaleString()} JPY` };
   };
 
   const price = formatPrice(property.price, property.priceUsd);
-  const priceCny = property.price > 0 ? Math.round(property.price / 20) : 0;
 
   const rawImageUrl =
     (property as Property & { thumbnailUrl?: string }).thumbnailUrl ||
@@ -84,12 +84,7 @@ export default function PropertyCard({ property }: { property: Property }) {
           <div className="flex items-end justify-between">
             <div>
               <p className="text-xl font-bold text-accent leading-tight">{price.main}</p>
-              <p className="text-xs text-gray-400 mt-0.5">{price.sub}</p>
-              {priceCny > 0 && (
-                <p className="text-xs text-orange-500 font-medium mt-0.5">
-                  {t("cny", { amount: priceCny.toLocaleString() })}
-                </p>
-              )}
+              {price.sub && <p className="text-xs text-gray-400 mt-0.5">{price.sub}</p>}
             </div>
             <div className="text-right text-xs text-gray-400">
               <p>

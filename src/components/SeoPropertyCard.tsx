@@ -5,6 +5,7 @@ import { useTranslations, useLocale } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { ScrapedProperty } from "@/lib/scraped-properties";
 import { getDisplayImageUrl } from "@/lib/image-utils";
+import { getPrefectureName } from "@/lib/locale-utils";
 import WatchlistButton from "./WatchlistButton";
 
 export default function SeoPropertyCard({
@@ -46,7 +47,7 @@ export default function SeoPropertyCard({
                 <polyline strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.2} points="9,22 9,12 15,12 15,22" />
               </svg>
               <p className="text-xs text-gray-400 font-medium">
-                {property.prefectureEn}
+                {getPrefectureName(property.prefectureEn, locale)}
               </p>
               <p className="text-[10px] text-gray-300 mt-0.5">{t("photoNotAvailable")}</p>
             </div>
@@ -91,14 +92,19 @@ export default function SeoPropertyCard({
                   : locale === "en" ? `$${priceUsd.toLocaleString()} USD`
                   : `¥${property.price.toLocaleString()}`}
               </p>
-              {locale === "zh" && priceCny > 0 && (
+              {property.price > 0 && locale === "zh" && (
                 <p className="text-xs text-gray-400 mt-0.5">
-                  ≈ ¥{priceCny.toLocaleString()} CNY
+                  ≈ ¥{property.price.toLocaleString()} JPY
                 </p>
               )}
-              {locale === "en" && (
+              {property.price > 0 && locale === "en" && (
                 <p className="text-xs text-gray-400 mt-0.5">
-                  ~${priceUsd.toLocaleString()} USD
+                  ≈ ¥{property.price.toLocaleString()} JPY
+                </p>
+              )}
+              {property.price > 0 && locale === "ja" && priceUsd > 0 && (
+                <p className="text-xs text-gray-400 mt-0.5">
+                  ≈ ${priceUsd.toLocaleString()} USD
                 </p>
               )}
             </div>
@@ -114,12 +120,16 @@ export default function SeoPropertyCard({
           <div className="flex flex-wrap gap-1.5 mt-2 pt-2 border-t border-gray-50">
             {property.pricePerSqmUsd && (
               <span className="text-xs bg-blue-50 text-blue-600 px-2 py-0.5 rounded-md font-medium">
-                ${property.pricePerSqmUsd}/sqm
+                {locale === "ja" ? `¥${Math.round(property.pricePerSqmUsd * 150).toLocaleString()}/㎡`
+                  : locale === "zh" ? `¥${Math.round(property.pricePerSqmUsd * 150 / 20).toLocaleString()}/㎡`
+                  : `$${property.pricePerSqmUsd}/sqm`}
               </span>
             )}
             {property.buildingAge && (
               <span className="text-xs bg-gray-50 text-gray-500 px-2 py-0.5 rounded-md">
-                {property.buildingAge}y old
+                {locale === "ja" ? `築${property.buildingAge}年`
+                  : locale === "zh" ? `房龄${property.buildingAge}年`
+                  : `${property.buildingAge}y old`}
               </span>
             )}
           </div>

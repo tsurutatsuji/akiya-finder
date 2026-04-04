@@ -195,7 +195,10 @@ export default function PrefectureIndex({
                       {locale === "en" && seo && (
                         <p className="text-xs text-gray-400 mb-2">{seo.nameJa}</p>
                       )}
-                      {locale !== "en" && (
+                      {locale === "ja" && (
+                        <p className="text-xs text-gray-400 mb-2">{prefName}</p>
+                      )}
+                      {locale === "zh" && (
                         <p className="text-xs text-gray-400 mb-2">{prefName}</p>
                       )}
                       <p className="text-sm text-gray-600 line-clamp-2 mb-3">
@@ -215,9 +218,13 @@ export default function PrefectureIndex({
                             ? L(locale, "免费（¥0）", "無料（¥0）", "FREE (¥0)")
                             : `¥${minPrice.toLocaleString()}`}
                         </span>
-                        <span className="text-gray-400 ml-1">
-                          (~${minPriceUsd.toLocaleString()})
-                        </span>
+                        {minPrice > 0 && (
+                          <span className="text-gray-400 ml-1">
+                            {locale === "ja" ? ""
+                              : locale === "zh" ? `(≈¥${Math.round(minPrice / 20).toLocaleString()} CNY)`
+                              : `(~$${minPriceUsd.toLocaleString()})`}
+                          </span>
+                        )}
                       </div>
                     </Link>
                   );

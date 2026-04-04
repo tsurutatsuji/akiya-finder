@@ -7,12 +7,19 @@ import Footer from "@/components/Footer";
 import SeoPropertyCard from "@/components/SeoPropertyCard";
 import scrapedData from "../../../../data/scraped-properties.json";
 import type { ScrapedProperty } from "@/lib/scraped-properties";
+import { PREF_NAMES } from "@/lib/locale-utils";
 
 const properties = scrapedData as ScrapedProperty[];
 const prefectureList = [...new Set(properties.map((p) => p.prefectureEn))].sort();
 
 function L(locale: string, zh: string, ja: string, en: string) {
   return locale === "zh" ? zh : locale === "ja" ? ja : en;
+}
+
+function getPrefLabel(prefEn: string, locale: string): string {
+  const names = PREF_NAMES[prefEn.toLowerCase()];
+  if (!names) return prefEn;
+  return locale === "zh" ? names.zh : locale === "ja" ? names.ja : names.en;
 }
 
 const ITEMS_PER_PAGE = 20;
@@ -62,7 +69,7 @@ export default function PropertiesPage() {
           >
             <option value="">{L(locale, "全部都道府县", "全ての都道府県", "All Prefectures")}</option>
             {prefectureList.map((p) => (
-              <option key={p} value={p}>{p}</option>
+              <option key={p} value={p}>{getPrefLabel(p, locale)}</option>
             ))}
           </select>
           <select
@@ -72,9 +79,9 @@ export default function PropertiesPage() {
           >
             <option value="">{L(locale, "全部价格", "全ての価格", "All Prices")}</option>
             <option value="free">{L(locale, "免费（¥0）", "無料（¥0）", "Free (¥0)")}</option>
-            <option value="under1m">{L(locale, "100万日元以下（~$6,600）", "¥100万以下（~$6,600）", "Under ¥1,000,000 (~$6,600)")}</option>
-            <option value="1m-5m">{L(locale, "100万~500万日元（~$6,600–$33,000）", "¥100万–500万（~$6,600–$33,000）", "¥1M–5M (~$6,600–$33,000)")}</option>
-            <option value="5m+">{L(locale, "500万日元以上（~$33,000+）", "¥500万以上（~$33,000+）", "Over ¥5,000,000 (~$33,000+)")}</option>
+            <option value="under1m">{L(locale, "100万日元以下（约5万元）", "¥100万以下", "Under ¥1,000,000 (~$6,600)")}</option>
+            <option value="1m-5m">{L(locale, "100万~500万日元（约5万~25万元）", "¥100万〜500万", "¥1M–5M (~$6,600–$33,000)")}</option>
+            <option value="5m+">{L(locale, "500万日元以上（约25万元~）", "¥500万以上", "Over ¥5,000,000 (~$33,000+)")}</option>
           </select>
         </div>
 
