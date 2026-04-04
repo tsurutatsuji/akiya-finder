@@ -143,7 +143,7 @@ export default function PrefecturePage({
           <h1 className="text-3xl md:text-5xl font-bold mb-4">
             {L(
               locale,
-              `${localeName}的空き家`,
+              `${localeName}的空房`,
               `${localeName}の空き家`,
               `Akiya Houses in ${displayName}`
             )}
@@ -156,7 +156,7 @@ export default function PrefecturePage({
           <p className="text-lg text-gray-300 max-w-3xl mb-6">
             {L(
               locale,
-              `${localeName}共有${properties.length}套空き家。${minPrice === 0 ? "含免费物件。" : `最低价¥${minPrice.toLocaleString()}起。`}我们为您介绍当地的不动产公司。`,
+              `${localeName}共有${properties.length}套空房。${minPrice === 0 ? "含免费物件。" : `最低价¥${minPrice.toLocaleString()}起。`}我们为您介绍当地的不动产公司。`,
               `${localeName}の空き家${properties.length}件を掲載中。${minPrice === 0 ? "無料物件あり。" : `最安値¥${minPrice.toLocaleString()}から。`}現地の不動産会社をご紹介します。`,
               seoData.description
             )}

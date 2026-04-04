@@ -399,14 +399,16 @@ function ScrapedPropertyPage({ property: p, locale = "zh" }: { property: Scraped
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
             </svg>
-            {p.locationJa}
+            {locale === "zh" ? (p.locationZh || p.locationJa || p.location) : locale === "ja" ? p.locationJa : p.location}
           </h1>
-          <p className="text-sm text-gray-500 mt-1 ml-7">
-            {locale === "zh" ? (p.locationZh || p.location) : locale === "ja" ? p.locationJa : p.location}
-          </p>
+          {locale !== "ja" && (
+            <p className="text-sm text-gray-500 mt-1 ml-7">
+              {p.locationJa}
+            </p>
+          )}
           <div className="flex flex-wrap items-center gap-3 mt-3">
             <span className="text-xs text-gray-400">
-              {p.propertyType} · {p.layout || ""} · {new Date(p.scrapedAt).toLocaleDateString("ja-JP")}
+              {p.propertyType} · {p.layout || ""} · {new Date(p.scrapedAt).toLocaleDateString(locale === "zh" ? "zh-CN" : locale === "ja" ? "ja-JP" : "en-US")}
             </span>
             {/* Investment tags — 自治体許可取得のため非表示（将来復活可能）
             {tagCategories.map((cat) => (

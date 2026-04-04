@@ -135,7 +135,7 @@ export default function AboutPage({
                   </tr>
                   <tr className="border-b border-gray-50">
                     <td className="py-3 text-gray-400">{L(locale, "运营者", "運営者", "Operator")}</td>
-                    <td className="py-3 text-gray-800">{L(locale, "�的 竜治（Tatsuji Tsuru）", "鶴 竜治（つる たつじ）", "Tatsuji Tsuru")}</td>
+                    <td className="py-3 text-gray-800">{L(locale, "鹤 竜治（Tatsuji Tsuru）", "鶴 竜治（つる たつじ）", "Tatsuji Tsuru")}</td>
                   </tr>
                   <tr className="border-b border-gray-50">
                     <td className="py-3 text-gray-400">{L(locale, "联系方式", "連絡先", "Contact")}</td>

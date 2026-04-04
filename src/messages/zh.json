@@ -115,7 +115,7 @@
     "photos": "共{count}张照片",
     "photoCount": "全{count}枚",
     "photoSingle": "{current} / {total}",
-    "listedDate": "掲载日: {date}",
+    "listedDate": "发布日期: {date}",
     "breadcrumbProperties": "物件",
     "cny": "约 ¥{amount} 人民币"
   },

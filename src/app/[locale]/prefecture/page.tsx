@@ -140,7 +140,7 @@ export default function PrefectureIndex({
       <section className="hero-gradient text-white py-16">
         <div className="max-w-6xl mx-auto px-4 text-center">
           <h1 className="text-3xl md:text-5xl font-bold mb-4">
-            {L(locale, "按都道府县浏览空き家", "都道府県から空き家を探す", "Browse Akiya by Prefecture")}
+            {L(locale, "按都道府县浏览空房", "都道府県から空き家を探す", "Browse Akiya by Prefecture")}
           </h1>
           <p className="text-lg text-gray-300 max-w-2xl mx-auto">
             {L(

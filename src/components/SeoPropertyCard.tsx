@@ -92,19 +92,9 @@ export default function SeoPropertyCard({
                   : locale === "en" ? `$${priceUsd.toLocaleString()} USD`
                   : `¥${property.price.toLocaleString()}`}
               </p>
-              {property.price > 0 && locale === "zh" && (
+              {property.price > 0 && (locale === "zh" || locale === "en") && (
                 <p className="text-xs text-gray-400 mt-0.5">
                   ≈ ¥{property.price.toLocaleString()} JPY
-                </p>
-              )}
-              {property.price > 0 && locale === "en" && (
-                <p className="text-xs text-gray-400 mt-0.5">
-                  ≈ ¥{property.price.toLocaleString()} JPY
-                </p>
-              )}
-              {property.price > 0 && locale === "ja" && priceUsd > 0 && (
-                <p className="text-xs text-gray-400 mt-0.5">
-                  ≈ ${priceUsd.toLocaleString()} USD
                 </p>
               )}
             </div>

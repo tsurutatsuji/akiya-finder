@@ -26,7 +26,7 @@
     "noRestrictions": "制限なし",
     "noRestrictionsDesc": "日本は外国人が制限なく不動産を購入できる数少ない国の一つです。ビザも居住権も不要です。",
     "affordable": "驚きの低価格",
-    "affordableDesc": "0円（無料空き家制度）から。地方の平均価格は$3,000〜$30,000。欧米の何分の一です。",
+    "affordableDesc": "0円（無料空き家制度）から。地方の平均価格は50万〜500万円。驚くほどの低価格です。",
     "architecture": "唯一無二の建築",
     "architectureDesc": "伝統的な古民家、町屋、農家住宅——世界のどこにもない日本ならではの建築様式。"
   },
@@ -125,9 +125,9 @@
     "allPrices": "全価格帯",
     "allTypes": "全タイプ",
     "priceFree": "無料 (¥0)",
-    "priceUnder1m": "¥100万以下 (~$6,600)",
-    "price1mTo5m": "¥100万〜500万 (~$6,600〜$33,000)",
-    "priceOver5m": "¥500万以上 (~$33,000+)",
+    "priceUnder1m": "¥100万以下",
+    "price1mTo5m": "¥100万〜500万",
+    "priceOver5m": "¥500万以上",
     "propertiesCount": "{count}件",
     "noResults": "条件に一致する物件がありません。検索条件を変更してみてください。",
     "search": "検索"
