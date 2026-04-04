@@ -7,6 +7,8 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { properties } from "@/data/properties";
 import { scrapedProperties } from "@/lib/scraped-properties";
+import { getDisplayImageUrl } from "@/lib/image-utils";
+import { Link } from "@/i18n/navigation";
 import { Suspense } from "react";
 
 function L(locale: string, zh: string, ja: string, en: string) {
@@ -23,11 +25,33 @@ function ContactForm() {
   const scrapedProperty = propertyId ? scrapedProperties.find((p) => p.id === propertyId) : null;
   const property = manualProperty || scrapedProperty;
 
-  const propertyDisplay = property
-    ? "title" in property
-      ? `${(property as any).title} (${(property as any).location})`
-      : `${(property as any).locationJa || (property as any).location} — ¥${(property as any).price?.toLocaleString()}`
-    : null;
+  // 物件情報をまとめる
+  const propertyInfo = property ? (() => {
+    if ("title" in property) {
+      // manual property
+      const p = property as any;
+      return {
+        id: p.id,
+        location: p.location,
+        price: p.price as number,
+        image: p.images?.[0] || null,
+        display: `${p.title} (${p.location})`,
+      };
+    } else {
+      // scraped property
+      const p = property as any;
+      const loc = locale === "zh" ? (p.locationZh || p.location)
+        : locale === "ja" ? (p.locationJa || p.location)
+        : p.location;
+      return {
+        id: p.id,
+        location: loc,
+        price: p.price as number,
+        image: getDisplayImageUrl(p),
+        display: `${p.locationJa || p.location} (${p.id})`,
+      };
+    }
+  })() : null;
 
   const [submitted, setSubmitted] = useState(false);
   const [sending, setSending] = useState(false);
@@ -48,7 +72,7 @@ function ContactForm() {
           email: formData.get("email"),
           country: formData.get("country"),
           message: formData.get("message"),
-          property: propertyDisplay || null,
+          property: propertyInfo?.display || null,
           propertyId: propertyId || null,
           locale,
         }),
@@ -112,10 +136,35 @@ function ContactForm() {
         )}
       </p>
 
-      {propertyDisplay && (
+      {propertyInfo && (
         <div className="bg-accent/5 border border-accent/20 rounded-lg p-4 mb-8">
-          <p className="text-sm text-gray-500">{L(locale, "咨询的物件：", "お問い合わせ対象：", "Inquiring about:")}</p>
-          <p className="font-semibold text-primary">{propertyDisplay}</p>
+          <p className="text-xs text-gray-400 mb-3">{L(locale, "咨询的物件：", "お問い合わせ対象：", "Inquiring about:")}</p>
+          <div className="flex gap-4">
+            {propertyInfo.image && (
+              <div className="w-24 h-24 rounded-lg overflow-hidden flex-shrink-0">
+                <img
+                  src={propertyInfo.image}
+                  alt={propertyInfo.location}
+                  className="w-full h-full object-cover"
+                />
+              </div>
+            )}
+            <div className="min-w-0">
+              <p className="font-semibold text-primary text-sm leading-tight mb-1">{propertyInfo.location}</p>
+              <p className="text-accent font-bold">
+                {propertyInfo.price === 0
+                  ? L(locale, "免费（¥0）", "無料（¥0）", "FREE (¥0)")
+                  : `¥${propertyInfo.price.toLocaleString()}`}
+              </p>
+              <p className="text-xs text-gray-400 mt-1">ID: {propertyInfo.id}</p>
+              <Link
+                href={`/properties/${propertyInfo.id}`}
+                className="text-xs text-accent hover:text-red-600 mt-1 inline-block"
+              >
+                {L(locale, "查看物件详情 →", "物件詳細を見る →", "View property →")}
+              </Link>
+            </div>
+          </div>
         </div>
       )}
 
