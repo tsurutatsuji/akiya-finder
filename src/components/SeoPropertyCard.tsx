@@ -117,22 +117,15 @@ export default function SeoPropertyCard({
           </div>
 
           {/* Metrics tags */}
-          <div className="flex flex-wrap gap-1.5 mt-2 pt-2 border-t border-gray-50">
-            {property.pricePerSqmUsd && (
-              <span className="text-xs bg-blue-50 text-blue-600 px-2 py-0.5 rounded-md font-medium">
-                {locale === "ja" ? `¥${Math.round(property.pricePerSqmUsd * 150).toLocaleString()}/㎡`
-                  : locale === "zh" ? `¥${Math.round(property.pricePerSqmUsd * 150 / 20).toLocaleString()}/㎡`
-                  : `$${property.pricePerSqmUsd}/sqm`}
-              </span>
-            )}
-            {property.buildingAge && (
+          {property.buildingAge && (
+            <div className="flex flex-wrap gap-1.5 mt-2 pt-2 border-t border-gray-50">
               <span className="text-xs bg-gray-50 text-gray-500 px-2 py-0.5 rounded-md">
                 {locale === "ja" ? `築${property.buildingAge}年`
                   : locale === "zh" ? `房龄${property.buildingAge}年`
                   : `${property.buildingAge}y old`}
               </span>
-            )}
-          </div>
+            </div>
+          )}
         </div>
       </div>
     </Link>
