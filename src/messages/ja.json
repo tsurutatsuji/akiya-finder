@@ -24,7 +24,7 @@
   "whyJapan": {
     "title": "なぜ日本の空き家？",
     "noRestrictions": "制限なし",
-    "noRestrictionsDesc": "日本は外国人が制限なく不動産を購入できる数少ない国の一つです。ビザも居住権も不要です。",
+    "noRestrictionsDesc": "日本は国籍を問わず制限なく不動産を購入できる国です。特別な許可は不要です。",
     "affordable": "驚きの低価格",
     "affordableDesc": "0円（無料空き家制度）から。地方の平均価格は50万〜500万円。驚くほどの低価格です。",
     "architecture": "唯一無二の建築",
@@ -118,7 +118,7 @@
     "photoSingle": "{current} / {total}",
     "listedDate": "掲載日: {date}",
     "breadcrumbProperties": "物件",
-    "cny": "約 ¥{amount} 人民元"
+    "cny": "約 ¥{amount} 中国元"
   },
   "filter": {
     "allPrefectures": "全都道府県",
@@ -199,11 +199,11 @@
     "countryLabel": "国 *",
     "countryPlaceholder": "お住まいの国",
     "budgetLabel": "予算",
-    "budget1": "無料 – $5,000",
-    "budget2": "$5,000 – $20,000",
-    "budget3": "$20,000 – $50,000",
-    "budget4": "$50,000 – $100,000",
-    "budget5": "$100,000+",
+    "budget1": "無料〜50万円",
+    "budget2": "50万〜300万円",
+    "budget3": "300万〜500万円",
+    "budget4": "500万〜1,000万円",
+    "budget5": "1,000万円以上",
     "messageLabel": "ご希望の物件は？ *",
     "messagePlaceholder": "理想の物件について教えてください：希望エリア、用途（移住・定住、セカンドハウス、リノベーションなど）、ご希望の条件など。",
     "submit": "問い合わせを送信（無料）",
@@ -220,9 +220,9 @@
   },
   "howItWorksPage": {
     "title": "日本で家を買う方法",
-    "subtitle": "外国人が日本で不動産を買うのは、思ったより簡単です。必要な情報をすべてお伝えします。",
-    "canBuyTitle": "外国人は日本で家を買えますか？",
-    "canBuyYes": "はい、買えます！日本は外国人の不動産所有に制限がない数少ない国の一つです。",
+    "subtitle": "空き家の購入は、思ったより簡単です。必要な情報をすべてお伝えします。",
+    "canBuyTitle": "空き家は誰でも買えますか？",
+    "canBuyYes": "はい。日本は不動産所有に制限がなく、国籍を問わず購入できます。",
     "canBuyNoVisa": "ビザ・居住権不要",
     "canBuyNoCitizenship": "国籍不要",
     "canBuyNoPermit": "特別な許可不要",
@@ -251,7 +251,7 @@
     "notesHeader": "備考",
     "costProperty": "物件価格",
     "costPropertyAmt": "¥0〜¥10,000,000+",
-    "costPropertyNote": "多くの空き家は無料または$10,000以下",
+    "costPropertyNote": "多くの空き家は無料または100万円以下",
     "costAgent": "仲介手数料",
     "costAgentAmt": "約3% + ¥60,000",
     "costAgentNote": "標準的な不動産手数料",
@@ -309,7 +309,7 @@
     "copyright": "© 2026 AKIYA. All rights reserved."
   },
   "currency": {
-    "cny": "約 ¥{amount} 人民元",
+    "cny": "約 ¥{amount} 中国元",
     "usd": "~${amount} USD",
     "jpy": "¥{amount}"
   },

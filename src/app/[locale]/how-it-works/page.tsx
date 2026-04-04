@@ -369,7 +369,7 @@ export default function HowItWorks({
                     </summary>
                     <p className="text-gray-500 text-sm leading-relaxed py-4 pl-1">
                       本站所有物件信息均已翻译为中文。
-                      当您需要联系不动产公司时，我们会为您介绍能够对应中文的不动产公司或提供翻译支持。
+                      当您需要联系不动产公司时，我们会通过邮件为您介绍当地的不动产公司。
                     </p>
                   </details>
                 </ScrollFadeIn>

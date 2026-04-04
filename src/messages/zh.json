@@ -103,7 +103,7 @@
     "details": "物件详情",
     "remarks": "备注",
     "source": "数据来源",
-    "sourceAtHome": "来源: @home空き家バンク",
+    "sourceAtHome": "来源: @home空置房银行",
     "viewOriginal": "查看原始页面",
     "inquire": "咨询此物件",
     "inquireTitle": "对此物件感兴趣？",
@@ -117,7 +117,7 @@
     "photoSingle": "{current} / {total}",
     "listedDate": "发布日期: {date}",
     "breadcrumbProperties": "物件",
-    "cny": "约 ¥{amount} 人民币"
+    "cny": "约 ¥{amount} 元"
   },
   "filter": {
     "allPrefectures": "全部都道府县",
@@ -160,7 +160,7 @@
   },
   "aboutPage": {
     "title": "关于日本空房网",
-    "intro": "日本空房网是一个将日本全国空き家バンク的房源信息翻译为中文、英文、日文的网站。希望移住日本、在日本定居的海外人士，可以在这里无语言障碍地查阅房源信息。",
+    "intro": "日本空房网是一个将日本全国空置房银行的房源信息翻译为中文、英文、日文的网站。希望移住日本、在日本定居的海外人士，可以在这里无语言障碍地查阅房源信息。",
     "propertiesListed": "物件数量",
     "propertiesListedDesc": "遍布47个都道府县的房源",
     "languages": "语言",
@@ -179,7 +179,7 @@
     "step3Desc": "不动产公司全程处理——看房、谈判、合同、登记。许多交易可远程完成。",
     "commitTitle": "我们的承诺",
     "freeForBuyers": "完全免费——不动产公司的介绍不收取任何费用",
-    "licensedOnly": "正规不动产公司——我们推荐的每一家不动产公司都持有日本宅建業免許",
+    "licensedOnly": "正规不动产公司——我们推荐的每一家不动产公司都持有日本不动产经纪许可证",
     "noPressure": "无压力——自由浏览，准备好了再咨询，没有任何义务",
     "updatedRegularly": "定期更新——我们定期从全日本的空置房银行更新房源信息",
     "readyTitle": "准备好探索了吗？",
@@ -229,7 +229,7 @@
     "canBuyRemote": "可从海外购买，无需亲自到场",
     "whatIsAkiyaTitle": "什么是空き家？",
     "whatIsAkiyaP1": "空き家（Akiya）的字面意思是'空房子'。由于日本人口老龄化和城市化迁移，全国有超过900万套空置房屋。",
-    "whatIsAkiyaP2": "许多地方政府通过空き家バンク（空置房银行）计划免费或以极低价格提供这些房屋，有时还提供100万日元以上（约6,600美元+）的翻新补贴。",
+    "whatIsAkiyaP2": "许多地方政府通过空置房银行（空置房银行）计划免费或以极低价格提供这些房屋，有时还提供100万日元以上（约6,600美元+）的翻新补贴。",
     "whatIsAkiyaP3": "问题是？几乎所有空置房信息都只有日文。这正是日本空房网存在的意义。",
     "stepsTitle": "购买流程（分步指南）",
     "step1Title": "在日本空房网上找到物件",
@@ -301,14 +301,14 @@
     "purchaseSupport": "购买支持",
     "getStarted": "免费咨询",
     "disclaimer": "免责声明",
-    "disclaimerText": "日本空房网是信息展示和转介服务。我们不是不动产公司。所有物件交易由持有宅建業免許的日本不动产公司处理。物件信息仅供参考。",
+    "disclaimerText": "日本空房网是信息展示和转介服务。我们不是不动产公司。所有物件交易由持有不动产经纪许可证的日本不动产公司处理。物件信息仅供参考。",
     "popularPrefectures": "热门都道府县",
     "akiyaIn": "{prefecture}的空置房",
     "allPrefectures": "全部47个都道府县 →",
     "copyright": "© 2026 日本空房网. 保留所有权利。"
   },
   "currency": {
-    "cny": "约 ¥{amount} 人民币",
+    "cny": "约 ¥{amount} 元",
     "usd": "~${amount} USD",
     "jpy": "¥{amount}"
   },
