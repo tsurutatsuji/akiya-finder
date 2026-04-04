@@ -106,12 +106,8 @@ export default function PropertiesPage() {
       // 目的別
       if (purposeFilter) {
         const tags = getInvestmentTags(p);
-        if (purposeFilter === "relocation") {
-          // 移住: 戸建+空+500万以下
-          if (p.propertyType !== "売戸建" || p.currentStatus !== "空" || p.price > 5000000) return false;
-        }
-        if (purposeFilter === "vacation") {
-          // 別荘: 戸建+空
+        if (purposeFilter === "move-in") {
+          // 即入居可: 戸建+空き
           if (p.propertyType !== "売戸建" || p.currentStatus !== "空") return false;
         }
         if (purposeFilter === "airbnb") {
@@ -119,10 +115,13 @@ export default function PropertiesPage() {
           if (!tags.includes("airbnb-ready")) return false;
         }
         if (purposeFilter === "renovation") {
-          // リノベ: 戸建+築50年以上+300万以下
+          // リノベ: 戸建+築40年以上
           if (p.propertyType !== "売戸建") return false;
-          if (!p.buildingAge || p.buildingAge < 50) return false;
-          if (p.price > 3000000) return false;
+          if (!p.buildingAge || p.buildingAge < 40) return false;
+        }
+        if (purposeFilter === "free") {
+          // 無料・格安: 50万以下
+          if (p.price > 500000) return false;
         }
         if (purposeFilter === "land-only") {
           // 土地のみ
@@ -193,8 +192,8 @@ export default function PropertiesPage() {
         <div className="flex flex-wrap gap-2 mb-6">
           {[
             { id: "", label: L(locale, "全部", "すべて", "All") },
-            { id: "relocation", label: L(locale, "移住・定居", "移住・定住", "Relocation") },
-            { id: "vacation", label: L(locale, "度假别墅", "別荘・セカンドハウス", "Vacation Home") },
+            { id: "move-in", label: L(locale, "即可入住", "即入居可", "Move-in Ready") },
+            { id: "free", label: L(locale, "免费・低价", "無料・格安", "Free / Budget") },
             { id: "airbnb", label: L(locale, "民宿经营", "民泊・Airbnb", "Airbnb") },
             { id: "renovation", label: L(locale, "翻新改造", "リノベーション", "Renovation") },
             { id: "land-only", label: L(locale, "仅土地", "土地のみ", "Land Only") },
