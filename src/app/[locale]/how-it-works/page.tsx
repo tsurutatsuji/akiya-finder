@@ -147,44 +147,52 @@ export default function HowItWorks({
               </p>
             </ScrollFadeIn>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div className="space-y-12">
               <ScrollFadeIn delay={200}>
-                <div className="bg-gray-50 p-8 rounded-2xl border border-gray-100">
-                  <p className="text-4xl font-light text-accent mb-4">01</p>
-                  <h3 className="font-semibold text-gray-900 mb-3">掲載は完全無料</h3>
-                  <p className="text-sm text-gray-500 leading-relaxed">
-                    御自治体の空き家バンク公開情報を翻訳・掲載します。費用は一切かかりません。
-                  </p>
+                <div className="flex gap-6">
+                  <div className="text-3xl font-light text-gray-300 shrink-0 w-16">01</div>
+                  <div>
+                    <h3 className="font-semibold text-gray-900 mb-2">掲載は完全無料</h3>
+                    <p className="text-gray-500 text-sm leading-relaxed">
+                      御自治体の空き家バンク公開情報を翻訳・掲載します。費用は一切かかりません。
+                    </p>
+                  </div>
                 </div>
               </ScrollFadeIn>
 
               <ScrollFadeIn delay={400}>
-                <div className="bg-gray-50 p-8 rounded-2xl border border-gray-100">
-                  <p className="text-4xl font-light text-accent mb-4">02</p>
-                  <h3 className="font-semibold text-gray-900 mb-3">公式情報を翻訳・掲載</h3>
-                  <p className="text-sm text-gray-500 leading-relaxed">
-                    御自治体が公開されている空き家バンクの情報を、中国語・英語・日本語の3言語に翻訳して掲載します。
-                  </p>
+                <div className="flex gap-6">
+                  <div className="text-3xl font-light text-gray-300 shrink-0 w-16">02</div>
+                  <div>
+                    <h3 className="font-semibold text-gray-900 mb-2">公式情報を翻訳・掲載</h3>
+                    <p className="text-gray-500 text-sm leading-relaxed">
+                      御自治体が公開されている空き家バンクの情報を、中国語・英語・日本語の3言語に翻訳して掲載します。
+                    </p>
+                  </div>
                 </div>
               </ScrollFadeIn>
 
               <ScrollFadeIn delay={600}>
-                <div className="bg-gray-50 p-8 rounded-2xl border border-gray-100">
-                  <p className="text-4xl font-light text-accent mb-4">03</p>
-                  <h3 className="font-semibold text-gray-900 mb-3">問い合わせを窓口にお繋ぎ</h3>
-                  <p className="text-sm text-gray-500 leading-relaxed">
-                    海外からの問い合わせを、御自治体の担当窓口または現地の不動産会社にお繋ぎします。
-                  </p>
+                <div className="flex gap-6">
+                  <div className="text-3xl font-light text-gray-300 shrink-0 w-16">03</div>
+                  <div>
+                    <h3 className="font-semibold text-gray-900 mb-2">問い合わせを窓口にお繋ぎ</h3>
+                    <p className="text-gray-500 text-sm leading-relaxed">
+                      海外からの問い合わせを、御自治体の担当窓口または現地の不動産会社にお繋ぎします。
+                    </p>
+                  </div>
                 </div>
               </ScrollFadeIn>
 
               <ScrollFadeIn delay={800}>
-                <div className="bg-gray-50 p-8 rounded-2xl border border-gray-100">
-                  <p className="text-4xl font-light text-accent mb-4">04</p>
-                  <h3 className="font-semibold text-gray-900 mb-3">リンク掲載のお願い</h3>
-                  <p className="text-sm text-gray-500 leading-relaxed">
-                    御自治体のWebサイトにAKIYAへのリンクを掲載いただける場合は、お気軽にお知らせください。
-                  </p>
+                <div className="flex gap-6">
+                  <div className="text-3xl font-light text-gray-300 shrink-0 w-16">04</div>
+                  <div>
+                    <h3 className="font-semibold text-gray-900 mb-2">リンク掲載のお願い</h3>
+                    <p className="text-gray-500 text-sm leading-relaxed">
+                      御自治体のWebサイトにAKIYAへのリンクを掲載いただける場合は、お気軽にお知らせください。
+                    </p>
+                  </div>
                 </div>
               </ScrollFadeIn>
             </div>
@@ -205,7 +213,7 @@ export default function HowItWorks({
             </ScrollFadeIn>
 
             <ScrollFadeIn delay={200}>
-              <div className="bg-gray-50 rounded-2xl border border-gray-100 p-8">
+              <div>
                 <table className="w-full text-sm">
                   <thead>
                     <tr className="border-b border-gray-200">
