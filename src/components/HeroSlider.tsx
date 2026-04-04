@@ -82,7 +82,7 @@ export default function HeroSlider({ totalCount }: HeroSliderProps) {
       {/* Content — LUVIA風 2行構成 */}
       <div className="relative z-10 flex flex-col justify-center items-center h-full text-center px-8">
         {/* 英語（大きく、セリフ体） */}
-        <h1 className="hero-title-en text-3xl md:text-5xl lg:text-6xl text-white tracking-[0.15em] drop-shadow-lg" style={{ fontFamily: "'Playfair Display', 'Noto Serif JP', serif" }}>
+        <h1 className="hero-title-en text-4xl md:text-6xl lg:text-8xl text-white tracking-[0.15em] drop-shadow-lg" style={{ fontFamily: "'Playfair Display', 'Noto Serif JP', serif" }}>
           {t("heroNew.titleEn")}
         </h1>
         {/* 日本語/中国語（その下に、小さめ） */}
