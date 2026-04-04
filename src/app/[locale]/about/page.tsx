@@ -115,74 +115,6 @@ export default function AboutPage({
         </div>
       </section>
 
-      {/* Flow — Steps */}
-      <section className="py-20 bg-white">
-        <div className="max-w-5xl mx-auto px-8 md:px-16 lg:px-24">
-          <ScrollFadeIn>
-            <p className="text-sm tracking-[0.3em] uppercase text-gray-400 mb-4">Flow</p>
-            <h2 className="text-2xl md:text-3xl font-light text-gray-900 mb-14">
-              {L(locale, "使用流程", "ご利用の流れ", "How it works")}
-            </h2>
-          </ScrollFadeIn>
-
-          <div className="space-y-12">
-            <ScrollFadeIn delay={200}>
-              <div className="flex gap-6">
-                <div className="text-3xl font-light text-gray-300 shrink-0 w-16">01</div>
-                <div>
-                  <h3 className="font-semibold text-gray-900 mb-2">
-                    {L(locale, "搜索房源", "物件を探す", "Search properties")}
-                  </h3>
-                  <p className="text-gray-500 text-sm leading-relaxed">
-                    {L(locale,
-                      "按价格、地区、房屋类型搜索4,335+套房源。所有信息均以中文显示。",
-                      "価格・地域・物件タイプで4,335件以上の物件を検索。すべて母国語で表示されます。",
-                      "Browse 4,335+ properties by price, location, and type. Everything displayed in your language."
-                    )}
-                  </p>
-                </div>
-              </div>
-            </ScrollFadeIn>
-
-            <ScrollFadeIn delay={400}>
-              <div className="flex gap-6">
-                <div className="text-3xl font-light text-gray-300 shrink-0 w-16">02</div>
-                <div>
-                  <h3 className="font-semibold text-gray-900 mb-2">
-                    {L(locale, "查看详情", "詳細を確認する", "View details")}
-                  </h3>
-                  <p className="text-gray-500 text-sm leading-relaxed">
-                    {L(locale,
-                      "查看物件照片、间取图、位置地图、街景视图。了解价格、面积、建筑年限等详细信息。",
-                      "物件の写真、間取り図、地図、ストリートビューを確認。価格・面積・築年数などの詳細情報を確認できます。",
-                      "View photos, floor plans, location maps, and street views. Check price, area, building age, and more."
-                    )}
-                  </p>
-                </div>
-              </div>
-            </ScrollFadeIn>
-
-            <ScrollFadeIn delay={600}>
-              <div className="flex gap-6">
-                <div className="text-3xl font-light text-gray-300 shrink-0 w-16">03</div>
-                <div>
-                  <h3 className="font-semibold text-gray-900 mb-2">
-                    {L(locale, "联系当地不动产公司", "現地の不動産会社に繋がる", "Connect with a local agent")}
-                  </h3>
-                  <p className="text-gray-500 text-sm leading-relaxed">
-                    {L(locale,
-                      "找到心仪的房源后，我们会为您联系当地的不动产公司。内覧・交渉・契約手続きをサポートします。",
-                      "気に入った物件が見つかったら、現地の不動産会社にお繋ぎします。内見・交渉・契約手続きをサポートします。",
-                      "When you find a property you like, we connect you with a local real estate company who handles viewings, negotiations, and contracts."
-                    )}
-                  </p>
-                </div>
-              </div>
-            </ScrollFadeIn>
-          </div>
-        </div>
-      </section>
-
       {/* Company */}
       <section className="py-20 bg-gray-50">
         <div className="max-w-5xl mx-auto px-8 md:px-16 lg:px-24">
@@ -194,7 +126,7 @@ export default function AboutPage({
           </ScrollFadeIn>
 
           <ScrollFadeIn delay={200}>
-            <div className="bg-white rounded-2xl border border-gray-100 p-8">
+            <div>
               <table className="w-full text-sm">
                 <tbody>
                   <tr className="border-b border-gray-50">
