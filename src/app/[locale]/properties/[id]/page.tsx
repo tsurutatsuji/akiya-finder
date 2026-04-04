@@ -266,7 +266,7 @@ function ManualPropertyPage({ property }: { property: Property }) {
         </div>
         )}
       </div>
-      <StickyContactBar propertyId={property.id} priceDisplay={priceDisplay} />
+      <StickyContactBar propertyId={property.id} propertyTitle={property.title} priceDisplay={priceDisplay} />
       <Footer />
     </>
   );
@@ -710,7 +710,7 @@ function ScrapedPropertyPage({ property: p, locale = "zh" }: { property: Scraped
           </div>
         )}
       </div>
-      <StickyContactBar propertyId={p.id} priceDisplay={priceDisplay} />
+      <StickyContactBar propertyId={p.id} propertyTitle={p.locationJa || p.location} priceDisplay={priceDisplay} />
       <Footer />
     </>
   );
