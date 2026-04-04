@@ -57,12 +57,7 @@ export default function Header() {
           >
             {t("properties")}
           </Link>
-          <Link
-            href="/akiya-bank"
-            className="text-gray-600 hover:text-primary hover:bg-gray-50 transition px-3 py-2 rounded-lg"
-          >
-            {t("akiyaBank")}
-          </Link>
+          {/* akiya-bank は properties に統合 */}
           {/* マップ — 座標精度改善後に復活 */}
           {false && (
           <Link
@@ -170,7 +165,7 @@ export default function Header() {
       {mobileOpen && (
         <div className="lg:hidden border-t border-gray-100 bg-white px-4 py-4 space-y-1">
           <Link href="/properties" className="block text-gray-600 hover:text-primary hover:bg-gray-50 text-sm px-3 py-2 rounded-lg" onClick={() => setMobileOpen(false)}>{t("properties")}</Link>
-          <Link href="/akiya-bank" className="block text-gray-600 hover:text-primary hover:bg-gray-50 text-sm px-3 py-2 rounded-lg" onClick={() => setMobileOpen(false)}>{t("akiyaBank")}</Link>
+          {/* akiya-bank は properties に統合 */}
           {/* マップ — 座標精度改善後に復活 */}
           <Link href="/how-it-works" className="block text-gray-600 hover:text-primary hover:bg-gray-50 text-sm px-3 py-2 rounded-lg" onClick={() => setMobileOpen(false)}>{t("howItWorks")}</Link>
           <Link href="/blog" className="block text-gray-600 hover:text-primary hover:bg-gray-50 text-sm px-3 py-2 rounded-lg" onClick={() => setMobileOpen(false)}>{t("blog")}</Link>
