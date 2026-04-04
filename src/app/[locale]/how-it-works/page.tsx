@@ -266,7 +266,8 @@ export default function HowItWorks({
         </section>
       )}
 
-      {/* FAQ */}
+      {/* FAQ — LPに統合済みのため非表示 */}
+      {false && (
       <section className="py-20 bg-gray-50">
         <div className="max-w-5xl mx-auto px-8 md:px-16 lg:px-24">
           <ScrollFadeIn>
@@ -464,6 +465,8 @@ export default function HowItWorks({
           </div>
         </div>
       </section>
+
+      )}
 
       {/* CTA */}
       <section className="py-20 bg-white">
