@@ -1,0 +1,348 @@
+import Header from "@/components/Header";
+import Footer from "@/components/Footer";
+import { Link } from "@/i18n/navigation";
+import { L } from "@/lib/locale-utils";
+import ScrollFadeIn from "@/components/ScrollFadeIn";
+
+export default function SupportPage({
+  params,
+}: {
+  params: { locale: string };
+}) {
+  const locale = params.locale;
+
+  const services = [
+    {
+      num: "01",
+      title: L(locale,
+        "价格谈判代行",
+        "価格交渉の代行",
+        "Price negotiation"
+      ),
+      desc: L(locale,
+        "我们代替您与自治体或卖方进行价格谈判。利用对日本空置房市场的深入了解，帮您争取最优价格。",
+        "自治体や売主との価格交渉を代行します。空き家市場に精通したスタッフが、最適な条件を引き出します。",
+        "We negotiate with municipalities and sellers on your behalf, leveraging deep knowledge of the akiya market to get you the best deal."
+      ),
+    },
+    {
+      num: "02",
+      title: L(locale,
+        "自治体沟通代行",
+        "自治体とのやり取り代行",
+        "Municipality liaison"
+      ),
+      desc: L(locale,
+        "日本的自治体通常只接受日语沟通。我们代替您完成所有咨询、申请和文件提交工作。",
+        "日本の自治体は日本語のみ対応がほとんどです。お問い合わせ・申請・書類提出をすべて代行します。",
+        "Japanese municipalities typically only communicate in Japanese. We handle all inquiries, applications, and document submissions for you."
+      ),
+    },
+    {
+      num: "03",
+      title: L(locale,
+        "文件翻译与说明",
+        "書類の翻訳・説明",
+        "Document translation"
+      ),
+      desc: L(locale,
+        "购房合同、重要事项说明书等日语文件，全部翻译并为您详细说明每一项条款。",
+        "売買契約書・重要事項説明書などの日本語書類を翻訳し、各条項を丁寧にご説明します。",
+        "Purchase contracts, property disclosures, and other Japanese documents — fully translated and explained clause by clause."
+      ),
+    },
+    {
+      num: "04",
+      title: L(locale,
+        "现场看房安排",
+        "内覧の手配",
+        "Property viewing arrangement"
+      ),
+      desc: L(locale,
+        "协调自治体或卖方，为您安排现场看房或线上视频看房。",
+        "自治体・売主と調整し、現地内覧またはオンライン内覧を手配します。",
+        "We coordinate with municipalities and sellers to arrange in-person or online property viewings."
+      ),
+    },
+    {
+      num: "05",
+      title: L(locale,
+        "购房流程全程指导",
+        "購入手続きのサポート",
+        "End-to-end purchase guidance"
+      ),
+      desc: L(locale,
+        "从物件选定到交付，全程为您提供指导。让您在母语环境下安心完成购房。",
+        "物件選定から引き渡しまで、全プロセスをサポート。母国語で安心して購入手続きを進められます。",
+        "From property selection to handover, we guide you through every step — in your language, at your pace."
+      ),
+    },
+  ];
+
+  return (
+    <>
+      <Header />
+
+      {/* Hero */}
+      <section className="py-24 md:py-32 bg-white">
+        <div className="max-w-5xl mx-auto px-8 md:px-16 lg:px-24">
+          <ScrollFadeIn>
+            <p className="text-sm tracking-[0.3em] uppercase text-gray-400 mb-6">Purchase Support</p>
+          </ScrollFadeIn>
+          <ScrollFadeIn delay={200}>
+            <h1 className="text-2xl md:text-4xl font-light text-gray-900 leading-relaxed mb-10">
+              {L(locale,
+                "语言不通？手续复杂？\n我们替您搞定一切。",
+                "言葉の壁も、手続きの壁も。\nすべて、私たちにお任せください。",
+                "Language barriers? Complex procedures?\nWe handle everything for you."
+              )}
+            </h1>
+          </ScrollFadeIn>
+          <ScrollFadeIn delay={400}>
+            <div className="text-base md:text-lg text-gray-500 leading-loose whitespace-pre-line max-w-2xl">
+              {L(locale,
+                "日本空置房的购买手续全部以日语进行，\n对于海外买家来说是一道巨大的壁垒。\n\n我们提供从价格谈判到文件翻译的全方位支持，\n让您在母语环境下安心完成购房。",
+                "日本の空き家購入手続きはすべて日本語で行われ、\n海外の方にとって大きな壁となっています。\n\n価格交渉から書類翻訳まで、母国語での\n安心サポートを提供します。",
+                "Purchasing an akiya in Japan requires navigating\nJapanese-only procedures and documentation.\n\nOur bilingual team handles negotiations, paperwork,\nand communication — so you can buy with confidence."
+              )}
+            </div>
+          </ScrollFadeIn>
+        </div>
+      </section>
+
+      {/* What's included */}
+      <section className="py-20 bg-gray-50">
+        <div className="max-w-5xl mx-auto px-8 md:px-16 lg:px-24">
+          <ScrollFadeIn>
+            <p className="text-sm tracking-[0.3em] uppercase text-gray-400 mb-4">Package</p>
+            <h2 className="text-2xl md:text-3xl font-light text-gray-900 mb-4">
+              {L(locale, "支持套餐", "サポート内容", "What's included")}
+            </h2>
+          </ScrollFadeIn>
+
+          <ScrollFadeIn delay={200}>
+            <div className="bg-white rounded-2xl border border-gray-100 p-8 md:p-12 max-w-lg">
+              <p className="text-sm text-gray-500 leading-relaxed mb-8">
+                {L(locale,
+                  "从咨询到交付，全程一站式支持。\n费用因物件和地区而异，请先联系我们获取详情。",
+                  "ご相談から引き渡しまで、ワンストップでサポート。\n費用は物件・地域によって異なります。まずはお気軽にお問い合わせください。",
+                  "End-to-end support from consultation to handover.\nFees vary by property and region — contact us for details."
+                )}
+              </p>
+              <ul className="space-y-3 text-sm text-gray-600 mb-8">
+                {[
+                  L(locale, "价格谈判代行", "価格交渉の代行", "Price negotiation on your behalf"),
+                  L(locale, "自治体沟通代行", "自治体とのやり取り代行", "Municipality communication"),
+                  L(locale, "全部文件翻译", "全書類の翻訳", "Full document translation"),
+                  L(locale, "看房安排", "内覧の手配", "Property viewing arrangement"),
+                  L(locale, "购房流程全程指导", "購入手続きサポート", "End-to-end purchase guidance"),
+                ].map((item, i) => (
+                  <li key={i} className="flex items-center gap-3">
+                    <span className="w-5 h-5 rounded-full bg-accent/10 text-accent flex items-center justify-center text-xs flex-shrink-0">✓</span>
+                    {item}
+                  </li>
+                ))}
+              </ul>
+              <Link
+                href="/contact"
+                className="inline-block text-gray-600 hover:text-gray-900 text-sm tracking-[0.2em] uppercase border-b border-gray-400 hover:border-gray-900 pb-1 transition"
+              >
+                {L(locale, "免费咨询 →", "まずは無料相談 →", "Free consultation →")}
+              </Link>
+            </div>
+          </ScrollFadeIn>
+        </div>
+      </section>
+
+      {/* Services Detail */}
+      <section className="py-20 bg-white">
+        <div className="max-w-5xl mx-auto px-8 md:px-16 lg:px-24">
+          <ScrollFadeIn>
+            <p className="text-sm tracking-[0.3em] uppercase text-gray-400 mb-4">Service</p>
+            <h2 className="text-2xl md:text-3xl font-light text-gray-900 mb-4">
+              {L(locale, "支持内容", "サポート内容", "What's included")}
+            </h2>
+            <p className="text-gray-500 mb-14 max-w-xl">
+              {L(locale,
+                "您只需选好房子。剩下的，交给我们。",
+                "物件を選ぶだけ。あとは、すべてお任せください。",
+                "Just pick your property. We'll take care of the rest."
+              )}
+            </p>
+          </ScrollFadeIn>
+
+          <div className="space-y-8">
+            {services.map((s, i) => (
+              <ScrollFadeIn key={i} delay={i * 100}>
+                <div className="flex gap-6 md:gap-10 py-6 border-b border-gray-100">
+                  <p className="text-3xl font-light text-accent shrink-0 w-12">{s.num}</p>
+                  <div>
+                    <h3 className="font-semibold text-gray-900 mb-2">{s.title}</h3>
+                    <p className="text-sm text-gray-500 leading-relaxed max-w-lg">{s.desc}</p>
+                  </div>
+                </div>
+              </ScrollFadeIn>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Process */}
+      <section className="py-20 bg-gray-50">
+        <div className="max-w-5xl mx-auto px-8 md:px-16 lg:px-24">
+          <ScrollFadeIn>
+            <p className="text-sm tracking-[0.3em] uppercase text-gray-400 mb-4">Process</p>
+            <h2 className="text-2xl md:text-3xl font-light text-gray-900 mb-14">
+              {L(locale, "利用流程", "ご利用の流れ", "How it works")}
+            </h2>
+          </ScrollFadeIn>
+
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+            {[
+              {
+                step: "1",
+                title: L(locale, "选择房产", "物件を選ぶ", "Choose a property"),
+                desc: L(locale,
+                  "在日本空房网上浏览4,335+套房源，找到心仪的物件。",
+                  "AKIYAで4,335件以上の物件から、気になる物件を見つけてください。",
+                  "Browse 4,335+ listings on AkiyaFinder and find one you like."
+                ),
+              },
+              {
+                step: "2",
+                title: L(locale, "申请支持", "サポートを申込", "Apply for support"),
+                desc: L(locale,
+                  "通过咨询表单申请购买支持，告诉我们您的需求。",
+                  "お問い合わせフォームからサポートを申し込み、ご要望をお伝えください。",
+                  "Submit an inquiry through our form and tell us your requirements."
+                ),
+              },
+              {
+                step: "3",
+                title: L(locale, "我们代行", "私たちが代行", "We take over"),
+                desc: L(locale,
+                  "我们替您与自治体沟通、进行价格谈判、翻译文件。",
+                  "自治体との連絡・価格交渉・書類翻訳をすべて代行します。",
+                  "We handle municipality communication, price negotiation, and paperwork."
+                ),
+              },
+              {
+                step: "4",
+                title: L(locale, "安心购入", "安心して購入", "Buy with confidence"),
+                desc: L(locale,
+                  "在母语环境下完成购房手续。全程透明，安心放心。",
+                  "母国語で安心して購入手続きを完了。全プロセス透明で安心です。",
+                  "Complete your purchase in your language. Full transparency, total peace of mind."
+                ),
+              },
+            ].map((item, i) => (
+              <ScrollFadeIn key={i} delay={i * 150}>
+                <div>
+                  <div className="w-10 h-10 rounded-full border border-accent/30 flex items-center justify-center text-accent font-light text-lg mb-4">
+                    {item.step}
+                  </div>
+                  <h3 className="font-semibold text-gray-900 mb-2 text-sm">{item.title}</h3>
+                  <p className="text-sm text-gray-500 leading-relaxed">{item.desc}</p>
+                </div>
+              </ScrollFadeIn>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* FAQ */}
+      <section className="py-20 bg-white">
+        <div className="max-w-5xl mx-auto px-8 md:px-16 lg:px-24">
+          <ScrollFadeIn>
+            <p className="text-sm tracking-[0.3em] uppercase text-gray-400 mb-4">FAQ</p>
+            <h2 className="text-2xl md:text-3xl font-light text-gray-900 mb-14">
+              {L(locale, "常见问题", "よくある質問", "Frequently asked questions")}
+            </h2>
+          </ScrollFadeIn>
+
+          <div className="space-y-8 max-w-2xl">
+            {[
+              {
+                q: L(locale, "不动产执照是否需要？", "宅建免許は必要ですか？", "Do you have a real estate license?"),
+                a: L(locale,
+                  "我们提供的是翻译、沟通代行和咨询服务，不是不动产中介。实际的买卖合同由持牌的日本不动产公司处理。",
+                  "私たちが提供するのは翻訳・連絡代行・コンサルティングサービスであり、不動産仲介ではありません。実際の売買契約は提携する宅建業者が担当します。",
+                  "We provide translation, communication coordination, and consulting — not real estate brokerage. Actual purchase contracts are handled by licensed Japanese real estate agents."
+                ),
+              },
+              {
+                q: L(locale, "谈判能省多少钱？", "交渉でどのくらい安くなりますか？", "How much can you save through negotiation?"),
+                a: L(locale,
+                  "根据物件情况不同，但空置房的卖方通常急于出手。很多情况下，通过谈判可以获得可观的折扣。具体金额请咨询时详细说明。",
+                  "物件によりますが、空き家の売主は早期売却を希望するケースが多く、交渉で大幅な値引きが可能なケースも少なくありません。詳しくはお問い合わせ時にご説明します。",
+                  "It varies by property, but akiya sellers are often motivated to sell quickly. Significant discounts are often achievable. Contact us for details."
+                ),
+              },
+              {
+                q: L(locale, "需要多长时间？", "どのくらい時間がかかりますか？", "How long does the process take?"),
+                a: L(locale,
+                  "从申请到完成购买，通常需要1-3个月。自治体的处理速度因地区而异。",
+                  "お申し込みから購入完了まで、通常1〜3ヶ月です。自治体の処理速度は地域によって異なります。",
+                  "From application to purchase completion, typically 1–3 months. Processing speed varies by municipality."
+                ),
+              },
+              {
+                q: L(locale, "可以远程完成吗？", "リモートで完結できますか？", "Can everything be done remotely?"),
+                a: L(locale,
+                  "大部分手续可以远程完成。看房可通过视频进行。最终的产权登记可能需要委托书（我们会协助准备）。",
+                  "ほとんどの手続きはリモートで完結可能です。内覧はビデオ通話で対応。最終的な所有権登記には委任状が必要な場合があります（準備をサポートします）。",
+                  "Most procedures can be completed remotely. Viewings can be done via video call. Final ownership registration may require a power of attorney (we'll help prepare it)."
+                ),
+              },
+            ].map((item, i) => (
+              <ScrollFadeIn key={i} delay={i * 100}>
+                <div className="border-b border-gray-100 pb-6">
+                  <h3 className="font-semibold text-gray-900 mb-2">{item.q}</h3>
+                  <p className="text-sm text-gray-500 leading-relaxed">{item.a}</p>
+                </div>
+              </ScrollFadeIn>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* CTA */}
+      <section className="py-20 bg-gray-50">
+        <div className="max-w-3xl mx-auto px-8 text-center">
+          <ScrollFadeIn>
+            <h2 className="text-2xl md:text-3xl font-light text-gray-900 mb-4">
+              {L(locale,
+                "让购房变得简单",
+                "空き家購入を、もっとシンプルに",
+                "Make buying an akiya simple"
+              )}
+            </h2>
+            <p className="text-gray-500 mb-8">
+              {L(locale,
+                "先浏览房源，找到心仪的物件后，随时联系我们。",
+                "まずは物件を探して、気になる物件が見つかったらご連絡ください。",
+                "Browse properties first. When you find one you like, reach out to us."
+              )}
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Link
+                href="/properties"
+                className="inline-block text-gray-600 hover:text-gray-900 text-sm tracking-[0.2em] uppercase border-b border-gray-400 hover:border-gray-900 pb-1 transition"
+              >
+                {L(locale, "浏览房源 →", "物件を探す →", "Browse properties →")}
+              </Link>
+              <Link
+                href="/contact"
+                className="inline-block text-accent hover:text-red-700 text-sm tracking-[0.2em] uppercase border-b border-accent/40 hover:border-red-700 pb-1 transition"
+              >
+                {L(locale, "申请支持 →", "サポートを申し込む →", "Apply for support →")}
+              </Link>
+            </div>
+          </ScrollFadeIn>
+        </div>
+      </section>
+
+      <Footer />
+    </>
+  );
+}

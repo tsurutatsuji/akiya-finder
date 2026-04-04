@@ -90,6 +90,12 @@ export default function Header() {
           >
             {t("about")}
           </Link>
+          <Link
+            href="/support"
+            className="text-accent hover:text-red-700 hover:bg-red-50 transition px-3 py-2 rounded-lg font-medium"
+          >
+            {t("support")}
+          </Link>
 
           {/* Divider */}
           <div className="w-px h-5 bg-gray-200 mx-1" />
@@ -169,6 +175,7 @@ export default function Header() {
           <Link href="/how-it-works" className="block text-gray-600 hover:text-primary hover:bg-gray-50 text-sm px-3 py-2 rounded-lg" onClick={() => setMobileOpen(false)}>{t("howItWorks")}</Link>
           <Link href="/blog" className="block text-gray-600 hover:text-primary hover:bg-gray-50 text-sm px-3 py-2 rounded-lg" onClick={() => setMobileOpen(false)}>{t("blog")}</Link>
           <Link href="/about" className="block text-gray-600 hover:text-primary hover:bg-gray-50 text-sm px-3 py-2 rounded-lg" onClick={() => setMobileOpen(false)}>{t("about")}</Link>
+          <Link href="/support" className="block text-accent hover:text-red-700 hover:bg-red-50 text-sm px-3 py-2 rounded-lg font-medium" onClick={() => setMobileOpen(false)}>{t("support")}</Link>
           <div className="flex gap-2 pt-3 mt-2 border-t border-gray-100">
             {locales.map((l) => (
               <button

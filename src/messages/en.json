@@ -7,6 +7,7 @@
     "howItWorks": "How It Works",
     "blog": "News",
     "about": "About",
+    "support": "Purchase Support",
     "contact": "Contact",
     "getStarted": "Get Started"
   },
@@ -297,6 +298,7 @@
     "blogEn": "Blog (English)",
     "blogZh": "Blog (中文)",
     "aboutUs": "About Us",
+    "purchaseSupport": "Purchase Support",
     "getStarted": "Get Started — Free",
     "disclaimer": "Disclaimer",
     "disclaimerText": "AkiyaFinder is an information and referral service. We are not a real estate agency. All property transactions are handled by licensed Japanese real estate companies. Property information is for reference only.",
