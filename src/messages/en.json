@@ -66,9 +66,9 @@
     "step1Title": "We Find Properties",
     "step1Desc": "We search Japanese-only property databases, akiya banks, and SUUMO daily to find the best deals across Japan.",
     "step2Title": "We Translate Everything",
-    "step2Desc": "All property information, including location details, pricing, and features, is translated into clear English for you.",
+    "step2Desc": "All property information, including location, pricing, and features, is available in English.",
     "step3Title": "We Connect You",
-    "step3Desc": "When you find a property you like, we'll connect you with a local real estate agent.",
+    "step3Desc": "When you find a property you like, we introduce you to a local real estate agent.",
     "cta": "Start Your Search"
   },
   "newsletter": {
@@ -232,15 +232,15 @@
     "whatIsAkiyaP3": "The problem? Almost all akiya information is in Japanese only. That's where AkiyaFinder comes in.",
     "stepsTitle": "The Buying Process (Step by Step)",
     "step1Title": "Find a Property on AkiyaFinder",
-    "step1Desc": "Browse our curated listings, all translated into English. Filter by price, location, and property type.",
+    "step1Desc": "Browse our listings, all available in English. Filter by price, location, and property type.",
     "step2Title": "Submit an Inquiry",
     "step2Desc": "Click 'Inquire' on any property. Tell us about yourself and what you're looking for. It's free and no obligation.",
     "step3Title": "Get Connected to a Local Agent",
-    "step3Desc": "We'll connect you with a licensed, English-speaking real estate agent in that area. They'll handle everything from here.",
+    "step3Desc": "We introduce you to a local real estate agent.",
     "step4Title": "Property Viewing & Due Diligence",
     "step4Desc": "Your agent arranges a viewing (in-person or virtual). They'll check the property condition, legal status, and any issues.",
     "step5Title": "Make an Offer & Sign Contract",
-    "step5Desc": "Your agent negotiates the price and handles all paperwork in Japanese. You'll receive English translations of key documents.",
+    "step5Desc": "Your agent negotiates the price and handles all paperwork.",
     "step6Title": "Payment & Registration",
     "step6Desc": "Pay the purchase price (bank transfer). The agent registers the property in your name. You now own a house in Japan!",
     "costsTitle": "Typical Costs",
@@ -272,7 +272,7 @@
     "faq4Q": "Why are houses so cheap in Japan?",
     "faq4A": "Japan's population is shrinking and concentrating in cities. Rural areas have surplus housing with no demand. Japanese houses also depreciate (unlike Western countries), so older houses approach zero value.",
     "faq5Q": "Is AkiyaFinder a real estate agency?",
-    "faq5A": "No. We are an information service that curates and translates Japanese property listings. When you're ready to buy, we connect you with licensed Japanese real estate agents.",
+    "faq5A": "No. We are an information platform that presents Japanese vacant house listings in multiple languages. When you are ready to buy, we introduce you to licensed Japanese real estate agents.",
     "browseNow": "Browse Properties Now"
   },
   "blogPage": {
@@ -384,7 +384,7 @@
   },
   "heroNew": {
     "title": "A new life in Japan.",
-    "subtitle": "Discover {count}+ vacant houses across all 47 prefectures",
+    "subtitle": "Japan has over 9 million vacant houses (akiya). Many are available for free or at incredibly low prices. Browse listings in 3 languages.",
     "cta": "Browse Properties",
     "statProperties": "Properties",
     "statPrefectures": "Prefectures",

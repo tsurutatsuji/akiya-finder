@@ -176,9 +176,9 @@ export default function HowItWorks({
                 <div className="flex gap-6">
                   <div className="text-3xl font-light text-gray-300 shrink-0 w-16">03</div>
                   <div>
-                    <h3 className="font-semibold text-gray-900 mb-2">問い合わせを窓口にお繋ぎ</h3>
+                    <h3 className="font-semibold text-gray-900 mb-2">現地の不動産会社をご紹介</h3>
                     <p className="text-gray-500 text-sm leading-relaxed">
-                      海外からの問い合わせを、御自治体の担当窓口または現地の不動産会社にお繋ぎします。
+                      海外からの問い合わせがあった場合、現地の不動産会社をご紹介します。
                     </p>
                   </div>
                 </div>
@@ -431,7 +431,7 @@ export default function HowItWorks({
                     </summary>
                     <p className="text-gray-500 text-sm leading-relaxed py-4 pl-1">
                       Yes. All listings on AkiyaFinder are in English. When you're ready to proceed,
-                      we connect you with a local real estate agent who can assist with English communication or arrange translation.
+                      we introduce you to a local real estate agent.
                     </p>
                   </details>
                 </ScrollFadeIn>
