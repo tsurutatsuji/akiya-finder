@@ -44,39 +44,15 @@ function getTagLabel(tagId: string, locale: string): string {
 
 function getTagDescription(tagId: string, locale: string): string {
   const map: Record<string, { en: string; ja: string; zh: string }> = {
-    "high-value": {
-      en: "Low price per sqm — best bang for your buck",
-      ja: "㎡単価が安い — コスパ最高",
-      zh: "每平米单价低 — 性价比最高",
-    },
-    "station-close": {
-      en: "Within 10 min walk to a train station",
-      ja: "駅から徒歩10分以内",
-      zh: "步行10分钟内到车站",
-    },
-    "airbnb-ready": {
-      en: "Tourist area + spacious — ideal for vacation rental",
-      ja: "観光地×広い — 民泊に最適",
-      zh: "旅游区+宽敞 — 最适合民宿经营",
-    },
-    "free-entry": {
-      en: "¥0–¥150,000 (~$0–$1,000) — ultra-low risk entry",
-      ja: "¥0〜¥150,000 — 超低リスク",
-      zh: "¥0〜¥150,000 — 超低风险入门",
-    },
-    "move-in-ready": {
-      en: "Under 30 years old or solid structure — low renovation cost",
-      ja: "築30年以内またはRC構造 — リフォーム費用が安い",
-      zh: "30年以内或RC结构 — 翻新费用低",
-    },
-    "cultural-gem": {
-      en: "Machiya, kominka in historic areas — premium Airbnb potential",
-      ja: "歴史エリアの町家・古民家 — 高級民泊向き",
-      zh: "历史区域的町屋・古民居 — 高端民宿潜力",
-    },
+    "high-value": { en: "Low price per sqm", ja: "㎡単価が安い", zh: "每平米单价低" },
+    "station-close": { en: "Near station", ja: "駅から近い", zh: "近车站" },
+    "airbnb-ready": { en: "Ideal for vacation rental", ja: "民泊に最適", zh: "适合民宿经营" },
+    "free-entry": { en: "Ultra-low cost", ja: "超低コスト", zh: "超低成本" },
+    "move-in-ready": { en: "Low renovation cost", ja: "リフォーム少", zh: "翻新费用低" },
+    "cultural-gem": { en: "Historic property", ja: "歴史的物件", zh: "历史性建筑" },
   };
   const entry = map[tagId];
-  if (!entry) return TAG_MAP[tagId]?.description || "";
+  if (!entry) return "";
   return L(locale, entry.zh, entry.ja, entry.en);
 }
 
@@ -84,18 +60,77 @@ export default function PropertiesPage() {
   const locale = useLocale();
   const [prefFilter, setPrefFilter] = useState("");
   const [priceRange, setPriceRange] = useState("");
+  const [propertyTypeFilter, setPropertyTypeFilter] = useState("");
+  const [ageFilter, setAgeFilter] = useState("");
+  const [statusFilter, setStatusFilter] = useState("");
+  const [purposeFilter, setPurposeFilter] = useState("");
   const [search, setSearch] = useState("");
-  const [sortBy, setSortBy] = useState<"price-asc" | "price-desc" | "roi-desc">("price-asc");
+  const [sortBy, setSortBy] = useState<"price-asc" | "price-desc" | "newest">("price-asc");
   const [currentPage, setCurrentPage] = useState(1);
+  const [showAdvanced, setShowAdvanced] = useState(false);
 
   const filtered = useMemo(() => {
     let result = properties.filter((p) => {
+      // 都道府県
       if (prefFilter && p.prefectureEn !== prefFilter) return false;
+
+      // 価格帯
       if (priceRange === "free" && p.price !== 0) return false;
-      if (priceRange === "under1m" && (p.price === 0 || p.price > 1000000)) return false;
-      if (priceRange === "1m-5m" && (p.price < 1000000 || p.price > 5000000)) return false;
+      if (priceRange === "under500k" && (p.price === 0 || p.price > 500000)) return false;
+      if (priceRange === "500k-1m" && (p.price < 500000 || p.price > 1000000)) return false;
+      if (priceRange === "1m-3m" && (p.price < 1000000 || p.price > 3000000)) return false;
+      if (priceRange === "3m-5m" && (p.price < 3000000 || p.price > 5000000)) return false;
       if (priceRange === "5m-10m" && (p.price < 5000000 || p.price > 10000000)) return false;
       if (priceRange === "10m+" && p.price < 10000000) return false;
+
+      // 物件種別
+      if (propertyTypeFilter === "house" && p.propertyType !== "売戸建") return false;
+      if (propertyTypeFilter === "land" && p.propertyType !== "売土地") return false;
+      if (propertyTypeFilter === "business" && p.propertyType !== "売事業用(一棟)") return false;
+
+      // 築年数
+      if (ageFilter && p.buildingAge) {
+        if (ageFilter === "under10" && p.buildingAge > 10) return false;
+        if (ageFilter === "under30" && p.buildingAge > 30) return false;
+        if (ageFilter === "under50" && p.buildingAge > 50) return false;
+        if (ageFilter === "over50" && p.buildingAge <= 50) return false;
+      } else if (ageFilter && !p.buildingAge) {
+        return false; // 築年数不明は除外
+      }
+
+      // 現況
+      if (statusFilter === "vacant" && p.currentStatus !== "空") return false;
+      if (statusFilter === "land" && p.currentStatus !== "更地") return false;
+      if (statusFilter === "occupied" && p.currentStatus !== "居住中") return false;
+
+      // 目的別
+      if (purposeFilter) {
+        const tags = getInvestmentTags(p);
+        if (purposeFilter === "relocation") {
+          // 移住: 戸建+空+500万以下
+          if (p.propertyType !== "売戸建" || p.currentStatus !== "空" || p.price > 5000000) return false;
+        }
+        if (purposeFilter === "vacation") {
+          // 別荘: 戸建+空
+          if (p.propertyType !== "売戸建" || p.currentStatus !== "空") return false;
+        }
+        if (purposeFilter === "airbnb") {
+          // 民泊: airbnb-readyタグ
+          if (!tags.includes("airbnb-ready")) return false;
+        }
+        if (purposeFilter === "renovation") {
+          // リノベ: 戸建+築50年以上+300万以下
+          if (p.propertyType !== "売戸建") return false;
+          if (!p.buildingAge || p.buildingAge < 50) return false;
+          if (p.price > 3000000) return false;
+        }
+        if (purposeFilter === "land-only") {
+          // 土地のみ
+          if (p.propertyType !== "売土地" && p.currentStatus !== "更地") return false;
+        }
+      }
+
+      // テキスト検索
       if (search) {
         const q = search.toLowerCase();
         return (
@@ -111,10 +146,10 @@ export default function PropertiesPage() {
 
     if (sortBy === "price-asc") result.sort((a, b) => a.price - b.price);
     if (sortBy === "price-desc") result.sort((a, b) => b.price - a.price);
-    if (sortBy === "roi-desc") result.sort((a, b) => (b.estimatedRoi ?? 0) - (a.estimatedRoi ?? 0));
+    if (sortBy === "newest") result.sort((a, b) => (b.scrapedAt || "").localeCompare(a.scrapedAt || ""));
 
     return result;
-  }, [prefFilter, priceRange, search, sortBy]);
+  }, [prefFilter, priceRange, propertyTypeFilter, ageFilter, statusFilter, purposeFilter, search, sortBy]);
 
   const totalPages = Math.max(1, Math.ceil(filtered.length / ITEMS_PER_PAGE));
   const safeCurrentPage = Math.min(currentPage, totalPages);
@@ -123,10 +158,18 @@ export default function PropertiesPage() {
     safeCurrentPage * ITEMS_PER_PAGE
   );
 
+  const reset = () => {
+    setPrefFilter(""); setPriceRange(""); setPropertyTypeFilter("");
+    setAgeFilter(""); setStatusFilter(""); setPurposeFilter("");
+    setSearch(""); setSortBy("price-asc"); setCurrentPage(1);
+  };
+
   const handleFilterChange = (setter: (v: string) => void, value: string) => {
     setter(value);
     setCurrentPage(1);
   };
+
+  const activeFilterCount = [prefFilter, priceRange, propertyTypeFilter, ageFilter, statusFilter, purposeFilter, search].filter(Boolean).length;
 
   return (
     <>
@@ -146,6 +189,30 @@ export default function PropertiesPage() {
           </p>
         </div>
 
+        {/* 目的別クイックフィルタ */}
+        <div className="flex flex-wrap gap-2 mb-6">
+          {[
+            { id: "", label: L(locale, "全部", "すべて", "All") },
+            { id: "relocation", label: L(locale, "移住・定居", "移住・定住", "Relocation") },
+            { id: "vacation", label: L(locale, "度假别墅", "別荘・セカンドハウス", "Vacation Home") },
+            { id: "airbnb", label: L(locale, "民宿经营", "民泊・Airbnb", "Airbnb") },
+            { id: "renovation", label: L(locale, "翻新改造", "リノベーション", "Renovation") },
+            { id: "land-only", label: L(locale, "仅土地", "土地のみ", "Land Only") },
+          ].map((item) => (
+            <button
+              key={item.id}
+              onClick={() => handleFilterChange(setPurposeFilter, purposeFilter === item.id ? "" : item.id)}
+              className={`px-4 py-2 rounded-full text-sm transition border ${
+                purposeFilter === item.id
+                  ? "bg-accent text-white border-accent"
+                  : "bg-white text-gray-600 border-gray-200 hover:border-accent hover:text-accent"
+              }`}
+            >
+              {item.label}
+            </button>
+          ))}
+        </div>
+
         {/* Search + Filters */}
         <div className="bg-white border border-gray-100 rounded-xl p-4 mb-8 space-y-3">
           <input
@@ -154,12 +221,14 @@ export default function PropertiesPage() {
             onChange={(e) => handleFilterChange(setSearch, e.target.value)}
             placeholder={L(
               locale,
-              "按地点、都道府县或类型搜索...",
-              "地名・都道府県・種別で検索...",
-              "Search by location, prefecture, or type..."
+              "按地点、都道府县搜索...",
+              "地名・都道府県で検索...",
+              "Search by location or prefecture..."
             )}
             className="w-full border border-gray-200 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-accent/50"
           />
+
+          {/* 基本フィルタ */}
           <div className="flex flex-wrap gap-3">
             <select
               value={prefFilter}
@@ -167,12 +236,7 @@ export default function PropertiesPage() {
               className="border border-gray-200 rounded-lg px-3 py-2 text-sm bg-white"
             >
               <option value="">
-                {L(
-                  locale,
-                  `全部都道府县 (${PREF_LIST.length})`,
-                  `全都道府県 (${PREF_LIST.length})`,
-                  `All Prefectures (${PREF_LIST.length})`
-                )}
+                {L(locale, `全部都道府县 (${PREF_LIST.length})`, `全都道府県 (${PREF_LIST.length})`, `All Prefectures (${PREF_LIST.length})`)}
               </option>
               {PREF_LIST.map((p) => (
                 <option key={p} value={p}>
@@ -180,54 +244,101 @@ export default function PropertiesPage() {
                 </option>
               ))}
             </select>
+
             <select
               value={priceRange}
               onChange={(e) => handleFilterChange(setPriceRange, e.target.value)}
               className="border border-gray-200 rounded-lg px-3 py-2 text-sm bg-white"
             >
-              <option value="">
-                {L(locale, "全部价格", "全価格帯", "All Prices")}
-              </option>
-              <option value="free">
-                {L(locale, "免费 (¥0)", "無料 (¥0)", "Free (¥0)")}
-              </option>
-              <option value="under1m">
-                {L(locale, "100万日元以下（约5万元）", "100万円以下", "Under ¥1M (~$6,600)")}
-              </option>
-              <option value="1m-5m">
-                {L(locale, "100万〜500万日元（约5万~25万元）", "100万〜500万円", "¥1M–5M (~$6,600–$33,000)")}
-              </option>
-              <option value="5m-10m">
-                {L(locale, "500万〜1000万日元（约25万~50万元）", "500万〜1000万円", "¥5M–10M (~$33,000–$66,000)")}
-              </option>
-              <option value="10m+">
-                {L(locale, "1000万日元以上（约50万元~）", "1000万円以上", "Over ¥10M (~$66,000+)")}
-              </option>
+              <option value="">{L(locale, "全部价格", "全価格帯", "All Prices")}</option>
+              <option value="free">{L(locale, "免费 (¥0)", "無料 (¥0)", "Free (¥0)")}</option>
+              <option value="under500k">{L(locale, "50万日元以下", "50万円以下", "Under ¥500K (~$3,300)")}</option>
+              <option value="500k-1m">{L(locale, "50万〜100万日元", "50万〜100万円", "¥500K–1M (~$3,300–$6,600)")}</option>
+              <option value="1m-3m">{L(locale, "100万〜300万日元", "100万〜300万円", "¥1M–3M (~$6,600–$20,000)")}</option>
+              <option value="3m-5m">{L(locale, "300万〜500万日元", "300万〜500万円", "¥3M–5M (~$20,000–$33,000)")}</option>
+              <option value="5m-10m">{L(locale, "500万〜1000万日元", "500万〜1000万円", "¥5M–10M (~$33,000–$66,000)")}</option>
+              <option value="10m+">{L(locale, "1000万日元以上", "1000万円以上", "Over ¥10M (~$66,000+)")}</option>
             </select>
+
             <select
-              value={sortBy}
-              onChange={(e) => {
-                setSortBy(e.target.value as typeof sortBy);
-                setCurrentPage(1);
-              }}
+              value={propertyTypeFilter}
+              onChange={(e) => handleFilterChange(setPropertyTypeFilter, e.target.value)}
               className="border border-gray-200 rounded-lg px-3 py-2 text-sm bg-white"
             >
-              <option value="price-asc">
-                {L(locale, "价格：从低到高", "価格：安い順", "Price: Low to High")}
-              </option>
-              <option value="price-desc">
-                {L(locale, "价格：从高到低", "価格：高い順", "Price: High to Low")}
-              </option>
+              <option value="">{L(locale, "全部类型", "全種別", "All Types")}</option>
+              <option value="house">{L(locale, "戸建住宅", "戸建", "House")}</option>
+              <option value="land">{L(locale, "土地", "土地", "Land")}</option>
+              <option value="business">{L(locale, "事业用", "事��用", "Commercial")}</option>
             </select>
+
+            <select
+              value={sortBy}
+              onChange={(e) => { setSortBy(e.target.value as typeof sortBy); setCurrentPage(1); }}
+              className="border border-gray-200 rounded-lg px-3 py-2 text-sm bg-white"
+            >
+              <option value="price-asc">{L(locale, "价格：从低到高", "価格：安い順", "Price: Low → High")}</option>
+              <option value="price-desc">{L(locale, "价格：从高到低", "価格：高い順", "Price: High → Low")}</option>
+              <option value="newest">{L(locale, "最新发布", "新着���", "Newest")}</option>
+            </select>
+
+            <button
+              onClick={() => setShowAdvanced(!showAdvanced)}
+              className={`px-3 py-2 rounded-lg text-sm border transition ${
+                showAdvanced ? "border-accent text-accent bg-accent/5" : "border-gray-200 text-gray-500 hover:border-gray-400"
+              }`}
+            >
+              {L(locale, "详细条件", "詳細条件", "More Filters")}
+              {showAdvanced ? " ▲" : " ▼"}
+            </button>
           </div>
-          <p className="text-xs text-gray-400">
-            {L(
-              locale,
-              `显示 ${filtered.length} 套中的第 ${(safeCurrentPage - 1) * ITEMS_PER_PAGE + 1}–${Math.min(safeCurrentPage * ITEMS_PER_PAGE, filtered.length)} 套（共 ${properties.length.toLocaleString()} 套）`,
-              `${filtered.length} 件中 ${(safeCurrentPage - 1) * ITEMS_PER_PAGE + 1}–${Math.min(safeCurrentPage * ITEMS_PER_PAGE, filtered.length)} 件を表示（全 ${properties.length.toLocaleString()} 件）`,
-              `Showing ${(safeCurrentPage - 1) * ITEMS_PER_PAGE + 1}–${Math.min(safeCurrentPage * ITEMS_PER_PAGE, filtered.length)} of ${filtered.length} properties (${properties.length.toLocaleString()} total)`
+
+          {/* 詳細フィルタ */}
+          {showAdvanced && (
+            <div className="flex flex-wrap gap-3 pt-2 border-t border-gray-100">
+              <select
+                value={ageFilter}
+                onChange={(e) => handleFilterChange(setAgeFilter, e.target.value)}
+                className="border border-gray-200 rounded-lg px-3 py-2 text-sm bg-white"
+              >
+                <option value="">{L(locale, "全部築龄", "全築年数", "Any Age")}</option>
+                <option value="under10">{L(locale, "10年以内", "築10年以内", "Under 10 years")}</option>
+                <option value="under30">{L(locale, "30年以内", "築30年以内", "Under 30 years")}</option>
+                <option value="under50">{L(locale, "50年以内", "築50年以内", "Under 50 years")}</option>
+                <option value="over50">{L(locale, "50年以上", "築50年以上", "Over 50 years")}</option>
+              </select>
+
+              <select
+                value={statusFilter}
+                onChange={(e) => handleFilterChange(setStatusFilter, e.target.value)}
+                className="border border-gray-200 rounded-lg px-3 py-2 text-sm bg-white"
+              >
+                <option value="">{L(locale, "全部状态", "全現況", "Any Status")}</option>
+                <option value="vacant">{L(locale, "空置（可入住）", "空き（即入居可）", "Vacant (Move-in Ready)")}</option>
+                <option value="land">{L(locale, "更地", "更地", "Cleared Land")}</option>
+                <option value="occupied">{L(locale, "有人居住", "居住中", "Occupied")}</option>
+              </select>
+            </div>
+          )}
+
+          {/* フィルタ状態 */}
+          <div className="flex items-center justify-between">
+            <p className="text-xs text-gray-400">
+              {L(
+                locale,
+                `显示 ${filtered.length} 套中的第 ${(safeCurrentPage - 1) * ITEMS_PER_PAGE + 1}–${Math.min(safeCurrentPage * ITEMS_PER_PAGE, filtered.length)} 套（共 ${properties.length.toLocaleString()} 套）`,
+                `${filtered.length} 件中 ${(safeCurrentPage - 1) * ITEMS_PER_PAGE + 1}–${Math.min(safeCurrentPage * ITEMS_PER_PAGE, filtered.length)} 件を表示（全 ${properties.length.toLocaleString()} 件）`,
+                `Showing ${(safeCurrentPage - 1) * ITEMS_PER_PAGE + 1}–${Math.min(safeCurrentPage * ITEMS_PER_PAGE, filtered.length)} of ${filtered.length} (${properties.length.toLocaleString()} total)`
+              )}
+            </p>
+            {activeFilterCount > 0 && (
+              <button
+                onClick={reset}
+                className="text-xs text-accent hover:text-red-600 transition"
+              >
+                {L(locale, "清除所有条件", "条件をリセット", "Clear all filters")} ({activeFilterCount})
+              </button>
             )}
-          </p>
+          </div>
         </div>
 
         {/* Results */}
@@ -260,14 +371,18 @@ export default function PropertiesPage() {
         </div>
 
         {filtered.length === 0 && (
-          <p className="text-center text-gray-400 py-12">
-            {L(
-              locale,
-              "没有匹配的房产。请调整搜索条件。",
-              "条件に一致する物件がありません。検索条件を変更してください。",
-              "No properties match your filters. Try adjusting your search."
-            )}
-          </p>
+          <div className="text-center py-16">
+            <p className="text-gray-400 mb-4">
+              {L(locale,
+                "没有匹配的房产。请调整搜索条件。",
+                "条件に一致する物件がありません。",
+                "No properties match your filters."
+              )}
+            </p>
+            <button onClick={reset} className="text-accent hover:text-red-600 text-sm font-medium transition">
+              {L(locale, "清除所有条件", "条件をリセット", "Clear all filters")}
+            </button>
+          </div>
         )}
 
         {/* Pagination */}
