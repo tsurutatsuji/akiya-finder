@@ -79,18 +79,21 @@ export default function HeroSlider({ totalCount }: HeroSliderProps) {
       {/* Dark overlay — 下部のみ薄く、画像をクリアに見せる */}
       <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
 
-      {/* Content — 左下寄せ、LUVIA風、アニメーション付き */}
-      <div className="relative z-10 flex flex-col justify-end h-full px-8 md:px-16 lg:px-24 pb-32 md:pb-40">
-        <p className="text-sm md:text-base text-white/70 tracking-[0.3em] uppercase mb-4 font-light hero-text-1">
-          {t("heroNew.subtitle", { count: totalCount.toLocaleString() })}
-        </p>
-        <h1 className="text-3xl md:text-5xl lg:text-6xl font-light text-white leading-tight tracking-wide drop-shadow-lg hero-text-2">
-          {t("heroNew.title")}
+      {/* Content — LUVIA風 2行構成 */}
+      <div className="relative z-10 flex flex-col justify-center items-center h-full text-center px-8">
+        {/* 英語（大きく、セリフ体） */}
+        <h1 className="hero-title-en text-3xl md:text-5xl lg:text-6xl text-white tracking-[0.15em] drop-shadow-lg" style={{ fontFamily: "'Playfair Display', 'Noto Serif JP', serif" }}>
+          {t("heroNew.titleEn")}
         </h1>
-        <div className="mt-8 hero-text-3">
+        {/* 日本語/中国語（その下に、小さめ） */}
+        <p className="hero-title-ja text-lg md:text-2xl text-white/80 mt-4 tracking-[0.2em] font-light">
+          {t("heroNew.title")}
+        </p>
+        {/* CTA */}
+        <div className="hero-text-3 mt-12">
           <Link
             href="/properties"
-            className="text-white/80 hover:text-white text-sm tracking-[0.2em] uppercase border-b border-white/40 hover:border-white pb-1 transition"
+            className="text-white/70 hover:text-white text-xs tracking-[0.3em] uppercase border-b border-white/30 hover:border-white pb-1 transition"
           >
             {t("heroNew.cta")} →
           </Link>

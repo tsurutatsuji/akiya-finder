@@ -388,7 +388,8 @@
     "cta": "物件を探す",
     "statProperties": "物件数",
     "statPrefectures": "都道府県",
-    "statLanguages": "言語対応"
+    "statLanguages": "言語対応",
+    "titleEn": "A New Life\nin Japan."
   },
   "messageSection": {
     "label": "Message",
