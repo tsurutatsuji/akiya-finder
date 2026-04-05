@@ -34,7 +34,7 @@ export default function NewsPage({
       category: L(locale, "公告", "お知らせ", "News"),
       title: L(locale,
         "支持中文、英文、日文三种语言",
-        "中国語・英語・日本語の3言語に対応しました",
+        "11言語に対応しました",
         "Now available in Chinese, English, and Japanese"
       ),
     },

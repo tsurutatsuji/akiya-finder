@@ -389,7 +389,7 @@
   },
   "heroNew": {
     "title": "A new life in Japan.",
-    "subtitle": "Japan has over 9 million vacant houses (akiya). Many are available for free or at incredibly low prices. Browse listings in 3 languages.",
+    "subtitle": "Japan has over 9 million vacant houses (akiya). Many are available for free or at incredibly low prices. Browse listings in 11 languages.",
     "cta": "Browse Properties",
     "statProperties": "Properties",
     "statPrefectures": "Prefectures",
@@ -403,7 +403,7 @@
   },
   "aboutFeatures": {
     "title": "What we do",
-    "feature1Title": "Every listing, in 3 languages",
+    "feature1Title": "Every listing, in 11 languages",
     "feature1Desc": "Full support for Chinese, English, and Japanese. Property details, photos, and maps — all in your language.",
     "feature2Title": "Official municipal data, translated",
     "feature2Desc": "We translate and present public listings from municipal akiya banks across Japan. Accurate data from trusted sources.",

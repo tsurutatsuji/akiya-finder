@@ -33,8 +33,8 @@ export default function AboutPage({
           <ScrollFadeIn delay={400}>
             <div className="text-base md:text-lg text-gray-500 leading-loose whitespace-pre-line max-w-2xl">
               {L(locale,
-                "AKIYA（日本空房网）は、日本全国の空き家バンク物件を\n中国語・英語・日本語に翻訳し、\n世界中の方に日本の空き家情報を届けるサイトです。\n\n私たちは、移住・定住を希望される方が\n母国語で安心して物件情報にアクセスできる\n環境を提供いたします。",
-                "AKIYAは、日本全国の空き家バンク物件を\n中国語・英語・日本語に翻訳し、\n世界中の方に日本の空き家情報を届けるサイトです。\n\n私たちは、移住・定住を希望される方が\n母国語で安心して物件情報にアクセスできる\n環境を提供いたします。",
+                "AKIYA（日本空房网）は、日本全国の空き家バンク物件を\n11种语言に翻訳し、\n世界中の方に日本の空き家情報を届けるサイトです。\n\n私たちは、移住・定住を希望される方が\n母国語で安心して物件情報にアクセスできる\n環境を提供いたします。",
+                "AKIYAは、日本全国の空き家バンク物件を\n11言語に翻訳し、\n世界中の方に日本の空き家情報を届けるサイトです。\n\n私たちは、移住・定住を希望される方が\n母国語で安心して物件情報にアクセスできる\n環境を提供いたします。",
                 "AKIYA (AkiyaFinder) translates vacant house listings\nfrom Japan's akiya banks into Chinese, English, and Japanese,\nmaking property information accessible to people worldwide.\n\nWe provide an environment where those hoping to relocate\ncan confidently explore listings in their own language."
               )}
             </div>
@@ -68,12 +68,12 @@ export default function AboutPage({
               <div className="bg-white p-8 rounded-2xl border border-gray-100">
                 <p className="text-4xl font-light text-accent mb-4">01</p>
                 <h3 className="font-semibold text-gray-900 mb-3">
-                  {L(locale, "3种语言，全部房源", "3言語で、すべての物件を", "Every listing, in 3 languages")}
+                  {L(locale, "11种语言，全部房源", "11言語で、すべての物件を", "Every listing, in 11 languages")}
                 </h3>
                 <p className="text-sm text-gray-500 leading-relaxed">
                   {L(locale,
-                    "中文・英文・日文完全对应。物件详情、照片、地图信息——全部可用母语查看。",
-                    "中国語・英語・日本語に完全対応。物件の詳細、写真、地図情報まで、すべて母国語でご確認いただけます。",
+                    "11种语言完全对应。物件详情、照片、地图信息——全部可用母语查看。",
+                    "11言語に完全対応。物件の詳細、写真、地図情報まで、すべて母国語でご確認いただけます。",
                     "Full support for Chinese, English, and Japanese. Property details, photos, and maps — all in your language."
                   )}
                 </p>
@@ -147,7 +147,7 @@ export default function AboutPage({
                   </tr>
                   <tr>
                     <td className="py-3 text-gray-400">{L(locale, "对应语言", "対応言語", "Languages")}</td>
-                    <td className="py-3 text-gray-800">{L(locale, "中文・英文・日文", "中国語・英語・日本語", "Chinese, English, Japanese")}</td>
+                    <td className="py-3 text-gray-800">{L(locale, "11种语言", "11言語", "11 Languages")}</td>
                   </tr>
                 </tbody>
               </table>

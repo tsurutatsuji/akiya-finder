@@ -34,7 +34,7 @@ export default function HowItWorks({
             <div className="text-base md:text-lg text-gray-500 leading-loose whitespace-pre-line max-w-2xl">
               {L(locale,
                 "日本不限制外国人购买不动产。\n持旅游签证即可购买，无需永住权。\n\nAKIYA将日本全国的空置房信息翻译为中文，\n帮助您轻松找到理想的房产。",
-                "全国の自治体が運営する空き家バンクの物件情報を、\n中国語・英語・日本語の3言語に翻訳して掲載しています。\n\n海外からの移住希望者が、\n母国語で物件情報にアクセスできる環境を提供します。",
+                "全国の自治体が運営する空き家バンクの物件情報を、\n11言語に翻訳して掲載しています。\n\n海外からの移住希望者が、\n母国語で物件情報にアクセスできる環境を提供します。",
                 "Japan places no restrictions on foreign property ownership.\nYou can buy on a tourist visa — no residency required.\n\nAkiyaFinder translates thousands of vacant house listings\ninto English, making Japanese property accessible to everyone."
               )}
             </div>
@@ -93,14 +93,14 @@ export default function HowItWorks({
                   <h3 className="font-semibold text-gray-900 mb-2">
                     {L(locale,
                       "查看详情",
-                      "3言語に翻訳して掲載",
+                      "11言語に翻訳して掲載",
                       "Explore"
                     )}
                   </h3>
                   <p className="text-gray-500 text-sm leading-relaxed">
                     {L(locale,
                       "查看物件照片、地图、街景视图。了解价格、面积等详细信息。全部中文。",
-                      "収集した物件情報を中国語・英語・日本語の3言語に翻訳し、写真・地図・詳細情報とともに掲載しています。",
+                      "収集した物件情報を11言語に翻訳し、写真・地図・詳細情報とともに掲載しています。",
                       "View photos, maps, street view, pricing, and property details. All translated and ready to explore."
                     )}
                   </p>
@@ -166,7 +166,7 @@ export default function HowItWorks({
                   <div>
                     <h3 className="font-semibold text-gray-900 mb-2">公式情報を翻訳・掲載</h3>
                     <p className="text-gray-500 text-sm leading-relaxed">
-                      御自治体が公開されている空き家バンクの情報を、中国語・英語・日本語の3言語に翻訳して掲載します。
+                      御自治体が公開されている空き家バンクの情報を、11言語に翻訳して掲載します。
                     </p>
                   </div>
                 </div>
@@ -293,7 +293,7 @@ export default function HowItWorks({
                     <p className="text-gray-500 text-sm leading-relaxed py-4 pl-1">
                       空き家バンクとは、各自治体が運営する空き家の情報提供制度です。
                       空き家の所有者と、移住・定住を希望する方をマッチングすることを目的としています。
-                      AKIYAは、この空き家バンクの情報を3言語に翻訳し、海外からもアクセスできるようにしています。
+                      AKIYAは、この空き家バンクの情報を11言語に翻訳し、海外からもアクセスできるようにしています。
                     </p>
                   </details>
                 </ScrollFadeIn>
