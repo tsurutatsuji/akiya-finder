@@ -38,7 +38,7 @@ export default function Footer() {
             </p>
             <p className="text-sm">
               <a
-                href="mailto:helongzhi57@gmail.com"
+                href="mailto:info@akiyafinder.homes"
                 className="hover:text-white transition"
               >
                 {t("email")}

@@ -639,7 +639,7 @@ function ScrapedPropertyPage({ property: p, locale = "zh" }: { property: Scraped
               {L(locale, "咨询此物件", "この物件について問い合わせる", "Inquire About This Property")}
             </Link>
             <a
-              href={`mailto:helongzhi57@gmail.com?subject=Inquiry: ${p.id}`}
+              href={`mailto:info@akiyafinder.homes?subject=Inquiry: ${p.id}`}
               className="text-gray-500 hover:text-primary px-6 py-3 rounded-xl border border-gray-200 hover:border-gray-300 transition text-sm"
             >
               {L(locale, "发送邮件", "メールで問い合わせ", "Email Directly")}

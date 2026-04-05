@@ -114,6 +114,23 @@
 - AWS WAF + CAPTCHA（Human Verification）でfetch/Playwright共に不可
 - 8,314件のデータがあるが現時点ではアクセス手段がない
 
+## Google Workspace（メール送信用）
+
+- **アカウント**: info@akiyafinder.homes
+- **プラン**: Business Starter（月¥950）
+- **用途**: 自治体・不動産会社への営業メール送信
+- **送信上限**: 1日2,000通
+- **DNS設定済み**: MXレコード5件 + DKIM(TXT) + ドメイン認証(TXT) → Porkbunに設定済み
+- **ドメイン**: akiyafinder.homes（Porkbun管理、Cloudflare DNS）
+- **スパム対策**: 独自ドメイン + DKIM認証済み → スパム判定されにくい
+
+### 自治体メール送信状況
+- テンプレート: `~/Desktop/自治体メール_v3.md`
+- HTML資料: `~/Desktop/AKIYA_自治体資料_v3.html`
+- 送り先リスト: `data/municipality-contacts.csv`（上位30自治体、22件メールアドレスあり）
+- 2026-04-05: 22自治体に送信済み（helongzhi57@gmail.comから）
+- 今後はinfo@akiyafinder.homesから送信する
+
 ## 起動コマンド
 ```bash
 npm run dev     # 開発サーバー（ポート3000〜）

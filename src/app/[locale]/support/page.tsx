@@ -268,7 +268,7 @@ export default function SupportPage({
               )}
             </p>
             <p className="text-sm text-gray-400 mb-8">
-              helongzhi57@gmail.com
+              info@akiyafinder.homes
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link
@@ -278,7 +278,7 @@ export default function SupportPage({
                 {L(locale, "浏览房源 →", "物件を探す →", "Browse properties →")}
               </Link>
               <a
-                href="mailto:helongzhi57@gmail.com"
+                href="mailto:info@akiyafinder.homes"
                 className="inline-block text-accent hover:text-red-700 text-sm tracking-[0.2em] uppercase border-b border-accent/40 hover:border-red-700 pb-1 transition"
               >
                 {L(locale, "发送邮件咨询 →", "メールで相談する →", "Email us →")}

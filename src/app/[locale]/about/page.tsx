@@ -139,7 +139,7 @@ export default function AboutPage({
                   </tr>
                   <tr className="border-b border-gray-50">
                     <td className="py-3 text-gray-400">{L(locale, "联系方式", "連絡先", "Contact")}</td>
-                    <td className="py-3 text-gray-800">helongzhi57@gmail.com</td>
+                    <td className="py-3 text-gray-800">info@akiyafinder.homes</td>
                   </tr>
                   <tr className="border-b border-gray-50">
                     <td className="py-3 text-gray-400">URL</td>
