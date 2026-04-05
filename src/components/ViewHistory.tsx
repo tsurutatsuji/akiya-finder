@@ -5,14 +5,31 @@ import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { getViewHistory, ViewHistoryItem } from "@/lib/view-history";
 
+const LAST_SEEN_KEY = "viewHistoryLastSeenCount";
+
+function getLastSeenCount(): number {
+  if (typeof window === "undefined") return 0;
+  return parseInt(localStorage.getItem(LAST_SEEN_KEY) || "0", 10);
+}
+
+function setLastSeenCount(count: number) {
+  if (typeof window === "undefined") return;
+  localStorage.setItem(LAST_SEEN_KEY, String(count));
+}
+
 export default function ViewHistory() {
   const t = useTranslations("viewHistory");
   const [open, setOpen] = useState(false);
   const [history, setHistory] = useState<ViewHistoryItem[]>([]);
+  const [newCount, setNewCount] = useState(0);
   const ref = useRef<HTMLDivElement>(null);
 
+  // 初回ロード: 履歴と未読数を取得
   useEffect(() => {
-    setHistory(getViewHistory());
+    const h = getViewHistory();
+    setHistory(h);
+    const lastSeen = getLastSeenCount();
+    setNewCount(Math.max(0, h.length - lastSeen));
   }, []);
 
   // Close dropdown when clicking outside
@@ -28,10 +45,13 @@ export default function ViewHistory() {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [open]);
 
-  // Refresh history when dropdown opens
+  // 開いたとき: 履歴を更新 + 未読をリセット
   useEffect(() => {
     if (open) {
-      setHistory(getViewHistory());
+      const h = getViewHistory();
+      setHistory(h);
+      setLastSeenCount(h.length);
+      setNewCount(0);
     }
   }, [open]);
 
@@ -45,13 +65,12 @@ export default function ViewHistory() {
         className="relative flex items-center gap-1 text-gray-500 hover:text-primary transition p-1.5 rounded-lg hover:bg-gray-50"
         title={t("title")}
       >
-        {/* Clock icon */}
         <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
         </svg>
-        {hasHistory && (
+        {newCount > 0 && (
           <span className="absolute -top-0.5 -right-0.5 w-4 h-4 bg-accent text-white text-[10px] font-bold rounded-full flex items-center justify-center">
-            {recentItems.length}
+            {newCount}
           </span>
         )}
       </button>
@@ -80,19 +99,13 @@ export default function ViewHistory() {
                   onClick={() => setOpen(false)}
                   className="flex items-center gap-3 px-4 py-3 hover:bg-gray-50 transition border-b border-gray-50 last:border-b-0"
                 >
-                  {/* Thumbnail */}
                   <div className="w-14 h-14 rounded-lg overflow-hidden bg-gradient-to-br from-gray-100 to-gray-200 flex-shrink-0 flex items-center justify-center">
                     {item.thumbnailUrl ? (
-                      <img
-                        src={item.thumbnailUrl}
-                        alt=""
-                        className="w-full h-full object-cover"
-                      />
+                      <img src={item.thumbnailUrl} alt="" className="w-full h-full object-cover" />
                     ) : (
                       <span className="text-2xl">🏡</span>
                     )}
                   </div>
-                  {/* Info */}
                   <div className="flex-1 min-w-0">
                     <p className="text-sm font-medium text-primary truncate">
                       {item.location || item.id}
