@@ -62,8 +62,9 @@ export function generateMetadata({
   const p = unified.data;
   const priceYen =
     p.price === 0 ? "FREE" : `¥${p.price.toLocaleString()}`;
+  const priceUsdVal = p.priceUsd ?? Math.round(p.price / 150);
   const priceUsd =
-    p.priceUsd === 0 ? "$0" : `$${p.priceUsd.toLocaleString()}`;
+    priceUsdVal === 0 ? "$0" : `$${priceUsdVal.toLocaleString()}`;
 
   const title = `Akiya in ${p.location} - ${priceYen} | AkiyaFinder`;
   const description = `${p.layout || ""} ${p.propertyType} in ${p.location}. ${priceYen} (${priceUsd} USD). Building: ${p.buildingArea}, Land: ${p.landArea}. Browse 900+ akiya houses on AkiyaFinder.`.trim();
