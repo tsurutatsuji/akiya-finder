@@ -107,9 +107,9 @@ function ContactForm() {
           <li className="flex gap-3">
             <span className="bg-accent/10 text-accent font-bold w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0">2</span>
             <span>{L(locale,
-              "根据您的需求，提供物件详情和购买支持方案。",
-              "ご要望に応じて、物件の詳細と購入サポートのご案内をお送りします。",
-              "Based on your needs, we'll provide property details and support options."
+              "根据您的需求，为您介绍当地的不动产公司。",
+              "ご要望に応じて、現地の不動産会社をご紹介いたします。",
+              "Based on your needs, we'll connect you with a local real estate agent."
             )}</span>
           </li>
         </ol>
