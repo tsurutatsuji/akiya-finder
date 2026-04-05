@@ -26,6 +26,14 @@ export default function Header() {
     { code: "zh", label: "中文", flag: "🇨🇳" },
     { code: "en", label: "English", flag: "🇺🇸" },
     { code: "ja", label: "日本語", flag: "🇯🇵" },
+    { code: "ko", label: "한국어", flag: "🇰🇷" },
+    { code: "vi", label: "Tiếng Việt", flag: "🇻🇳" },
+    { code: "fr", label: "Français", flag: "🇫🇷" },
+    { code: "es", label: "Español", flag: "🇪🇸" },
+    { code: "th", label: "ไทย", flag: "🇹🇭" },
+    { code: "pt", label: "Português", flag: "🇧🇷" },
+    { code: "de", label: "Deutsch", flag: "🇩🇪" },
+    { code: "id", label: "Indonesia", flag: "🇮🇩" },
   ];
 
   const currentLocale = locales.find((l) => l.code === locale) || locales[0];
