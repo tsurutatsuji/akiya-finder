@@ -130,9 +130,9 @@ export default function SupportPage({
                 step: "1",
                 title: L(locale, "选择房产", "物件を選ぶ", "Choose a property"),
                 desc: L(locale,
-                  "在日本空房网上浏览4,335+套房源，找到心仪的物件。",
-                  "AKIYAで4,335件以上の物件から、気になる物件を見つけてください。",
-                  "Browse 4,335+ listings on AkiyaFinder and find one you like."
+                  "在日本空房网上浏览4,375+套房源，找到心仪的物件。",
+                  "AKIYAで4,375件以上の物件から、気になる物件を見つけてください。",
+                  "Browse 4,375+ listings on AkiyaFinder and find one you like."
                 ),
               },
               {

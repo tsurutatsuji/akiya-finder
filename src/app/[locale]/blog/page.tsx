@@ -24,9 +24,9 @@ export default function NewsPage({
       date: "2026.04.03",
       category: L(locale, "公告", "お知らせ", "News"),
       title: L(locale,
-        "已收录全国47个都道府县共4,335套房源",
-        "全国47都道府県 4,335件の物件を掲載しました",
-        "4,335 properties listed across all 47 prefectures"
+        "已收录全国47个都道府县共4,375套房源",
+        "全国47都道府県 4,375件の物件を掲載しました",
+        "4,375 properties listed across all 47 prefectures"
       ),
     },
     {

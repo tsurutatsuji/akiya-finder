@@ -77,9 +77,9 @@ export default function HowItWorks({
                   </h3>
                   <p className="text-gray-500 text-sm leading-relaxed">
                     {L(locale,
-                      "在AKIYA上浏览4,335+套房产。按价格、地区、物件类型筛选，所有信息均以中文显示。",
+                      "在AKIYA上浏览4,375+套房产。按价格、地区、物件类型筛选，所有信息均以中文显示。",
                       "全国の自治体が公開している空き家バンクの物件情報を定期的に収集しています。",
-                      "Browse 4,335+ properties on AkiyaFinder. Filter by price, location, and property type. Everything in English."
+                      "Browse 4,375+ properties on AkiyaFinder. Filter by price, location, and property type. Everything in English."
                     )}
                   </p>
                 </div>

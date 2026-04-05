@@ -104,9 +104,9 @@ export default function AboutPage({
                 </h3>
                 <p className="text-sm text-gray-500 leading-relaxed">
                   {L(locale,
-                    "从北海道到冲绳，覆盖日本全国4,335+套空置房信息。每日更新，为您提供最新房源。",
-                    "北海道から沖縄まで、4,335件以上の空き家情報を網羅。定期的に更新し、最新の物件情報をお届けします。",
-                    "From Hokkaido to Okinawa, covering 4,335+ vacant houses across all of Japan. Updated regularly with the latest listings."
+                    "从北海道到冲绳，覆盖日本全国4,375+套空置房信息。每日更新，为您提供最新房源。",
+                    "北海道から沖縄まで、4,375件以上の空き家情報を網羅。定期的に更新し、最新の物件情報をお届けします。",
+                    "From Hokkaido to Okinawa, covering 4,375+ vacant houses across all of Japan. Updated regularly with the latest listings."
                   )}
                 </p>
               </div>
