@@ -96,6 +96,32 @@ export function isPropertyPublic(id: string): boolean {
   return scrapedProperties.some((p) => p.id === id);
 }
 
+// プレビューキー
+export const PREVIEW_KEY = "akiya2026";
+
+// --- プレビュー用（unlisted版）---
+
+export function getAllPrefectureSlugsAll(): string[] {
+  const set = new Set<string>();
+  for (const p of unlistedProperties) {
+    if (p.prefectureEn) set.add(p.prefectureEn.toLowerCase());
+  }
+  return [...set].sort();
+}
+
+export function getPropertiesForPrefectureAll(slug: string): ScrapedProperty[] {
+  return unlistedProperties.filter(
+    (p) => p.prefectureEn?.toLowerCase() === slug.toLowerCase()
+  );
+}
+
+export function getPrefectureDisplayNameAll(slug: string): string | null {
+  const prop = unlistedProperties.find(
+    (p) => p.prefectureEn?.toLowerCase() === slug.toLowerCase()
+  );
+  return prop?.prefectureEn || null;
+}
+
 /**
  * 都道府県別にグループ化
  */

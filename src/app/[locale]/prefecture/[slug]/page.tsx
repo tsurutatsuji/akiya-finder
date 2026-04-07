@@ -5,29 +5,35 @@ import Footer from "@/components/Footer";
 import PaginatedPropertyList from "@/components/PaginatedPropertyList";
 import { Link } from "@/i18n/navigation";
 import {
-  getAllPrefectureSlugs,
+  getAllPrefectureSlugsAll,
   getPropertiesForPrefecture,
+  getPropertiesForPrefectureAll,
   getPrefectureDisplayName,
+  getPrefectureDisplayNameAll,
   getMinPrice,
   getMinPriceUsd,
+  PREVIEW_KEY,
 } from "@/lib/scraped-properties";
 import { getPrefectureSeoData } from "@/lib/prefecture-seo";
 import { L, getPrefectureName } from "@/lib/locale-utils";
 
 export function generateStaticParams() {
-  return getAllPrefectureSlugs().map((slug) => ({ slug }));
+  return getAllPrefectureSlugsAll().map((slug) => ({ slug }));
 }
 
 export function generateMetadata({
   params,
+  searchParams,
 }: {
   params: { slug: string };
+  searchParams: { preview?: string };
 }): Metadata {
   const { slug } = params;
-  const displayName = getPrefectureDisplayName(slug);
+  const isPreview = searchParams.preview === PREVIEW_KEY;
+  const displayName = isPreview ? getPrefectureDisplayNameAll(slug) : getPrefectureDisplayName(slug);
   if (!displayName) return {};
 
-  const properties = getPropertiesForPrefecture(slug);
+  const properties = isPreview ? getPropertiesForPrefectureAll(slug) : getPropertiesForPrefecture(slug);
   const minPrice = getMinPrice(properties);
   const minPriceUsd = getMinPriceUsd(properties);
 
@@ -51,14 +57,18 @@ export function generateMetadata({
 
 export default function PrefecturePage({
   params,
+  searchParams,
 }: {
   params: { slug: string; locale: string };
+  searchParams: { preview?: string };
 }) {
   const { slug, locale } = params;
-  const displayName = getPrefectureDisplayName(slug);
+  const isPreview = searchParams.preview === PREVIEW_KEY;
+
+  const displayName = isPreview ? getPrefectureDisplayNameAll(slug) : getPrefectureDisplayName(slug);
   if (!displayName) return notFound();
 
-  const properties = getPropertiesForPrefecture(slug);
+  const properties = isPreview ? getPropertiesForPrefectureAll(slug) : getPropertiesForPrefecture(slug);
   if (properties.length === 0) return notFound();
 
   const seoData = getPrefectureSeoData(slug, displayName, properties.length);
