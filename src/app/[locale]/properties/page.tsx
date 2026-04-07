@@ -1,24 +1,25 @@
 "use client";
 
 import { useState, useMemo } from "react";
+import { useSearchParams } from "next/navigation";
 import { useLocale } from "next-intl";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import SeoPropertyCard from "@/components/SeoPropertyCard";
-import { scrapedProperties, ScrapedProperty } from "@/lib/scraped-properties";
+import { scrapedProperties, unlistedProperties, ScrapedProperty } from "@/lib/scraped-properties";
 import {
   getInvestmentTags,
   INVESTMENT_CATEGORIES,
 } from "@/lib/investment-tags";
 import { L, PREF_NAMES } from "@/lib/locale-utils";
 
-const properties = scrapedProperties;
+const PREVIEW_KEY = "akiya2026";
 
 const TAG_MAP = Object.fromEntries(
   INVESTMENT_CATEGORIES.map((c) => [c.id, c])
 );
 
-const PREF_LIST = [...new Set(properties.map((p) => p.prefectureEn))].sort();
+// PREF_LISTはコンポーネント内で動的に生成（プレビューモード対応）
 
 const ITEMS_PER_PAGE = 20;
 
@@ -58,6 +59,11 @@ function getTagDescription(tagId: string, locale: string): string {
 
 export default function PropertiesPage() {
   const locale = useLocale();
+  const searchParams = useSearchParams();
+  const isPreview = searchParams.get("preview") === PREVIEW_KEY;
+  const properties = isPreview ? unlistedProperties : scrapedProperties;
+  const PREF_LIST = useMemo(() => [...new Set(properties.map((p) => p.prefectureEn))].sort(), [properties]);
+
   const [prefFilter, setPrefFilter] = useState("");
   const [priceRange, setPriceRange] = useState("");
   const [propertyTypeFilter, setPropertyTypeFilter] = useState("");

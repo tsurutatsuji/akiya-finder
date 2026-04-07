@@ -61,6 +61,7 @@ export default function Footer() {
               <li><Link href="/blog" className="hover:text-white transition">{t("blogEn")}</Link></li>
               <li><Link href="/blog?lang=zh" className="hover:text-white transition">{t("blogZh")}</Link></li>
               <li><Link href="/about" className="hover:text-white transition">{t("aboutUs")}</Link></li>
+              <li><Link href="/news" className="hover:text-white transition">{t("news") || "お知らせ"}</Link></li>
               {/* support — リード課金モデルに変更のため非表示 */}
             </ul>
           </div>

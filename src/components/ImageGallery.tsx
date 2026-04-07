@@ -49,6 +49,11 @@ export default function ImageGallery({ property: p, images: propImages, captions
             {t("free")}
           </span>
         )}
+        {p.price < 0 && (
+          <span className="absolute top-4 left-4 bg-yellow-600 text-white text-sm font-bold px-4 py-1.5 rounded-full">
+            要相談
+          </span>
+        )}
         <span className="absolute bottom-2 right-2 text-xs text-white/80 bg-black/40 px-2 py-1 rounded">
           {images.length > 1 ? t("allPhotos", { count: images.length }) : t("clickToEnlarge")}
         </span>

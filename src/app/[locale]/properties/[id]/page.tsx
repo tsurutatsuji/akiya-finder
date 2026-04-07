@@ -5,6 +5,9 @@ import Footer from "@/components/Footer";
 import { properties as manualProperties, Property } from "@/data/properties";
 import {
   scrapedProperties,
+  unlistedProperties,
+  getPropertyById,
+  isPropertyPublic,
   ScrapedProperty,
 } from "@/lib/scraped-properties";
 import {
@@ -30,7 +33,8 @@ type UnifiedProperty =
 function findProperty(id: string): UnifiedProperty | null {
   const manual = manualProperties.find((p) => p.id === id);
   if (manual) return { kind: "manual", data: manual };
-  const scraped = scrapedProperties.find((p) => p.id === id);
+  // 限定公開物件も含めて検索（URL直接アクセス用）
+  const scraped = getPropertyById(id);
   if (scraped) return { kind: "scraped", data: scraped };
   return null;
 }
@@ -38,7 +42,8 @@ function findProperty(id: string): UnifiedProperty | null {
 // --- Static Params ---
 export function generateStaticParams() {
   const manualIds = manualProperties.map((p) => ({ id: p.id }));
-  const scrapedIds = scrapedProperties.map((p) => ({ id: p.id }));
+  // 限定公開物件もビルド対象に含める（URL直接アクセスで表示するため）
+  const scrapedIds = unlistedProperties.map((p) => ({ id: p.id }));
   return [...manualIds, ...scrapedIds];
 }
 
@@ -69,9 +74,13 @@ export function generateMetadata({
   const title = `Akiya in ${p.location} - ${priceYen} | AkiyaFinder`;
   const description = `${p.layout || ""} ${p.propertyType} in ${p.location}. ${priceYen} (${priceUsd} USD). Building: ${p.buildingArea}, Land: ${p.landArea}. Browse 900+ akiya houses on AkiyaFinder.`.trim();
 
+  // 限定公開物件はnoindexにする（検索エンジンに表示しない）
+  const isPublic = isPropertyPublic(params.id);
+
   return {
     title,
     description,
+    robots: isPublic ? undefined : { index: false, follow: false },
     openGraph: {
       title,
       description,

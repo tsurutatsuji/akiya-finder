@@ -55,8 +55,46 @@ export interface ScrapedProperty {
   kodawari?: string;
 }
 
-// 型アサーション付きでロード
-export const scrapedProperties: ScrapedProperty[] = rawData as ScrapedProperty[];
+// === 掲載許可管理 ===
+// 自治体から掲載許可を得たところだけ公開一覧に表示する。
+// 許可がない物件は「限定公開」（URL直接アクセスのみ、noindex）。
+
+// 掲載許可済み自治体（許可を得たら都道府県ENを追加）
+// 例: 'Okayama' を追加すると岡山県の物件が公開一覧に表示される
+const APPROVED_PREFECTURES: string[] = [
+  // まだ許可を得た自治体はない
+];
+
+// 掲載完全停止（削除要請があった自治体）
+const BLOCKED_MUNICIPALITIES: string[] = [
+  '笠岡市',   // 2026-04-06 所有者了承なし・価格誤りの指摘 → 完全非公開
+  'えびの市',  // 2026-04-06 無断掲載禁止・価格誤りの指摘 → 完全非公開
+];
+
+// 全物件をロード
+const allProperties: ScrapedProperty[] = rawData as ScrapedProperty[];
+
+// ブロック済み自治体を除外した全物件（限定公開 = URL直接アクセスのみ）
+export const unlistedProperties: ScrapedProperty[] = allProperties.filter(
+  (p) => !BLOCKED_MUNICIPALITIES.some(m => p.locationJa?.includes(m) || p.location?.includes(m))
+);
+
+// 公開物件（許可済み自治体のみ。一覧・検索・地図に表示）
+export const scrapedProperties: ScrapedProperty[] = unlistedProperties.filter(
+  (p) => APPROVED_PREFECTURES.length === 0
+    ? false  // 許可リストが空 = 全て非公開
+    : APPROVED_PREFECTURES.includes(p.prefectureEn)
+);
+
+// 物件IDで検索（限定公開含む。詳細ページ用）
+export function getPropertyById(id: string): ScrapedProperty | undefined {
+  return unlistedProperties.find((p) => p.id === id);
+}
+
+// 物件が公開一覧に含まれるか（noindex判定用）
+export function isPropertyPublic(id: string): boolean {
+  return scrapedProperties.some((p) => p.id === id);
+}
 
 /**
  * 都道府県別にグループ化
@@ -293,6 +331,7 @@ export function getMinPriceUsd(properties: ScrapedProperty[]): number {
 }
 
 export function formatPriceYen(price: number): string {
+  if (price < 0) return "要相談";
   if (price === 0) return "¥0 (FREE)";
   if (price >= 10000000) return `¥${(price / 10000000).toFixed(1)}M`;
   if (price >= 1000000) return `¥${(price / 1000000).toFixed(1)}M`;
@@ -300,6 +339,12 @@ export function formatPriceYen(price: number): string {
 }
 
 export function formatPriceUsd(price: number): string {
+  if (price < 0) return "Contact";
   if (price === 0) return "$0";
   return `$${price.toLocaleString()}`;
+}
+
+// 価格が「要相談」かどうか
+export function isPriceNegotiable(price: number): boolean {
+  return price < 0;
 }

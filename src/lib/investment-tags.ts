@@ -186,7 +186,7 @@ export function getInvestmentTags(p: PropertyForTagging): string[] {
   }
 
   // 🆓 Free / Near-Free
-  if (p.price >= 0 && p.price <= 150000) {
+  if (p.price >= 0 && p.price <= 150000 && p.price !== -1) {
     tags.add("free-entry");
   }
 
