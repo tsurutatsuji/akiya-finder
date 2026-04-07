@@ -86,7 +86,9 @@ export default function SeoPropertyCard({
           <div className="flex items-end justify-between mb-2">
             <div>
               <p className="text-xl font-bold text-accent leading-tight">
-                {property.price === 0
+                {property.price < 0
+                  ? (locale === "ja" ? "要相談" : locale === "zh" ? "价格面议" : "Contact")
+                  : property.price === 0
                   ? t("free")
                   : locale === "zh" ? `¥${priceCny.toLocaleString()} CNY`
                   : locale === "en" ? `$${priceUsd.toLocaleString()} USD`

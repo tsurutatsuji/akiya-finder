@@ -109,7 +109,7 @@ function MarkerClusterGroup({ properties }: { properties: (MapProperty & { lat: 
           fillOpacity: 0.85,
         });
 
-        const priceText = p.price === 0 ? "FREE" : `¥${p.price.toLocaleString()}`;
+        const priceText = p.price < 0 ? "Contact" : p.price === 0 ? "FREE" : `¥${p.price.toLocaleString()}`;
         marker.bindPopup(`
           <div style="min-width:200px; font-family: sans-serif;">
             <strong style="font-size:14px;">${p.location}</strong><br/>

@@ -13,6 +13,7 @@ export default function PropertyCard({ property }: { property: Property }) {
 
   const priceCny = property.price > 0 ? Math.round(property.price / 20) : 0;
   const formatPrice = (yen: number, usd: number) => {
+    if (yen < 0) return { main: locale === "ja" ? "要相談" : locale === "zh" ? "价格面议" : "Contact", sub: "" };
     if (yen === 0) return { main: t("free"), sub: "" };
     if (locale === "ja") return { main: `¥${yen.toLocaleString()}`, sub: "" };
     if (locale === "zh") return { main: `¥${priceCny.toLocaleString()} CNY`, sub: `≈ ¥${yen.toLocaleString()} JPY` };

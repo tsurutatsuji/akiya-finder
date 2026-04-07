@@ -111,7 +111,9 @@ export default function ViewHistory() {
                       {item.location || item.id}
                     </p>
                     <p className="text-sm font-bold text-accent">
-                      {item.price === 0
+                      {(item.price ?? 0) < 0
+                        ? "要相談"
+                        : item.price === 0
                         ? t("free")
                         : item.price
                         ? `¥${item.price.toLocaleString()}`

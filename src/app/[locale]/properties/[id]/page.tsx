@@ -66,7 +66,7 @@ export function generateMetadata({
 
   const p = unified.data;
   const priceYen =
-    p.price === 0 ? "FREE" : `¥${p.price.toLocaleString()}`;
+    p.price < 0 ? "Contact" : p.price === 0 ? "FREE" : `¥${p.price.toLocaleString()}`;
   const priceUsdVal = p.priceUsd ?? Math.round(p.price / 150);
   const priceUsd =
     priceUsdVal === 0 ? "$0" : `$${priceUsdVal.toLocaleString()}`;
@@ -135,11 +135,15 @@ export default function PropertyDetail({
 // ============================================================
 function ManualPropertyPage({ property }: { property: Property }) {
   const priceDisplay =
-    property.price === 0
+    property.price < 0
+      ? "Contact"
+      : property.price === 0
       ? "FREE (¥0)"
       : `¥${property.price.toLocaleString()}`;
   const usdDisplay =
-    property.priceUsd === 0
+    property.price < 0
+      ? ""
+      : property.priceUsd === 0
       ? "$0 USD"
       : `~$${property.priceUsd.toLocaleString()} USD`;
 
@@ -296,21 +300,25 @@ function ScrapedPropertyPage({ property: p, locale = "zh" }: { property: Scraped
 
   // ロケール別: メイン価格（大きく赤文字）とサブ価格
   // 日本語→JPYのみ、中国語→CNYのみ、英語→USDのみ
-  const mainPrice = locale === "zh"
+  const mainPrice = p.price < 0
+    ? (locale === "ja" ? "要相談" : locale === "zh" ? "价格面议" : "Contact")
+    : locale === "zh"
     ? (p.price === 0 ? "免费（¥0）" : `约 ¥${priceCny.toLocaleString()} 人民币`)
     : locale === "ja"
     ? (p.price === 0 ? "無料（¥0）" : `¥${p.price.toLocaleString()}`)
     : (p.price === 0 ? "FREE ($0)" : `$${priceUsd.toLocaleString()} USD`);
 
-  const subPrices = locale === "zh"
-    ? (p.price === 0 ? [] : [`¥${p.price.toLocaleString()} JPY`])
+  const subPrices = p.price <= 0
+    ? []
+    : locale === "zh"
+    ? [`¥${p.price.toLocaleString()} JPY`]
     : locale === "ja"
     ? ([] as string[])
-    : (p.price === 0 ? [] : [`¥${p.price.toLocaleString()} JPY`]);
+    : [`¥${p.price.toLocaleString()} JPY`];
 
   // 互換性のため
-  const priceDisplay = p.price === 0 ? "FREE (¥0)" : `¥${p.price.toLocaleString()}`;
-  const usdDisplay = `~$${priceUsd.toLocaleString()} USD`;
+  const priceDisplay = p.price < 0 ? "Contact" : p.price === 0 ? "FREE (¥0)" : `¥${p.price.toLocaleString()}`;
+  const usdDisplay = p.price < 0 ? "" : `~$${priceUsd.toLocaleString()} USD`;
 
   // Investment tags
   const tags = getInvestmentTags({
@@ -700,7 +708,9 @@ function ScrapedPropertyPage({ property: p, locale = "zh" }: { property: Scraped
                       {rp.locationJa}
                     </p>
                     <p className="text-accent font-bold mt-1">
-                      {rp.price === 0
+                      {rp.price < 0
+                        ? (locale === "ja" ? "要相談" : "Contact")
+                        : rp.price === 0
                         ? "FREE"
                         : `¥${rp.price.toLocaleString()}`}
                     </p>
